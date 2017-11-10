@@ -1,0 +1,108 @@
+﻿@*<div class="container">
+    <div class="section">
+        <div id="card-stats" class="seaction">
+            <h4 class="header">Resumen de Actas</h4>
+            <p> Total de registros de Actas en el Sistema.</p>
+            <div class="row">
+                <div class="col s12 m6 l3">
+                    <div class="card">
+                        <div class="card-content  green white-text">
+                            <p class="card-stats-title"><i class="mdi-action-account-child"></i> NACIMIENTOS</p>
+                            <h4 class="card-stats-number">@ViewBag.NroNac</h4>
+                            <p class="card-stats-compare">
+                                <i class="mdi-hardware-keyboard-arrow-up"></i> Actas registradas
+                            </p>
+                        </div>
+                        <div class="card-action  green darken-2">
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l3">
+                    <div class="card">
+                        <div class="card-content purple white-text">
+                            <p class="card-stats-title"><i class="mdi-communication-contacts"></i> DEFUNCIONES</p>
+                            <h4 class="card-stats-number">@ViewBag.NroDef</h4>
+                            <p class="card-stats-compare">
+                                <i class="mdi-hardware-keyboard-arrow-up"></i> Actas registradas
+                            </p>
+                        </div>
+                        <div class="card-action purple darken-2">
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l3">
+                    <div class="card">
+                        <div class="card-content blue-grey white-text">
+                            <p class="card-stats-title"><i class="mdi-social-people-outline"></i> MATRIMONIOS</p>
+                            <h4 class="card-stats-number">@ViewBag.NroMat</h4>
+                            <p class="card-stats-compare">
+                                <i class="mdi-hardware-keyboard-arrow-up"></i> Actas registradas
+                            </p>
+                        </div>
+                        <div class="card-action blue-grey darken-2">
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l3">
+                    <div class="card">
+                        <div class="card-content deep-purple white-text">
+                            <p class="card-stats-title"><i class="mdi-editor-insert-drive-file"></i> TOTAL</p>
+                            <h4 class="card-stats-number">@ViewBag.Total</h4>
+                            <p class="card-stats-compare">
+                                <i class="mdi-hardware-keyboard-arrow-down"></i> Actas registradas
+                            </p>
+                        </div>
+                        <div class="card-action  deep-purple darken-2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+
+<div class="row" style="margin-bottom:0;">   
+
+    <div class="col s12 m12 l12">
+        <div class="card-panel">
+            <div class="row" style="margin-bottom:0;">
+                <form class="right-alert validar" >
+                    <div class="input-field col s11">
+                        <input type="hidden" id="txtPersonaId" name="pPersonaId" value="0" />
+                        <i class="mdi-action-search prefix"></i>
+                        <input id="autocompletar" type="text" placeholder="DNI/Apellidos" required 
+                               data-url='@Url.Action("ListarPersonas","Comun")'
+                               data-seleccion="txtPersonaId">
+                        <label for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Persona</label>
+                    </div>
+                    <div class="input-field col s1 valign-wrapper">
+                        <a class="btn btn-floating tooltipped" data-tooltip="Crear Persona" data-position="left" href='@Url.Action("Mantener","Persona",new { id=0,href=Url.Action("Index","Home") })'>
+                            <i class="mdi-social-person-add"></i>
+                        </a>
+                    </div>
+                    <div class="input-field col s6 valign-wrapper">
+                        <input type="submit" class="btn" value="enviar"  />
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    
+    <script>
+        function metodo(v) {
+            console.log(v);
+        }
+
+        
+    </script>
+
+    
+}

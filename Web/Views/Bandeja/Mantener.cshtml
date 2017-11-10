@@ -1,0 +1,98 @@
+﻿<div class="row">
+    <div class="col s12 m12 l12">
+        <h5 class="breadcrumbs-title">Nuevo Pago </h5>
+        <div class="card-panel row">
+            <form id="formValidate" class="validar right-alert" method="post" action=''>
+                <div class="row">
+                    <div class="input-field col s11">
+                        <input type="hidden" id="txtPersonaId" name="pPersonaId" value="0" />
+                        <i class="mdi-action-search prefix"></i>
+                        <input id="autocompletar" type="text" placeholder="DNI/Apellidos" required autofocus
+                               data-url='@Url.Action("ListarPersonas","Comun")'
+                               data-seleccion="txtPersonaId">
+                        <label for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Persona</label>
+                    </div>
+                    <div class="input-field col s1 valign-wrapper">
+                        <a class="btn btn-floating tooltipped" data-tooltip="Crear Persona" data-position="left" href='@Url.Action("Mantener","Persona",new { id=0,href=Url.Action("Index","Home") })'>
+                            <i class="mdi-social-person-add"></i>
+                        </a>
+                    </div>
+
+                    <div class="input-field col s12 m4 l4">
+                        @*<i class="mdi-file-file-download prefix"></i>*@
+                        @Html.DropDownList("drpConcepto", (IEnumerable<SelectListItem>)ViewBag.drpConcepto)
+                    </div>
+
+                    <div class="input-field col s12 m4 l4">
+                        <select>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>                       
+                    </div>
+                    <div class="input-field col s12 m4 l4">
+                        <button class="btn waves-effect waves-light blue right" type="submit">
+                            <i class="mdi-file-file-download left"></i>Agregar
+                        </button>
+                    </div>
+                    <table class="striped">
+                        <thead>
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Cantidad</th>
+                                <th>Monto Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Alvin</td>
+                                <td>Eclair</td>
+                                <td>$0.87</td>
+                            </tr>
+                            <tr>
+                                <td>Alan</td>
+                                <td>Jellybean</td>
+                                <td>$3.76</td>
+                            </tr>
+                            <tr>
+                                <td>Jonathan</td>
+                                <td>Lollipop</td>
+                                <td>$7.00</td>
+                            </tr>
+                            <tr>
+                                <td>Shannon</td>
+                                <td>KitKat</td>
+                                <td>$9.99</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="input-field col s12 m12 l12">
+                        <button class="btn waves-effect waves-light right" type="submit">
+                            <i class="mdi-content-send left"></i>Crear Pago
+                        </button>
+                    </div>
+                </div>
+                
+
+            </form>
+
+            
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>   
+
+
+
+    </script>
+}  

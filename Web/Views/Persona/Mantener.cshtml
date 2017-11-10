@@ -1,0 +1,119 @@
+﻿@model BE.persona
+<!--breadcrumbs start-->
+<div id="breadcrumbs-wrapper">
+    <!-- Search for small screen -->
+    <div class="header-search-wrapper grey hide-on-large-only">
+        <i class="mdi-action-search active"></i>
+        <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize">
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <h5 class="breadcrumbs-title">GESTIÓN DE PERSONA</h5>
+                <ol class="breadcrumbs">
+                    <li><a href='@Url.Action("Index","Home")'>Inicio</a></li>
+                    <li><a href="@Url.Action("Index","Persona")">Personas</a></li>
+                    <li class="active">Mantenimiento</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs end-->
+
+<div id="default-validation" class="section">
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <div class="card-panel">
+                <h4 class="header2">Datos personales</h4>
+                <div class="row">
+                    <form id="formValidate" class="validar" method="post" action='@Url.Action("Guardar","Persona",new { href = ViewBag.href })'>
+                        <input type="hidden" name="PersonaId" value="@Model.PersonaId" />
+                        <div class="row">
+                            <div class="input-field col s12 m4 l3">
+                                <i class="mdi-action-picture-in-picture prefix"></i>
+                                <label for="DNI">DNI*</label>
+                                <input id="DNI" name="DNI" type="number" required minlength="8" maxlength="8" value="@Model.DNI">
+                            </div>
+                            <div class="input-field col s12 m4 l3">
+                                <i class="mdi-action-account-circle prefix"></i>
+                                <label for="Nombres">Nombres*</label>
+                                <input id="Nombres" name="Nombres" type="text" required value="@Model.Nombres">
+                            </div>
+                            <div class="input-field col s12 m4 l3">
+                                @*<i class="mdi-action-account-circle prefix"></i>*@
+                                <label for="Paterno">Ape. Paterno*</label>
+                                <input id="Paterno" name="Paterno" type="text" required value="@Model.Paterno">
+
+                            </div>
+                            <div class="input-field col s12 m4 l3">
+                                @*<i class="mdi-action-account-circle prefix"></i>*@
+                                <label for="Materno">Ape. Materno*</label>
+                                <input id="Materno" name="Materno" type="text" required value="@Model.Materno">
+
+                            </div>
+
+                            <div class="input-field col s12 m4 l3">
+                                <i class="mdi-action-settings-cell prefix"></i>
+                                <label for="Celular">Celular</label>
+                                <input id="Celular" name="Celular" type="text" minlength="9" value="@Model.Celular">
+
+                            </div>
+                            <div class="input-field col s12 m4 l6">
+                                <i class="mdi-communication-email prefix"></i>
+                                <label for="Correo">Correo</label>
+                                <input id="Correo" name="Correo" type="email" value="@Model.Correo">
+
+                            </div>
+                            <div class="input-field col s12 m4 l3">
+                                <i class="mdi-notification-event-note prefix"></i>
+                                <label for="nacimiento">Fecha Nacimiento</label>
+                                <input id="nacimiento" name="FechaNacimiento" type="text" class="datepicker" value="@(Model.FechaNacimiento.HasValue ?Model.FechaNacimiento.Value.ToShortDateString():"")">
+
+                            </div>
+                            <div class="input-field col s12 m8 l6">
+                                <i class="mdi-maps-pin-drop prefix"></i>
+                                <label for="txtdireccion">Direccion</label>
+                                <input id="txtdireccion" name="Direccion" type="text" value="@Model.Direccion">
+                            </div>
+                            <div class="input-field col s12 m12 l6">
+                                <i class="mdi-maps-pin-drop prefix"></i>
+                                <label for="txtReferencia">Referencia</label>
+                                <input id="txtReferencia" name="Referencia" type="text" value="@Model.Referencia">
+                            </div>
+                            <div class="col s12 m5 l6">
+                                <label for="genter_select">Sexo</label>
+                                <p>
+                                    <input name="Sexo" type="radio" id="rbsexom" value="M" @if (Model.Sexo == "M") {  <text> checked</text> } />
+                                    <label for="rbsexom">Masculino </label>
+
+                                    <input name="Sexo" type="radio" id="rbsexof" value="F" @if (Model.Sexo == "F") {  <text> checked</text> } />
+                                    <label for="rbsexof">Femenino </label>
+                                </p>
+                            </div>
+
+                            
+
+                            <div class="input-field col s12 m3 l6">
+                                <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
+                                    Guardar
+                                    <i class="mdi-action-done right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+   
+
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $(".datepicker").pickadate({ selectMonths: !0, selectYears: 50, format: 'dd/mm/yyyy' })
+        });
+    </script>
+}
