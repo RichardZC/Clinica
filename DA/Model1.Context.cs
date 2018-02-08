@@ -13,10 +13,10 @@ namespace BE
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class nacEntities : DbContext
+    public partial class clinicaEntities : DbContext
     {
-        public nacEntities()
-            : base("name=nacEntities")
+        public clinicaEntities()
+            : base("name=clinicaEntities")
         {
         }
     
@@ -25,17 +25,21 @@ namespace BE
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<articulo> articulo { get; set; }
         public virtual DbSet<caja> caja { get; set; }
         public virtual DbSet<cajadiario> cajadiario { get; set; }
         public virtual DbSet<cajamov> cajamov { get; set; }
         public virtual DbSet<cajamovdetalle> cajamovdetalle { get; set; }
         public virtual DbSet<cargo> cargo { get; set; }
         public virtual DbSet<conceptopago> conceptopago { get; set; }
+        public virtual DbSet<marca> marca { get; set; }
         public virtual DbSet<menu> menu { get; set; }
+        public virtual DbSet<modelo> modelo { get; set; }
         public virtual DbSet<oficina> oficina { get; set; }
         public virtual DbSet<persona> persona { get; set; }
         public virtual DbSet<rol> rol { get; set; }
         public virtual DbSet<rol_menu> rol_menu { get; set; }
+        public virtual DbSet<tipoarticulo> tipoarticulo { get; set; }
         public virtual DbSet<usuario> usuario { get; set; }
         public virtual DbSet<usuario_rol> usuario_rol { get; set; }
     }

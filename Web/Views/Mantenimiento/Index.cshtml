@@ -1,5 +1,7 @@
-﻿
-<div class="container">
+﻿@{
+    var modelModelos = BL.ModeloBL.Listar();
+}
+<div id="appz" class="container">
     <div class="row">
         <div class="col s12 m6 l6">
             @Html.Partial("_tabla", (List<BL.Modelo.Tabla>)ViewBag.lstOficina, new ViewDataDictionary() { { "tabla", "OFICINA" } })
@@ -7,5 +9,136 @@
         <div class="col s12 m6 l6">
             @Html.Partial("_tabla", (List<BL.Modelo.Tabla>)ViewBag.lstCargo, new ViewDataDictionary() { { "tabla", "CARGO" } })
         </div>
+        <div class="col s12 m6 l6">
+            @Html.Partial("_tabla", (List<BL.Modelo.Tabla>)ViewBag.lstTipoArticulo, new ViewDataDictionary() { { "tabla", "TIPOARTICULO" } })
+        </div>
+        <div class="col s12 m6 l6">
+            @Html.Partial("_tabla", (List<BL.Modelo.Tabla>)ViewBag.lstMarca, new ViewDataDictionary() { { "tabla", "MARCA" } })
+        </div>
+        <div class="col s12 m6 l6">
+            <div class="row">
+                <ul id="listaModelos" class="collection with-header">
+                    <li class="collection-header cyan">
+                        <a onclick="NuevoModelo();" data-target="modal2" data-position="left" data-tooltip="NuevoModelo" style="margin-top:5px"
+                           class="modal-add right btn btn-floating pink accent-2 white-text tooltipped"><i class="mdi-content-add"></i></a>
+                        <h5 class="white-text">Modelos</h5>
+                    </li>
+                    @foreach (var item in modelModelos)
+                    {
+                        <li class="collection-item">
+                            <div>
+                                <span id="r_@item.ModeloId">@item.Denominacion</span>
+                                <a id="a_@item.ModeloId" href="#!" onclick="MostrarEditarModelo(@item.ModeloId,@item.MarcaId);" class="secondary-content"><i class="mdi-content-send"></i></a>
+                            </div>
+                        </li>
+                    }
+                </ul>
+
+            </div>
+
+            <div id="modal2" class="modal">
+                <form id="frmmodelo" action='@Url.Action("GuardarModelo","Mantenimiento")' method="post">
+                    <input id="ModeloId" name="ModeloId" type="hidden" value="0" />
+                    <div class="modal-content" style="padding:0">
+                        <nav class="red">
+                            <div class="nav-wrapper">
+                                <div class="left col s12 m5 l5">
+                                    <ul>
+                                        <li>
+                                            <a href="#!" class="email-menu"><i class="modal-action modal-close  mdi-navigation-close"></i></a>
+                                        </li>
+                                        Modelo
+                                    </ul>
+                                </div>
+                                <div class="col s12 m7 l7">
+                                    <ul class="right">
+                                        <li>
+                                            <button type="submit" data-ajax="true" class="btn btn-large btn-flat red white-text " style="vertical-align:baseline;height:auto;"><i class="modal-action modal-close mdi-content-save"></i></button>
+                                            @*<a onclick="GuardarR()"><i class="modal-action modal-close  mdi-content-save"></i></a>*@
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="model-email-content" style="padding-bottom: 100px;">
+                        <div class="row">
+                            <div class="col s12 m8 l12">
+                                <div class="input-field col s12">
+                                    <select name="MarcaId" id="drpMarca"></select>
+                                    <label for="MarcaId">Marca</label>
+                                </div>
+                            </div>
+                            <div class="input-field col s12">
+                                <input id="txtModelo" name="Denominacion" type="text" class="validate" placeholder="Denominación">
+                                <label for="txtModelo">Modelo</label>
+                            </div>
+                            <br />
+                            <br />
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
     </div>
 </div>
+
+@section scripts{
+    <script>
+        $(function () {
+            $('.modal-add').leanModal({
+                ready: function () { $("#txtModelo").focus(); }
+            });
+            $("#drpMarca").change(function () {
+                $("#txtModelo").val($("#drpMarca option:selected").text() + " ").focus();
+            });
+        });
+
+        function MostrarEditarModelo(modeloid, marcaid) {
+            fn.CargarCombo("@Url.Action("ComboMarca", "Mantenimiento")", "drpMarca", null, marcaid);
+
+            $('#modal2').openModal();
+            $("#ModeloId").val(modeloid);
+            $("#txtModelo").val($("#r_" + modeloid).text()).focus();
+
+        }
+
+
+        function NuevoModelo() {
+            $("#ModeloId").val(0);
+            fn.CargarCombo("@Url.Action("ComboMarca", "Mantenimiento")", "drpMarca", function () {
+                $("#txtModelo").val($("#drpMarca option:selected").text() + " ").focus();
+            });
+        }
+
+        function AddRowOfR(id, denominacion, marcaid) {
+            $("#listaModelos").append("<li class='collection-item'>" +
+                      "<div><span id='r_" + id + "'>" + denominacion + "</span><a id='a_" + id + "' href='#!' onclick='MostrarEditarModelo(" + id + "," + marcaid + ");' class='secondary-content'><i class='mdi-content-send'></i></a></div>" +
+                    "</li>");
+            $('#modal2').closeModal();
+        }
+
+        function RefreshRowOfR(id, denominacion, marcaid) {
+            $("#r_" + id).text(denominacion);
+            $("#a_" + id).removeAttr('onclick').attr("onclick", "MostrarEditarModelo(" + id + ", " + marcaid + ");");
+                  
+            $('#modal2').closeModal();
+        }
+
+        //var app = new Vue({
+        //    el: '#appz',
+        //    data: {
+        //        marcaid: 3
+        //    },
+        //    computed: {
+        //        reversedMessage: function () {
+        //            return this.message.split('').reverse().join('')
+        //        }
+        //    }
+        //})
+
+    </script>
+}

@@ -12,20 +12,18 @@ namespace BE
     using System;
     using System.Collections.Generic;
     
-    public partial class modelo
+    public partial class marca
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public modelo()
+        public marca()
         {
-            this.articulo = new HashSet<articulo>();
+            this.modelo = new HashSet<modelo>();
         }
     
-        public int ModeloId { get; set; }
         public int MarcaId { get; set; }
         public string Denominacion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<articulo> articulo { get; set; }
-        public virtual marca marca { get; set; }
+        public virtual ICollection<modelo> modelo { get; set; }
     }
 }

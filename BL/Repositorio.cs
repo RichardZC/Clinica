@@ -24,7 +24,7 @@ namespace BL
             Func<IQueryable<T1>, IOrderedQueryable<T1>> orderBy = null,
             string includeProperties = "")
         {
-            using (var db = new nacEntities())
+            using (var db = new clinicaEntities())
             {
                 db.Configuration.ProxyCreationEnabled = false;
                 db.Configuration.LazyLoadingEnabled = false;
@@ -51,7 +51,7 @@ namespace BL
 
         public static int Contar(Expression<Func<T1, bool>> filter = null, string includeProperties = "")
         {
-            using (var db = new nacEntities())
+            using (var db = new clinicaEntities())
             {
                 db.Configuration.ProxyCreationEnabled = false;
                 db.Configuration.LazyLoadingEnabled = false;
@@ -77,7 +77,7 @@ namespace BL
 
         public static T1 Obtener(int id)
         {
-            using (var db = new nacEntities())
+            using (var db = new clinicaEntities())
             {
                 db.Configuration.ProxyCreationEnabled = false;
                 db.Configuration.LazyLoadingEnabled = false;
@@ -88,7 +88,7 @@ namespace BL
         }
         public static T1 Obtener(Expression<Func<T1, bool>> filter = null, string includeProperties = "")
         {
-            using (var db = new nacEntities())
+            using (var db = new clinicaEntities())
             {
                 db.Configuration.ProxyCreationEnabled = false;
                 db.Configuration.LazyLoadingEnabled = false;
@@ -123,7 +123,7 @@ namespace BL
 
         public static T1 Crear(T1 entity)
         {
-            using (var db = new nacEntities())
+            using (var db = new clinicaEntities())
             {
                 db.Configuration.ProxyCreationEnabled = false;
                 db.Configuration.LazyLoadingEnabled = false;
@@ -137,7 +137,7 @@ namespace BL
         }
         public static T1 Guardar(T1 entity)
         {
-            using (var db = new nacEntities())
+            using (var db = new clinicaEntities())
             {
                 db.Set<T1>().AddOrUpdate(entity);
                 if (db.SaveChanges() > 0)
@@ -147,7 +147,7 @@ namespace BL
         }
         public static void Guardar(List<T1> entities)
         {
-            using (var db = new nacEntities())
+            using (var db = new clinicaEntities())
             {
                 foreach (var e in entities)
                     db.Set<T1>().AddOrUpdate(e);
@@ -166,7 +166,7 @@ namespace BL
 
         public static bool Actualizar(T1 entity)
         {
-            using (var db = new nacEntities())
+            using (var db = new clinicaEntities())
             {
                 db.Configuration.ProxyCreationEnabled = false;
                 db.Configuration.LazyLoadingEnabled = false;
@@ -180,7 +180,7 @@ namespace BL
         }
         public static void ActualizarParcial(T1 entity, params Expression<Func<T1, object>>[] properties)
         {
-            using (var db = new nacEntities())
+            using (var db = new clinicaEntities())
             {
                 db.Configuration.ValidateOnSaveEnabled = false;
 
@@ -218,7 +218,7 @@ namespace BL
 
         public static bool Eliminar(int pId)
         {
-            using (var db = new nacEntities())
+            using (var db = new clinicaEntities())
             {
                 db.Configuration.ProxyCreationEnabled = false;
                 db.Configuration.LazyLoadingEnabled = false;
@@ -233,7 +233,7 @@ namespace BL
 
         public static bool EjecutarSql(string query)
         {
-            using (var db = new nacEntities())
+            using (var db = new clinicaEntities())
             {
                 db.Database.ExecuteSqlCommand(query);
                 return true;

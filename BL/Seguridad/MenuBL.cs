@@ -12,7 +12,7 @@ namespace BL
         
         public static List<menu> ListarMenu(int rolId)
         {
-            using (var bd = new nacEntities()) {
+            using (var bd = new clinicaEntities()) {
                 var q = from rm in bd.rol_menu
                         where rm.RolId == rolId
                         select rm.menu;
@@ -23,7 +23,7 @@ namespace BL
         public static List<menu> ListarMenu()
         {
             var id = Comun.SessionHelper.GetUser();
-            using (var bd = new nacEntities())
+            using (var bd = new clinicaEntities())
             {
                 var mnu = (from rm in bd.rol_menu
                            join ru in bd.usuario_rol on rm.RolId equals ru.RolId
@@ -37,7 +37,7 @@ namespace BL
         public static bool TienePermiso(string controlador)
         {
             var id = Comun.SessionHelper.GetUser();
-            using (var bd = new nacEntities())
+            using (var bd = new clinicaEntities())
             {
                 var p = (from rm in bd.rol_menu
                            join ru in bd.usuario_rol on rm.RolId equals ru.RolId
@@ -50,7 +50,7 @@ namespace BL
         public static string RolSesion()
         {
             var id = Comun.SessionHelper.GetUser();
-            using (var bd = new nacEntities())
+            using (var bd = new clinicaEntities())
             {
                 var p = (from rm in bd.rol_menu
                          join ru in bd.usuario_rol on rm.RolId equals ru.RolId

@@ -1,5 +1,5 @@
 ﻿using BE;
-using BL.modelo;
+using BL.Modelo;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -14,7 +14,7 @@ namespace BL
     {
         public static List<Roles> ListarRoles(int pUsuarioId)
         {
-            using (var bd = new nacEntities())
+            using (var bd = new clinicaEntities())
             {
                 var roles = bd.rol.Select(x => new Roles()
                 {
@@ -41,7 +41,7 @@ namespace BL
 
         public static List<Roles> ListarRoles()
         {
-            using (var bd = new nacEntities())
+            using (var bd = new clinicaEntities())
             {
                 var roles = bd.rol.Select(x => new Roles()
                 {
@@ -60,7 +60,7 @@ namespace BL
             {
                 try
                 {
-                    using (var bd = new nacEntities())
+                    using (var bd = new clinicaEntities())
                     {
                         bd.rol_menu.RemoveRange(bd.rol_menu.Where(x => x.RolId == r.RolId));
                         bd.rol_menu.AddRange(r.rol_menu);

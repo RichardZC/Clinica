@@ -1,0 +1,74 @@
+﻿<!--start container-->
+<div class="container">
+
+    <div id="mail-app" class="section">
+        <div class="row">
+            <div class="col s12">
+                <nav class="blue darken-2">
+                    <div class="nav-wrapper">
+
+                        <div class="left col s3 m3 l3">
+                            <ul>
+                                <li>
+                                    <a href="#!" class="email-menu"><i class="mdi-navigation-menu"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#!" class="email-type">ARTICULOS</a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div class="col s9 m9 l9 hide-on-med-and-down">
+                            <form class="row">
+                                <div class="input-field">
+                                    <input id="btnb" type="text" placeholder="Buscar Articulo" autofocus>
+                                    <label for="btnb">
+                                        <i class="mdi-action-search"></i>
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="col s12" id="listaPersonas">
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+<!--end container-->
+
+@section scripts{
+    <script>
+        $(function () {
+            cargar();
+            $("#btnb").keypress(function (event) {
+                if (event.which == 13) {
+                    event.preventDefault();
+                    cargar();
+                }
+            });
+        });
+
+        function cargar() {
+            var re = / /g;
+            var url = "@Url.Action("Buscar","Articulo")" + "?clave=" + $('#btnb').val().replace(re, '%20');
+            $.get('@Url.Action("ObtenerUsuarioSesion", "Comun")', function (d) {
+                if (d == 0) location.reload();
+                $("#listaPersonas").load(url);
+               // console.log(123);
+            });
+
+        };
+
+              
+        
+        function MostrarEditar(id) {
+            window.location = '@Url.Action("Mantener", "Persona")' + '/' + id;
+        }
+    </script>
+}

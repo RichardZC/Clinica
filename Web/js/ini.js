@@ -38,7 +38,7 @@ var fn = {
             if (typeof mcallback === 'function') { mcallback(result); swal.close(); }
         });
     },
-    CargarCombo: function (strUrl, strComboId, callbackOk) {
+    CargarCombo: function (strUrl, strComboId, callbackOk, seleccionid) {
         $.ajax({
             url: window.location.origin + strUrl,
             data: {},
@@ -46,7 +46,10 @@ var fn = {
                 if (result !== null) {
                     var html = '';
                     $.each(result, function () {
-                        html += "<option value=\"" + this.Id + "\">" + this.Valor + "</option>";
+                        if (seleccionid && this.Id == seleccionid)
+                            html += "<option value=\"" + this.Id + "\" selected>" + this.Valor + "</option>";
+                        else
+                            html += "<option value=\"" + this.Id + "\">" + this.Valor + "</option>";
                     });
                     $("#" + strComboId).html(html);
                     $("#" + strComboId).not('.disabled').material_select();
@@ -105,11 +108,11 @@ $(document).ready(function () {
         this.value = this.value.toUpperCase();
     });
 
-    
+
     //https://github.com/devbridge/jQuery-Autocomplete
     if ($('#autocompletar').data('url') !== null) {
         var txt = $('#autocompletar');
-        if (txt.data('boton') !== null) $("#" + txt.data('boton')).attr('disabled', true);        
+        if (txt.data('boton') !== null) $("#" + txt.data('boton')).attr('disabled', true);
         txt.data('idx', 0);
         txt.blur(function () { if ($(this).data('idx') == 0) $(this).val(""); });
 
@@ -124,18 +127,18 @@ $(document).ready(function () {
 
                     if ($(this).data('seleccion') != null) $("#" + $(this).data('seleccion')).val(suggestion.data);
                     if ($(this).data('boton') != null) $("#" + $(this).data('boton')).attr('disabled', false);
-                    if ($(this).data('funcion') != null) {                        
+                    if ($(this).data('funcion') != null) {
                         var funcion = $(this).data('funcion') + '(' + suggestion.data + ');';
                         setTimeout(funcion, 0);
                     }
                     $(this).data('idx', suggestion.data)
-                    
+
                 },
                 onInvalidateSelection: function () {
-                   
+
                     $(this).removeClass('valid');
                     $(this).addClass('invalid');
-                    
+
                     if ($(this).data('seleccion') != null) $("#" + $(this).data('seleccion')).val(0);
                     if ($(this).data('boton') != null) $("#" + $(this).data('boton')).attr('disabled', true);
 
