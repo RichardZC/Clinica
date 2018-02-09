@@ -31,6 +31,7 @@ namespace Web.Controllers
             if (string.IsNullOrEmpty(href)) href = string.Empty;
             ViewBag.href = href;
             ViewBag.cboTipoArticulo = new SelectList(TipoArticuloBL.Listar(), "TipoArticuloId", "Denominacion") ;
+            ViewBag.cboModelo = ModeloBL.Listar();
 
             return View(per);
         }
