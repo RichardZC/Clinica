@@ -33,6 +33,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
+    <IncludeIisSettings>false</IncludeIisSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -269,12 +271,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BandejaController.cs" />
     <Compile Include="Controllers\CajadiarioController.cs" />
+    <Compile Include="Controllers\CitaController.cs" />
     <Compile Include="Controllers\ComunController.cs" />
+    <Compile Include="Controllers\ConsultorioController.cs" />
     <Compile Include="Controllers\DiarioController.cs" />
+    <Compile Include="Controllers\EspecialidadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InformeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MantenimientoController.cs" />
+    <Compile Include="Controllers\MedicoController.cs" />
+    <Compile Include="Controllers\ProgramacionController.cs" />
     <Compile Include="Controllers\RolController.cs" />
     <Compile Include="Controllers\PersonaController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
@@ -284,6 +291,11 @@
     </Compile>
     <Compile Include="Models\ResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Reporte\dsMatrimonio.Designer.cs">
       <DependentUpon>dsMatrimonio.xsd</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -332,6 +344,10 @@
       <DependentUpon>dsMatrimonio.xsd</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\PublicNacimientos.pubxml" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Reporte\dsMatrimonio.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dsMatrimonio.Designer.cs</LastGenOutput>
@@ -366,6 +382,12 @@
     <Content Include="Views\Diario\Index.cshtml" />
     <Content Include="Views\Bandeja\Index.cshtml" />
     <Content Include="Views\Bandeja\Mantener.cshtml" />
+    <Content Include="Views\Cita\Index.cshtml" />
+    <Content Include="Views\Medico\Index.cshtml" />
+    <Content Include="Views\Medico\Mantener.cshtml" />
+    <Content Include="Views\Consultorio\Index.cshtml" />
+    <Content Include="Views\Consultorio\Mantener.cshtml" />
+    <Content Include="Views\Programacion\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -375,6 +397,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Especialidad\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BE\BE.csproj">

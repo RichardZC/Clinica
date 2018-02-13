@@ -20,6 +20,7 @@ namespace BE
             this.cajadiario = new HashSet<cajadiario>();
             this.cajamov = new HashSet<cajamov>();
             this.usuario = new HashSet<usuario>();
+            this.medico = new HashSet<medico>();
         }
     
         public int PersonaId { get; set; }
@@ -41,5 +42,7 @@ namespace BE
         public virtual ICollection<cajamov> cajamov { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<usuario> usuario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<medico> medico { get; set; }
     }
 }

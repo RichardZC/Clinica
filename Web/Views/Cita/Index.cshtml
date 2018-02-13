@@ -1,0 +1,78 @@
+﻿<main class="row">
+
+    {{$data}}
+    <router-view></router-view>
+    <ul>
+        <li><router-link to="/clinica/cita">cita</router-link></li>
+        <li><router-link to="/clinica/persona">persona</router-link></li>
+
+    </ul>
+
+    <template>
+
+    </template>
+
+
+
+</main>
+
+@section scripts{
+
+    <script type="text/x-template" id="citaVista">
+        <div id="citaVista">
+            Esto es un tamplate para Cita
+        </div>
+
+
+    </script>
+    <script type="text/x-template" id="personaVista">
+
+        <div id="personaVista">
+            Esto es un tamplate para persona
+        </div>
+
+    </script>
+
+    <script>
+
+
+
+        const cita = { template: '#citaVista' }
+        const persona = { template: '#personaVista' }
+
+
+        Vue.use(VueRouter);
+        const routes = [
+	    { path: '/clinica/cita', component: cita },
+        { path: '/clinica/persona', component: persona },
+        ];
+
+        const router = new VueRouter({
+            routes,
+            mode: 'history'
+        });
+
+
+
+
+        var vCita = new Vue({
+            el: 'main',
+            router,
+            data: {
+                boveda: {}
+            },
+            mounted: function () {
+                var self = this;
+                $.get('@Url.Action("ObtenerBoveda", "Cajadiario")', {}, function (d) {
+                    self.boveda = d;
+                });
+            },
+            computed: {
+                reversedMessage: function () {
+                    return this.message.split('').reverse().join('')
+                }
+            }
+        })
+
+    </script>
+}

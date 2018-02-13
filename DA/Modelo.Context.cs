@@ -38,5 +38,9 @@ namespace BE
         public virtual DbSet<rol_menu> rol_menu { get; set; }
         public virtual DbSet<usuario> usuario { get; set; }
         public virtual DbSet<usuario_rol> usuario_rol { get; set; }
+        public virtual DbSet<medico> medico { get; set; }
+        public virtual DbSet<especialidad> especialidad { get; set; }
+        public virtual DbSet<consultorio> consultorio { get; set; }
+        public virtual DbSet<programacion> programacion { get; set; }
     }
 }

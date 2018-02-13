@@ -2,54 +2,49 @@
 using BL;
 using Comun;
 using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Web.Filters;
-
 
 namespace Web.Controllers
 {
-    [Autenticado]
-    public class PersonaController : Controller
+    public class MedicoController : Controller
     {
-        // GET: Persona
+        // GET: Medico
         public ActionResult Index()
         {
             return View();
         }
 
-        public PartialViewResult Buscar(string clave = "")
+        public JsonResult ObtenerMedico()
         {
-            return PartialView(PersonaBL.ListarPersonas(clave.Trim()));
+            return Json(BL.MedicoBL.Listar(), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Mantener(int id ,string href)
+        public ActionResult Mantener(int id, string href)
         {
-            var per = new persona() { Sexo="M"};
+            var med = new medico();
             if (id > 0)
-                per = PersonaBL.Obtener(id);
+                med = MedicoBL.Obtener(
+                    );
 
             if (string.IsNullOrEmpty(href)) href = string.Empty;
-            ViewBag.href = href ;
-
-            return View(per);
+            ViewBag.href = href;
+            return View(med);
         }
 
-        public JsonResult ListarPersona()
-        {
-            return Json(BL.PersonaBL.Listar(), JsonRequestBehavior.AllowGet);
-        }
 
         [HttpPost]
-        public JsonResult Guardar(persona per,string href)
+        public JsonResult GuardarMedico(medico med, persona per, string href)
         {
+
             var rm = new ResponseModel();
             per.NombreCompleto = per.Nombres + " " + per.Paterno + " " + per.Materno;
             try
             {
-                PersonaBL.Guardar(per);                
+                MedicoBL.guardarMedico(med,per);
                 rm.SetResponse(true);
                 if (string.IsNullOrEmpty(href))
                     rm.href = Url.Action("Index", "Persona");
@@ -65,10 +60,7 @@ namespace Web.Controllers
             return Json(rm);
         }
 
-        public JsonResult ObtenerPersona(string dni)
-        {
-            return Json(BL.PersonaBL.Obtener(x=> x.DNI==dni), JsonRequestBehavior.AllowGet);
-        }
+
 
     }
 }
