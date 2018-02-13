@@ -67,6 +67,7 @@ CREATE TABLE menu (
 INSERT INTO menu VALUES (1, 'Mantenimientos', 'Oficina', 'mdi-action-settings', 1, null);
 INSERT INTO menu VALUES (2, 'Persona', 'Persona', 			null, 0, 1);
 INSERT INTO menu VALUES (3, 'Mantenimiento', 'Mantenimiento',null, 0, 1);
+INSERT INTO menu VALUES (4, 'Articulo', 'Articulo', 			null, 0, 1);
 
 INSERT INTO menu VALUES (10, 'Seguridad', 'Usuario','mdi-hardware-security', 1, null);
 INSERT INTO menu VALUES (11, 'Usuarios', 'Usuario', 	null,0, 10);
@@ -96,6 +97,8 @@ CREATE TABLE rol_menu(
 INSERT INTO rol_menu(MenuId,RolId) VALUES (1, 1);
 INSERT INTO rol_menu(MenuId,RolId) VALUES (2, 1);
 INSERT INTO rol_menu(MenuId,RolId) VALUES (3, 1);
+INSERT INTO rol_menu(MenuId,RolId) VALUES (4, 1);
+
 
 INSERT INTO rol_menu(MenuId,RolId) VALUES (10, 1);
 INSERT INTO rol_menu(MenuId,RolId) VALUES (11, 1);

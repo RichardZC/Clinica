@@ -1,4 +1,4 @@
-﻿var vm = new Vue({
+﻿var vmglobal = new Vue({
     el: '#miapp',
     data: {
         message: 'Hello'

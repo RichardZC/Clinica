@@ -1,5 +1,5 @@
 ﻿using BE;
-using BL.modelo;
+using BL.Modelo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +38,7 @@ namespace BL
         //}
         public static List<Oficinas> ListarOficinas()
         {
-            using (var bd = new nacEntities())
+            using (var bd = new clinicaEntities())
             {
                 var oficinas = bd.oficina.Select(x => new Oficinas()
                 {

@@ -23,7 +23,7 @@ namespace BL
         }
         public static int GetCajaDiarioId()
         {
-            using (var bd = new nacEntities())
+            using (var bd = new clinicaEntities())
             {
                 var personaid = bd.usuario.Find(Comun.SessionHelper.GetUser()).PersonaId;
                 var cd = bd.cajadiario
@@ -37,7 +37,7 @@ namespace BL
         }
         public static cajadiario GetCajaDiario()
         {
-            using (var bd = new nacEntities())
+            using (var bd = new clinicaEntities())
             {
                 var personaid = bd.usuario.Find(Comun.SessionHelper.GetUser()).PersonaId;
                 return bd.cajadiario.Include(t => t.caja).Include(x => x.persona).Include(x => x.cajamov).Include("cajamov.persona")
@@ -46,7 +46,7 @@ namespace BL
         }
         public static int GetBovedaCajaDiarioId()
         {
-            using (var bd = new nacEntities())
+            using (var bd = new clinicaEntities())
             {
                 return bd.cajadiario
                     .First(x => x.IndAbierto && x.caja.IndBoveda && x.caja.IndAbierto)

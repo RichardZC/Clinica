@@ -1,6 +1,6 @@
 ﻿using BE;
 using BL;
-using BL.modelo;
+using BL.Modelo;
 using Comun;
 using System;
 using System.Collections.Generic;
@@ -56,7 +56,13 @@ namespace Web.Controllers
 
             }
 
-
+            var m = new MantenerUsuario
+            {
+                Usuario = UsuarioBL.Obtener(x => x.UsuarioId == id, "persona"),
+                Roles = RolBL.ListarRoles(id),
+                Oficinas = OficinaBL.ListarOficinas(),
+                Cargos = CargoBL.Listar()
+            };
 
             return View(new MantenerUsuario
             {

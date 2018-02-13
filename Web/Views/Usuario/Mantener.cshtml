@@ -105,7 +105,7 @@
                     </div>
                     <div class="input-field col s6">
                         @Html.DropDownListFor(x => x.Usuario.OficinaId, Model.Oficinas.Select(x => new SelectListItem { Value = x.OficinaId.ToString(), Text = x.Denominacion }))
-                        <label for="Usuario_OficinaId">Oficina</label>
+                        @*<label for="Usuario_OficinaId">Oficina</label>*@
                     </div>
                     <div class="input-field col s6 ">
                         <input type="checkbox" name="pActivo" class="filled-in" id="chkActivo" @if (Model.Usuario.Activo) { <text> checked</text>} />
@@ -128,7 +128,7 @@
                     <br />
                     <br />
                     <br />
-                    <br />                    
+                    <br />
                     <br />
                     <br />
                 </div>
@@ -147,6 +147,7 @@
                     <h5 class="task-card-title">ROLES</h5>
                     <input type="hidden" name="u.UsuarioId" value="@Model.Usuario.UsuarioId" />
                 </li>
+              
                 @foreach (var item in Model.Roles)
             {
                     <li class="collection-item dismissable">
@@ -161,58 +162,34 @@
         </form>
     </div>
 
-    @*<div class="col s12 m6 l6">
-            <form method="post" action='@Url.Action("GuardarOficinas","Usuario")'>
-                <ul id="task-card" class="collection with-header">
-                    <li class="collection-header cyan">
-                        <button type="submit" data-ajax="true" data-position="left" data-tooltip="Guardar Oficinas"
-                                class="right btn btn-floating btn-flat waves-effect waves-light pink accent-2 white-text tooltipped">
-                            <i class="mdi-content-save"></i>
-                        </button>
-
-                        <h5 class="task-card-title">OFICINAS</h5>
-                        <input type="hidden" name="u.UsuarioId" value="@Model.Usuario.UsuarioId" />
-                    </li>
-                    @foreach (var item in Model.Oficinas)
-                {
-                        <li class="collection-item dismissable">
-                            <input type="checkbox" id="o_@item.OficinaId" name="o" value="@item.OficinaId" @if (item.Estado) { <text> checked</text>}>
-                            <label for="o_@item.OficinaId" style="text-decoration: none;">
-                                @item.Denominacion
-                            </label>
-                        </li>
-                    }
-                </ul>
-            </form>
-        </div>*@
 </div>
 
 @section scripts{
     <script>
-        function reiniciar(u) {
-            swal({
-                title: "Estas seguro de Reiniciar la Clave?",
-                text: "Esta acción reinicia la clave del usuario a 123",
-                type: "warning",
-                showCancelButton: true,
-                cancelButtonText: "Cancelar",
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Reiniciar",
-                closeOnConfirm: false
-            }, function () {
-                $.ajax({
-                    data: { id: u },
-                    url: '@Url.Action("ReiniciarClave", "Usuario")',
-                    type: 'post',
-                    success: function (d) {
-                        if (d.response) swal("Reiniciado!", "La clave ha sido reiniciada.", "success");
-                        else fn.mensaje(d.message);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) { alert(errorThrown); }
+            function reiniciar(u) {
+                swal({
+                    title: "Estas seguro de Reiniciar la Clave?",
+                    text: "Esta acción reinicia la clave del usuario a 123",
+                    type: "warning",
+                    showCancelButton: true,
+                    cancelButtonText: "Cancelar",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Reiniciar",
+                    closeOnConfirm: false
+                }, function () {
+                    $.ajax({
+                        data: { id: u },
+                        url: '@Url.Action("ReiniciarClave", "Usuario")',
+                        type: 'post',
+                        success: function (d) {
+                            if (d.response) swal("Reiniciado!", "La clave ha sido reiniciada.", "success");
+                            else fn.mensaje(d.message);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) { alert(errorThrown); }
+                    });
                 });
-            });
-        }
+            }
 
-    </script>
+        </script>
 
 }

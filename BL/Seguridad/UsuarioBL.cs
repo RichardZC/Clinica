@@ -41,7 +41,7 @@ namespace BL
             {
                 try
                 {
-                    using (var bd = new nacEntities())
+                    using (var bd = new clinicaEntities())
                     {
                         bd.usuario_rol.RemoveRange(bd.usuario_rol.Where(x => x.UsuarioId == u.UsuarioId));
                         bd.usuario_rol.AddRange(u.usuario_rol);
@@ -59,7 +59,7 @@ namespace BL
         }
         public static List<persona> ListarUsuariosSinCaja()
         {
-            using (var bd = new nacEntities())
+            using (var bd = new clinicaEntities())
             {
                 var asignados = bd.cajadiario
                     .Where(x => x.IndAbierto == true && x.caja.IndBoveda == false)

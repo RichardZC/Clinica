@@ -12,20 +12,19 @@ namespace BE
     using System;
     using System.Collections.Generic;
     
-    public partial class modelo
+    public partial class articulo
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public modelo()
-        {
-            this.articulo = new HashSet<articulo>();
-        }
-    
+        public int ArticuloId { get; set; }
+        public int TipoArticuloId { get; set; }
         public int ModeloId { get; set; }
-        public int MarcaId { get; set; }
+        public string Codigo { get; set; }
         public string Denominacion { get; set; }
+        public decimal Precio { get; set; }
+        public int Stock { get; set; }
+        public bool IndServicio { get; set; }
+        public bool Estado { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<articulo> articulo { get; set; }
-        public virtual marca marca { get; set; }
+        public virtual tipoarticulo tipoarticulo { get; set; }
+        public virtual modelo modelo { get; set; }
     }
 }

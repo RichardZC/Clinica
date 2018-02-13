@@ -66,6 +66,10 @@
     <Compile Include="Maestro\CargoBL.cs" />
     <Compile Include="ComunBL.cs" />
     <Compile Include="ItemCombo.cs" />
+    <Compile Include="Maestro\ArticuloBL.cs" />
+    <Compile Include="Maestro\MarcaBL.cs" />
+    <Compile Include="Maestro\ModeloBL.cs" />
+    <Compile Include="Maestro\TipoArticuloBL.cs" />
     <Compile Include="Seguridad\MenuBL.cs" />
     <Compile Include="Modelo\Menus.cs" />
     <Compile Include="Modelo\Oficinas.cs" />
