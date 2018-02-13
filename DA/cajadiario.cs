@@ -7,30 +7,33 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BE
+namespace DA
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class medico
+    public partial class cajadiario
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public medico()
+        public cajadiario()
         {
-            this.programacion = new HashSet<programacion>();
+            this.cajamov = new HashSet<cajamov>();
         }
     
-        public int MedicoId { get; set; }
-        public int PersonaId { get; set; }
-        public string Especialidad { get; set; }
-        public string TiempoConsulta { get; set; }
-        public string NumeroColegio { get; set; }
-        public Nullable<System.DateTime> FechaColegiacion { get; set; }
-        public string TituloProfesional { get; set; }
-        public string Universidad { get; set; }
+        public int CajaDiarioId { get; set; }
+        public int CajaId { get; set; }
+        public Nullable<int> PersonaId { get; set; }
+        public decimal SaldoInicial { get; set; }
+        public decimal Entradas { get; set; }
+        public decimal Salidas { get; set; }
+        public decimal SaldoFinal { get; set; }
+        public System.DateTime FechaInicio { get; set; }
+        public Nullable<System.DateTime> FechaFin { get; set; }
+        public bool IndAbierto { get; set; }
     
+        public virtual caja caja { get; set; }
         public virtual persona persona { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<programacion> programacion { get; set; }
+        public virtual ICollection<cajamov> cajamov { get; set; }
     }
 }

@@ -7,30 +7,27 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BE
+namespace DA
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class medico
+    public partial class conceptopago
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public medico()
+        public conceptopago()
         {
-            this.programacion = new HashSet<programacion>();
+            this.cajamovdetalle = new HashSet<cajamovdetalle>();
         }
     
-        public int MedicoId { get; set; }
-        public int PersonaId { get; set; }
-        public string Especialidad { get; set; }
-        public string TiempoConsulta { get; set; }
-        public string NumeroColegio { get; set; }
-        public Nullable<System.DateTime> FechaColegiacion { get; set; }
-        public string TituloProfesional { get; set; }
-        public string Universidad { get; set; }
+        public int ConceptoPagoId { get; set; }
+        public string Denominacion { get; set; }
+        public decimal Importe { get; set; }
+        public Nullable<int> OficinaId { get; set; }
+        public bool Estado { get; set; }
     
-        public virtual persona persona { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<programacion> programacion { get; set; }
+        public virtual ICollection<cajamovdetalle> cajamovdetalle { get; set; }
+        public virtual oficina oficina { get; set; }
     }
 }

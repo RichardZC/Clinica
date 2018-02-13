@@ -1,8 +1,4 @@
-<<<<<<< HEAD:DA/Modelo.Designer.cs
-﻿// La generación de código T4 está habilitada para el modelo 'C:\Users\USUARIO\Documents\GitHub\Clinica\DA\Modelo.edmx'. 
-=======
-﻿// La generación de código T4 está habilitada para el modelo 'F:\GITHUB\Clinica\DA\Model1.edmx'. 
->>>>>>> 7f04c224697f8ed72bcdbf1925fb84bbe7a86494:DA/Model1.Designer.cs
+﻿// La generación de código T4 está habilitada para el modelo 'C:\Users\USUARIO\Documents\GitHub\Clinica\DA\Model1.edmx'. 
 // Para habilitar la generación de código heredada, cambie el valor de la propiedad del diseñador 'Estrategia de generación de código'
 // por 'ObjectContext heredado'. Esta propiedad está disponible en la ventana Propiedades cuando se abre
 // el modelo en el diseñador.

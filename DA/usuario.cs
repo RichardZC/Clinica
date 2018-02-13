@@ -7,42 +7,38 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BE
+namespace DA
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class persona
+    public partial class usuario
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public persona()
+        public usuario()
         {
-            this.cajadiario = new HashSet<cajadiario>();
             this.cajamov = new HashSet<cajamov>();
-            this.medico = new HashSet<medico>();
-            this.usuario = new HashSet<usuario>();
+            this.cajamov1 = new HashSet<cajamov>();
+            this.usuario_rol = new HashSet<usuario_rol>();
         }
     
-        public int PersonaId { get; set; }
-        public string Nombres { get; set; }
-        public string Paterno { get; set; }
-        public string Materno { get; set; }
-        public string NombreCompleto { get; set; }
-        public string DNI { get; set; }
-        public string Celular { get; set; }
-        public string Correo { get; set; }
-        public string Sexo { get; set; }
-        public Nullable<System.DateTime> FechaNacimiento { get; set; }
-        public string Direccion { get; set; }
-        public string Referencia { get; set; }
+        public int UsuarioId { get; set; }
+        public Nullable<int> PersonaId { get; set; }
+        public string Nombre { get; set; }
+        public string Clave { get; set; }
+        public bool Activo { get; set; }
+        public bool IndCambio { get; set; }
+        public int CargoId { get; set; }
+        public int OficinaId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<cajadiario> cajadiario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<cajamov> cajamov { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<medico> medico { get; set; }
+        public virtual ICollection<cajamov> cajamov1 { get; set; }
+        public virtual cargo cargo { get; set; }
+        public virtual oficina oficina { get; set; }
+        public virtual persona persona { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<usuario> usuario { get; set; }
+        public virtual ICollection<usuario_rol> usuario_rol { get; set; }
     }
 }

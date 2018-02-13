@@ -7,30 +7,27 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BE
+namespace DA
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class medico
+    public partial class menu
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public medico()
+        public menu()
         {
-            this.programacion = new HashSet<programacion>();
+            this.rol_menu = new HashSet<rol_menu>();
         }
     
-        public int MedicoId { get; set; }
-        public int PersonaId { get; set; }
-        public string Especialidad { get; set; }
-        public string TiempoConsulta { get; set; }
-        public string NumeroColegio { get; set; }
-        public Nullable<System.DateTime> FechaColegiacion { get; set; }
-        public string TituloProfesional { get; set; }
-        public string Universidad { get; set; }
+        public int MenuId { get; set; }
+        public string Denominacion { get; set; }
+        public string Modulo { get; set; }
+        public string Icono { get; set; }
+        public Nullable<bool> IndPadre { get; set; }
+        public Nullable<int> Referencia { get; set; }
     
-        public virtual persona persona { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<programacion> programacion { get; set; }
+        public virtual ICollection<rol_menu> rol_menu { get; set; }
     }
 }

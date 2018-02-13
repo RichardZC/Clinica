@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BE
+namespace DA
 {
     using System;
     using System.Collections.Generic;
