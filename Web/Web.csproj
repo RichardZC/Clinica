@@ -332,6 +332,7 @@
     <Content Include="Reporte\dsMatrimonio.xsc">
       <DependentUpon>dsMatrimonio.xsd</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\clinica.pubxml" />
     <None Include="Properties\PublishProfiles\PublicNacimientos.pubxml" />
     <None Include="Reporte\dsMatrimonio.xsd">
       <Generator>MSDataSetGenerator</Generator>
