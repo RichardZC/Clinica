@@ -48,5 +48,13 @@ namespace BL
 
             }
         }
+
+
+        public static persona mostrarIdMedico(string dni)
+        {
+            persona per = new persona();
+            per = BL.PersonaBL.Obtener(x => x.DNI == dni);
+            return per;
+        }
     }
 }

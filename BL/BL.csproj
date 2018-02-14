@@ -58,6 +58,10 @@
     <Compile Include="Caja\CajaBL.cs" />
     <Compile Include="Caja\CajadiarioBL.cs" />
     <Compile Include="Caja\CajaMovBL.cs" />
+    <Compile Include="Clinica\ConsultorioBL.cs" />
+    <Compile Include="Clinica\EspecialidadBL.cs" />
+    <Compile Include="Clinica\MedicoBL.cs" />
+    <Compile Include="Clinica\ProgramacionBL.cs" />
     <Compile Include="ConceptopagoBL.cs" />
     <Compile Include="Maestro\CargoBL.cs" />
     <Compile Include="ComunBL.cs" />
@@ -97,6 +101,7 @@
       <Name>DA</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

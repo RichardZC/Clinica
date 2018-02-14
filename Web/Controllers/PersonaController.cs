@@ -37,6 +37,11 @@ namespace Web.Controllers
             return View(per);
         }
 
+        public JsonResult ListarPersona()
+        {
+            return Json(BL.PersonaBL.Listar(), JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public JsonResult Guardar(persona per,string href)
         {
@@ -59,5 +64,11 @@ namespace Web.Controllers
 
             return Json(rm);
         }
+
+        public JsonResult ObtenerPersona(string dni)
+        {
+            return Json(BL.PersonaBL.Obtener(x=> x.DNI==dni), JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

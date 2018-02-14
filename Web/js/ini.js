@@ -69,7 +69,7 @@ var tabla = {
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: baseUrl + "Mantenimiento/Guardar",
+                url: baseUrl + "Comun/GuardarTabla",
                 data: { tabla: t, data: { Id: id, Denominacion: valor } },
                 success: function (res) {
                     if (id > 0) {

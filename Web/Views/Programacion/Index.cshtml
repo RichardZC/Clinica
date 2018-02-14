@@ -1,0 +1,122 @@
+﻿<main>
+    @*<span>Selected: {{ selectedMedico.MedicoId}}</span>*@
+    @*<span>Selected: {{ selectedconsultorio.ConsultorioId }}</span>*@
+
+
+    <div id="default-validation" class="section">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="card-panel">
+                    <h4 class="header2">Programación</h4>
+                    <div class="row">
+                        <form id="formValidate" class="validar" method="post">
+                            @* <input type="hidden" name="PersonaId" value="@Model.PersonaId" />*@
+                            <input type="hidden" v-model="programacion.ProgramacionId" />
+
+                            <div class="row">
+                                <div class="input-field col s12 m4 l6">
+                                    @*<i class="mdi-action-picture-in-picture prefix"></i>*@
+                                    <label class="active" for="DNI">Medico*</label>
+                                    <v-select  v-model="selectedMedico" label="Especialidad" :options="medicos"></v-select>
+                                    @*<input id="DNI" name="DNI" type="number" required minlength="8" maxlength="8" value="@Model.DNI">*@
+                                </div>
+                                <div class="input-field col s12 m4 l6">
+                                    @*<i class="mdi-action-account-circle prefix"></i>*@
+                                    <label class="active" for="Nombres">Consultorio*</label>
+                                    <v-select v-model="selectedconsultorio" label="denominacion" :options="consultorios"></v-select>
+                                    @*<input id="Nombres" name="Nombres" type="text" required value="@Model.Nombres">*@
+                                </div>
+                                <div class="input-field col s12 m4 l4">
+                                    @*<i class="mdi-action-account-circle prefix"></i>*@
+                                    <label for="Paterno">Fecha Inicio*</label>
+                                    <input id="fi" required @*v-model="programacion.FechaInicio"*@ type="text" class="datepicker" placeholder="">
+                                    @*<input id="Paterno" name="Paterno" type="text" required value="@Model.Paterno">*@
+
+                                </div>
+                                <div class="input-field col s12 m4 l4">
+                                    @*<i class="mdi-action-account-circle prefix"></i>*@
+                                    <label for="Materno">Fecha Fin*</label>
+                                    @*<input id="Materno" name="Materno" type="text" required value="@Model.Materno">*@
+                                    <input id="ff" required @*v-model="programacion.FechaFin"*@ type="text" class="datepicker" placeholder="">
+                                </div>
+                                <div class="input-field col s12 m4 l4">
+                                    <i class="mdi-action-settings-cell prefix"></i>
+                                    <label class="active" for="Celular">Horario</label>
+                                    <input placeholder="" v-model="programacion.Horario" type="time" step="30" required>
+                                    @*<input id="Celular" name="Celular" type="text" minlength="9" value="@Model.Celular">*@
+                                </div>
+                                <div class="input-field col s12 m3 l12">
+                                    <button v-on:click="guardarHorario" class="btn waves-effect waves-light right">
+                                        Guardar
+                                        <i class="mdi-action-done right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+@section scripts{
+    <script>
+        //$(function () {
+        //    $(".datepicker").pickadate({
+        //        selectMonths: !0, selectYears: 50, format: 'dd/mm/yyyy',
+
+        //    })
+        //});
+
+        Vue.component("v-select", VueSelect.VueSelect);
+
+        var vprogramacion = new Vue({
+            el: 'main',
+            data: {
+                medicos: [],
+                consultorios: [],
+                programacion: {},
+                selectedMedico: '',
+                selectedconsultorio: '',
+            },
+            mounted: function () {
+                var self = this;
+
+                // cargar los medicos
+                $.get('@Url.Action("ObtenerMedico", "Medico")', {}, function (d) {
+                    self.medicos = d;
+                });
+
+                // cargar los consultorios
+                $.get('@Url.Action("ObtenerConsultorios", "Consultorio")', {}, function (e) {
+                    self.consultorios = e;
+                });
+
+
+            },
+            methods: {
+                guardarHorario: function () {
+                    this.programacion.FechaInicio = $("#fi").val();
+                    this.programacion.Fechafinal = $("#ff").val();
+                    this.programacion.MedicoId = this.selectedMedico.MedicoId;
+                    this.programacion.ConsultorioId = this.selectedconsultorio.ConsultorioId;
+                    alert(Object.values(this.programacion));
+
+                    axios.post('/clinica/Medico/GuardarProgramacion', {
+                        progr: this.programacion,
+                    })
+                  .then(function (response) {
+                      console.log(response);
+                  })
+                  .catch(function (error) {
+                      console.log(error);
+                  });
+
+
+
+
+                }
+            }
+        })
+    </script>
+}
