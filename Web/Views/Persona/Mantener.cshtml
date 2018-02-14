@@ -31,7 +31,7 @@
                         <input type="hidden" name="PersonaId" value="@Model.PersonaId" />
                         <div class="row">
                             <div class="input-field col s12 m4 l3">
-                                <i class="mdi-action-picture-in-picture prefix"></i>
+                                <i class="mdi-action-search prefix"></i>
                                 <label for="DNI">DNI*</label>
                                 <input id="DNI" name="DNI" type="number" required minlength="8" maxlength="8" value="@Model.DNI">
                             </div>
@@ -50,27 +50,41 @@
                                 @*<i class="mdi-action-account-circle prefix"></i>*@
                                 <label for="Materno">Ape. Materno*</label>
                                 <input id="Materno" name="Materno" type="text" required value="@Model.Materno">
+                            </div>
+                            <div class="col s12 m5 l3">
+                                <label for="sexo">Sexo</label>
+                                @*@Html.DropDownListFor(x => x.Sexo, Model.Oficinas.Select(x => new SelectListItem { Value = x.OficinaId.ToString(), Text = x.Denominacion }))*@
+
+
+
+                                
+                                <p>
+                                    <input name="Sexo" type="radio" id="rbsexom" value="M" @if (Model.Sexo == "M") {  <text> checked</text> } />
+                                    <label for="rbsexom">Masculino </label>
+
+                                    <input name="Sexo" type="radio" id="rbsexof" value="F" @if (Model.Sexo == "F") {  <text> checked</text> } />
+                                    <label for="rbsexof">Femenino </label>
+                                </p>
+                            </div>
+                            <div class="input-field col s12 m4 l2">
+                                <i class="mdi-notification-event-note prefix"></i>
+                                <label for="nacimiento">Nacimiento</label>
+                                <input id="nacimiento" name="FechaNacimiento" type="text" class="datepicker" value="@(Model.FechaNacimiento.HasValue ?Model.FechaNacimiento.Value.ToShortDateString():"")">
 
                             </div>
-
-                            <div class="input-field col s12 m4 l3">
+                            <div class="input-field col s12 m4 l2">
                                 <i class="mdi-action-settings-cell prefix"></i>
                                 <label for="Celular">Celular</label>
                                 <input id="Celular" name="Celular" type="text" minlength="9" value="@Model.Celular">
 
                             </div>
-                            <div class="input-field col s12 m4 l6">
+                            <div class="input-field col s12 m4 l5">
                                 <i class="mdi-communication-email prefix"></i>
                                 <label for="Correo">Correo</label>
                                 <input id="Correo" name="Correo" type="email" value="@Model.Correo">
 
                             </div>
-                            <div class="input-field col s12 m4 l3">
-                                <i class="mdi-notification-event-note prefix"></i>
-                                <label for="nacimiento">Fecha Nacimiento</label>
-                                <input id="nacimiento" name="FechaNacimiento" type="text" class="datepicker" value="@(Model.FechaNacimiento.HasValue ?Model.FechaNacimiento.Value.ToShortDateString():"")">
-
-                            </div>
+                           
                             <div class="input-field col s12 m8 l6">
                                 <i class="mdi-maps-pin-drop prefix"></i>
                                 <label for="txtdireccion">Direccion</label>
@@ -81,19 +95,7 @@
                                 <label for="txtReferencia">Referencia</label>
                                 <input id="txtReferencia" name="Referencia" type="text" value="@Model.Referencia">
                             </div>
-                            <div class="col s12 m5 l6">
-                                <label for="genter_select">Sexo</label>
-                                <p>
-                                    <input name="Sexo" type="radio" id="rbsexom" value="M" @if (Model.Sexo == "M") {  <text> checked</text> } />
-                                    <label for="rbsexom">Masculino </label>
-
-                                    <input name="Sexo" type="radio" id="rbsexof" value="F" @if (Model.Sexo == "F") {  <text> checked</text> } />
-                                    <label for="rbsexof">Femenino </label>
-                                </p>
-                            </div>
-
                             
-
                             <div class="input-field col s12 m3 l6">
                                 <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
                                     Guardar
@@ -105,10 +107,7 @@
                 </div>
             </div>
         </div>
-
-    </div>
-   
-
+    </div>  
 </div>
 @section scripts{
     <script type="text/javascript">
