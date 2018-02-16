@@ -18,20 +18,26 @@ namespace Web.Controllers
             return View();
         }
 
-        public JsonResult ObtenerMedico()
+        public JsonResult Listar()
         {
-            return Json(BL.MedicoBL.Listar(), JsonRequestBehavior.AllowGet);
+            return Json(BL.MedicoBL.Listar(includeProperties: "Persona").Select(x => new
+            {
+                PersonaId = x.PersonaId,
+                MedicoId = x.MedicoId,
+                Titulo = x.TituloProfesional,
+                Nombres = x.persona.NombreCompleto,
+                DNI = x.persona.DNI,
+                Celular = x.persona.Celular,
+                Correo = x.persona.Correo
+            }), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Mantener(int id, string href)
+        public ActionResult Mantener(int id)
         {
             var med = new medico();
             if (id > 0)
-                med = MedicoBL.Obtener(
-                    );
-
-            if (string.IsNullOrEmpty(href)) href = string.Empty;
-            ViewBag.href = href;
+                med = MedicoBL.Obtener(includeProperties:"Persona");
+            
             return View(med);
         }
 
@@ -44,7 +50,7 @@ namespace Web.Controllers
             per.NombreCompleto = per.Nombres + " " + per.Paterno + " " + per.Materno;
             try
             {
-                MedicoBL.guardarMedico(med,per);
+                MedicoBL.guardarMedico(med, per);
                 rm.SetResponse(true);
                 if (string.IsNullOrEmpty(href))
                     rm.href = Url.Action("Index", "Persona");

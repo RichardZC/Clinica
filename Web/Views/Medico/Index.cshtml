@@ -1,7 +1,5 @@
-﻿<!--start container-->
-<main>
+﻿<main>
     <div class="container">
-
         <div id="mail-app" class="section">
             <div class="row">
                 <div class="col s12">
@@ -36,15 +34,14 @@
 
 
                     <div id="email-list" class="col s12 m12 l12 card-panel z-depth-1">
-
                         <ul class="collection">
-                            <li  v-for="(medico,index) in medico" class="collection-item avatar  {<text>selected</text>}"
-                                ondblclick="MostrarEditar({{medico.Especialidad}});"
+                            <li  v-for="(medico,index) in items" class="collection-item avatar  {<text>selected</text>}"
+                                ondblclick="MostrarEditar({{medico.MedicoId}});"
                                 onclick="$(this).addClass('selected').siblings().removeClass('selected');">
                                 <span class="circle light-blue">L</span>
-                                <span class="email-title">{{medico.TituloProfesional}}</span>
-                                <p class="truncate grey-text ultra-small">{{medico.TituloProfesional}}</p>
-                                <a class="secondary-content email-time"><span class="blue-text ultra-small">DNI {{medico.Especialidad}}</span></a>
+                                <span class="email-title">{{medico.DNI}} {{medico.Nombres}}</span>
+                                <p class="truncate grey-text ultra-small">{{medico.Titulo}}</p>
+                                <a class="secondary-content email-time"><span class="blue-text ultra-small">{{medico.Celular}} - {{medico.Correo}}</span></a>
                             </li>
                         </ul>
 
@@ -54,32 +51,25 @@
                             </a>
                         </div>
                     </div>
-                </div>
-                
+                </div>                
             </div>
-
-
-
         </div>
     </div>
 </main>
-<!--end container-->
 
 @section scripts{
     <script>
         var vmedico = new Vue({
             el: 'main',
             data: {
-                medico: {}
+                items: {}
             },
             mounted: function () {
                 var self = this;
-                $.get('@Url.Action("ObtenerMedico", "Medico")', {}, function (d) {
-                    self.medico = d;
+                $.get('@Url.Action("Listar", "Medico")', {}, function (d) {
+                    self.items = d;
                 });
             },
         })
-
-
     </script>
 }

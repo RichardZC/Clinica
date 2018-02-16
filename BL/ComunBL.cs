@@ -94,5 +94,19 @@ namespace BL
             }
 
         }
+
+
+        public static List<ItemCombo> BuscarPersonaAutoComplete(string pClave)
+        {
+            using (var db = new clinicaEntities())
+            {
+                var qry = from p in db.persona
+                          where (p.NombreCompleto.Contains(pClave) || p.DNI.Contains(pClave))
+                          orderby p.NombreCompleto
+                          select new ItemCombo { id = p.PersonaId, value = p.DNI + " " + p.NombreCompleto };
+                return qry.ToList();
+            }
+        }
+
     }
 }

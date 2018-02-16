@@ -63,7 +63,7 @@
 
 
 
-<div class="row" style="margin-bottom:0;">   
+@*<div class="row" style="margin-bottom:0;">   
 
     <div class="col s12 m12 l12">
         <div class="card-panel">
@@ -90,18 +90,23 @@
 
         </div>
     </div>
-</div>
+</div>*@
 
-
+<input type="text" name="country" id="autocomplete1" />
 
 @section scripts{
     
     <script>
         function metodo(v) {
-            console.log(v);
+           // console.log(v);
         }
 
-        
+        @*$('#autocomplete1').autocomplete({
+            serviceUrl: '@Html.Action("GetPersona","Comun")',
+            onSelect: function (suggestion) {
+                alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+            }
+        });*@
     </script>
 
     

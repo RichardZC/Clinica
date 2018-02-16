@@ -1,234 +1,114 @@
-﻿<!--breadcrumbs start-->
-<main>
-    <div id="breadcrumbs-wrapper">
-        <!-- Search for small screen -->
-        <div class="header-search-wrapper grey hide-on-large-only">
-            <i class="mdi-action-search active"></i>
-            <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize">
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col s12 m12 l12">
-                    <h5 class="breadcrumbs-title">GESTIÓN DE MÉDICO</h5>
-                    <ol class="breadcrumbs">
-                        <li><a href='@Url.Action("Index","Home")'>Inicio</a></li>
-                        <li><a href="@Url.Action("Index","Persona")">Personas</a></li>
-                        <li class="active">Mantenimiento</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
+﻿@model BE.persona
+<!--breadcrumbs start-->
+<div id="breadcrumbs-wrapper">
+    <!-- Search for small screen -->
+    <div class="header-search-wrapper grey hide-on-large-only">
+        <i class="mdi-action-search active"></i>
+        <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize">
     </div>
-    <!--breadcrumbs end-->
-
-    <div id="default-validation" class="section">
+    <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
-                <div class="card-panel">
-                    <h4 class="header2">DATOS PERSONALES</h4>
-                    <div class="row">
-                        <form id="formValidate" class="validar" method="post">
-                            <input type="hidden" v-model="persona.PersonaId" name="PersonaId" />
-                            <div class="row">
-                                <div class="input-field col s12 m4 l3">
-                                    <i class="mdi-action-picture-in-picture prefix"></i>
-                                    <label>DNI*</label>
-                                    <input onkeypress="return pulsar(event)" v-model="persona.DNI" type="number" minlength="8" maxlength="8" v-on:keyup.enter="sendToServer" required>
-                                    @*<button v-on:click="sendToServer">...</button>*@
-                                </div>
-                                <div v-if="estadoPersona == true" id="persona">
-                                    <div class="input-field col s12 m4 l3">
-                                        <i class="mdi-action-account-circle prefix"></i>
-                                        <label class="active" for="Nombres">Nombres*</label>
-                                        <input type="text" v-model="persona.Nombres" required placeholder="">
-                                    </div>
-                                    <div class="input-field col s12 m4 l3">
-                                        @*<i class="mdi-action-account-circle prefix"></i>*@
-                                        <label class="active" for="Paterno">Ape. Paterno*</label>
-                                        <input type="text" required v-model="persona.Paterno" placeholder="">
-                                    </div>
-                                    <div class="input-field col s12 m4 l3">
-                                        @*<i class="mdi-action-account-circle prefix"></i>*@
-                                        <label class="active" for="Materno">Ape. Materno*</label>
-                                        <input type="text" v-model="persona.Materno" placeholder="">
-                                    </div>
-                                </div>
+                <h5 class="breadcrumbs-title">GESTIÓN DE PERSONA</h5>
+                <ol class="breadcrumbs">
+                    <li><a href='@Url.Action("Index","Home")'>Inicio</a></li>
+                    <li><a href="@Url.Action("Index","Medico")">Medicos</a></li>
+                    <li class="active">Mantenimiento</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs end-->
 
-                                <div class="input-field col s12 m4 l4">
-                                    @*<i class="mdi-action-picture-in-picture prefix"></i>*@
-                                    <label class="active" for="Nombres">ESPECIALIDAD*</label>
-                                    <v-select v-model="selectedMedico" label="NombreEspecialidad" :options="especialidades"></v-select>
-
-                                </div>
-
-                                <div class="input-field col s12 m4 l4">
-                                    @*<i class="mdi-action-account-circle prefix"></i>*@
-                                    <label class="active" for="Nombres">TIEMPO CONSULTA*</label>
-                                    <select @*v-model="TiempoSelected"*@>
-                                        <option value="" disabled selected>Choose your option</option>
-                                        <option value="15">15 minutos</option>
-                                        <option value="25">25 minutos</option>
-                                        <option value="30">30 minutos</option>
-                                    </select>
-
-                                </div>
-                                <div class="input-field col s12 m4 l4">
-                                    @*<i class="mdi-action-account-circle prefix"></i>*@
-                                    <label for="numeroColegio">NÚMERO COLEGIO*</label>
-                                    <input v-model="medico.NumeroColegio" id="numeroColegio" name="numeroColegio" type="text">
-
-                                </div>
-                                <div class="input-field col s12 m4 l4">
-                                    <i class="mdi-action-settings-cell prefix"></i>
-                                    <label for="Celular">TITULO PROFESIONAL</label>
-                                    <input v-model="medico.TituloProfesional" type="text" minlength="9">
-
-                                </div>
-                                <div class="input-field col s12 m4 l4">
-                                    <i class="mdi-communication-email prefix"></i>
-                                    <label for="Correo">UNIVERSIDAD</label>
-                                    <input v-model="medico.Universidad" type="text">
-
-                                </div>
-
-                                <div class="input-field col s1 m4 l4">
-                                    <i class="mdi-notification-event-note prefix"></i>
-                                    <label class="active" for="FechaColegio">FECHA COLEGIACIÓN*</label>
-                                    <input required v-model="medico.FechaColegio" type="text" class="datepicker" placeholder="">
-
-                                </div>
-
-                                <div class="input-field col s12 m3 l12">
-                                    <button v-on:click="guardarMedico" class="btn waves-effect waves-light right" @*type="submit"data-ajax="true"*@>
-                                        Guardar
-                                        <i class="mdi-action-done right"></i>
-                                    </button>
-                                </div>
+<div id="default-validation" class="section">
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <div class="card-panel">
+                @*<h4 class="header2">Datos personales</h4>*@
+                <div class="row">
+                    <form id="formValidate" class="validar" method="post" action='@Url.Action("Guardar","Medico")'>
+                        <input type="hidden" name="PersonaId" value="@Model.PersonaId" />
+                        @*<input type="hidden" name="PersonaId" value="@Model.MedicoId" />*@
+                        <div class="row">
+                            <div class="input-field col s12 m12 l2">
+                                <i class="mdi-action-search prefix"></i>
+                                <label for="DNI">DNI*</label>
+                                <input id="DNI" name="DNI" type="number" required minlength="8" maxlength="8" value="@Model.DNI">
+                            </div>
+                            <div class="input-field col s12  m4 l4">
+                                <i class="mdi-action-account-circle prefix"></i>
+                                <label for="Nombres">Nombres*</label>
+                                <input id="Nombres" name="Nombres" type="text" required value="@Model.Nombres">
+                            </div>
+                            <div class="input-field col s6 m4 l3">
+                                <label for="Paterno">Ape. Paterno*</label>
+                                <input id="Paterno" name="Paterno" type="text" required value="@Model.Paterno">
 
                             </div>
-                        </form>
+                            <div class="input-field col s6 m4 l3">
+                                <label for="Materno">Ape. Materno*</label>
+                                <input id="Materno" name="Materno" type="text" required value="@Model.Materno">
+                            </div>
+                            <div class="input-field col s6 m3 l2">
+                                <i class="mdi-notification-event-note prefix"></i>
+                                <label for="nacimiento">Nacimiento</label>
+                                <input id="nacimiento" name="FechaNacimiento" type="text" class="datepicker" value="@(Model.FechaNacimiento.HasValue ?Model.FechaNacimiento.Value.ToShortDateString():"")">
+                            </div>
+                            <div class="input-field col s6 m3 l2">
+                                <label for="sexo" class="active">Sexo</label>
+                                <select id="Sexo" name="Sexo">
+                                    <option value="M" @if (Model.Sexo == "M") {  <text> selected</text> }>Masculino</option>
+                                    <option value="F" @if (Model.Sexo == "F") {  <text> selected</text> }>Femenino</option>
+                                </select>
+                                @*<p>
+                                        <input name="Sexo" type="radio" id="rbsexom" value="M" @if (Model.Sexo == "M") {  <text> checked</text> } />
+                                        <label for="rbsexom">Masculino </label>
+                                        <input name="Sexo" type="radio" id="rbsexof" value="F" @if (Model.Sexo == "F") {  <text> checked</text> } />
+                                        <label for="rbsexof">Femenino </label>
+                                    </p>*@
+                            </div>
+                            <div class="input-field col s12 m3 l2">
+                                <i class="mdi-action-settings-cell prefix"></i>
+                                <label for="Celular">Celular</label>
+                                <input id="Celular" name="Celular" type="text" minlength="9" value="@Model.Celular">
 
+                            </div>
+                            <div class="input-field col s12 m3 l6">
+                                <i class="mdi-communication-email prefix"></i>
+                                <label for="Correo">Correo</label>
+                                <input id="Correo" name="Correo" type="email" value="@Model.Correo">
 
+                            </div>
 
+                            <div class="input-field col s12 m6 l6">
+                                <i class="mdi-maps-pin-drop prefix"></i>
+                                <label for="txtdireccion">Direccion</label>
+                                <input id="txtdireccion" name="Direccion" type="text" value="@Model.Direccion">
+                            </div>
+                            <div class="input-field col s12 m6 l6">
+                                <i class="mdi-maps-pin-drop prefix"></i>
+                                <label for="txtReferencia">Referencia</label>
+                                <input id="txtReferencia" name="Referencia" type="text" value="@Model.Referencia">
+                            </div>
 
-
-
-
-
-
-
-
-                    </div>
+                            <div class="input-field col s12">
+                                <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
+                                    Guardar
+                                    <i class="mdi-action-done right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-
         </div>
-
-
     </div>
-</main>
+</div>
 @section scripts{
-    <script>
-        function pulsar(e) {
-            tecla = (document.all) ? e.keyCode : e.which;
-            return (tecla != 13);
-        }
-    </script>
-
     <script type="text/javascript">
-        Vue.component("v-select", VueSelect.VueSelect);
         $(function () {
             $(".datepicker").pickadate({ selectMonths: !0, selectYears: 50, format: 'dd/mm/yyyy' })
         });
-
-
-        var vmedico = new Vue({
-            el: 'main',
-            data: {
-                selectedMedico:'',
-                medico: {},
-                persona: {},
-                estadoPersona: false,
-                especialidades: [],
-            },
-
-            
-            mounted: function () {
-                this.$nextTick(function () {
-                    axios.get('/clinica/Especialidad/Obtenerespecialidad', {
-                    })
-                .then(response => {
-                    this.especialidades = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-                }),
-                this.medico.FechaColegio = "09/02/2018";
-                @*$.get('@Url.Action("Obtenerespecialidad", "Especialidad")', {}, function (d) {
-                    self.especialidades = d;
-                });*@
-            },
-
-
-            methods: {
-
-                guardarMedico: function () {
-                    if (this.persona.PersonaId > 0) {
-                        this.medico.PersonaId = this.persona.PersonaId;
-                    }
-                    else {
-                        this.medico.PersonaId = 0;
-                    }
-                    this.medico.MedicoId = 0;
-
-                    this.medico.Especialidad = "xxxxxxxx",
-                    this.medico.TiempoConsulta = "xxxxxxx",
-                    //alert(JSON.stringify(this.medico));
-                    axios.post('/clinica/Medico/GuardarMedico', {
-                        med: this.medico,
-                        per: this.persona,
-                        href: "",
-                    })
-                      .then(response => {
-                          console.log(response);
-                      })
-                      .catch(function (error) {
-                          console.log(error);
-                      });
-
-
-                },
-
-                sendToServer: function () {
-                    var dni2 = this.persona.DNI;
-                    axios.get('/clinica/Persona/ObtenerPersona', {
-                        params: {
-                            dni: this.persona.DNI,
-                        },
-                    })
-                        .then(response => {
-                            this.estadoPersona = true;
-                            if (response.data) {
-                                this.persona = response.data;
-                                $('#numeroColegio').focus();
-                            }
-                            else {
-                                this.persona = {};
-                                this.persona.PersonaId = 0;
-                                this.persona.DNI = dni2;
-                            }
-                        })
-                         .catch(function (error) {
-                             console.log(error);
-                         });
-                }
-
-
-            },
-
-        })
-
-
     </script>
 }

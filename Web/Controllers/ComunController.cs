@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using Comun;
 namespace Web.Controllers
 {
     public class ComunController : Controller
@@ -58,5 +58,11 @@ namespace Web.Controllers
             }
             return Json(0);
         }
+        public JsonResult GetPersona(string term)
+        {
+            
+            return Json(ComunBL.BuscarPersonaAutoComplete(term), JsonRequestBehavior.AllowGet);      
+        }
+
     }
 }

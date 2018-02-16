@@ -10,6 +10,7 @@ CREATE TABLE `medico` (
   `FechaColegiacion` DATE NOT NULL,
   `TituloProfesional` VARCHAR(120) NOT NULL,
   `Universidad` VARCHAR(120) NOT NULL,
+  Estado bit(1) NOT NULL,
   PRIMARY KEY (`MedicoId`),
   INDEX `fk_medico_persona1_idx` (`PersonaId` ASC),
   CONSTRAINT `fk_medico_persona1`
@@ -18,8 +19,8 @@ CREATE TABLE `medico` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-INSERT INTO `medico` (`MedicoId`, `PersonaId`, `Especialidad`, `TiempoConsulta`, `NumeroColegio`, `FechaColegiacion`, `TituloProfesional`, `Universidad`) 
-VALUES (NULL, '1', 'Ginecologia', '5', '00912SDSD1212', '2017-11-13', 'Licenciado en Ginecologia', 'Universidad Nacional de San Cristobal ');
+INSERT INTO `medico` (`PersonaId`, `Especialidad`, `TiempoConsulta`, `NumeroColegio`, `FechaColegiacion`, `TituloProfesional`, `Universidad`,Estado) 
+VALUES ('1', 'Ginecologia', '5', '00912SDSD1212', '2017-11-13', 'Licenciado en Ginecologia', 'Universidad Nacional de San Cristobal ',1);
 
 DROP TABLE IF EXISTS Especialidad;
 CREATE TABLE `Especialidad` ( 
