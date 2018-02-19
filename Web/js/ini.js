@@ -215,6 +215,7 @@ $(document).ready(function () {
                         var message = '<div id="card-alert" class="card ' + css + ' "><div class="card-content white-text"><p><i class="mdi-alert-error"></i>' + r.message + '</p></div><button type="button" class="close white-text" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button></div>';
                         form.prepend(message);
                         setTimeout('$("#card-alert .close").click(function () { $(this).closest("#card-alert").fadeOut("slow") });', 0);
+                        $("#card-alert").delay(4000).fadeOut("fast")
                     }
                 }
 

@@ -49,6 +49,14 @@ namespace Web.Controllers
             per.NombreCompleto = per.Nombres + " " + per.Paterno + " " + per.Materno;
             try
             {
+                var dnival = PersonaBL.Contar(x => x.DNI == per.DNI && x.PersonaId != per.PersonaId);
+                if (dnival>0)
+                {
+                    rm.SetResponse(false, "El DNI ya existe, ingrese otro");
+                    return Json(rm);
+                }
+                
+
                 PersonaBL.Guardar(per);                
                 rm.SetResponse(true);
                 if (string.IsNullOrEmpty(href))
