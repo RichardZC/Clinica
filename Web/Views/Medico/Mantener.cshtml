@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
-                <h5 class="breadcrumbs-title">GESTIÓN DE PERSONA</h5>
+                <h5 class="breadcrumbs-title">GESTIÓN DE MEDICOS</h5>
                 <ol class="breadcrumbs">
                     <li><a href='@Url.Action("Index","Home")'>Inicio</a></li>
                     <li><a href="@Url.Action("Index","Medico")">Medicos</a></li>
@@ -28,46 +28,47 @@
                 @*<h4 class="header2">Datos personales</h4>*@
                 <div class="row">
                     <form id="formValidate" class="validar" method="post" action='@Url.Action("Guardar","Medico")'>
-                        <input type="hidden" name="PersonaId" value="@Model.PersonaId" />
+                        
                         <input type="hidden" name="MedicoId" value="@Model.MedicoId" />
                         <div class="row">                            
                             <div class="input-field col s12  m4 l6">
+                                <input type="hidden" id="PersonaId" name="PersonaId" value="@Model.PersonaId" />
                                 <i class="mdi-action-search prefix"></i>
-                                <label for="Nombres">Buscar Persona*</label>
-                                <input id="Nombres" name="Nombres" type="text">
+                                <input id="autocompletar" type="text" placeholder="DNI/Apellidos" 
+                                       data-url='@Url.Action("ListarPersonas","Comun")'
+                                       data-seleccion="PersonaId" value="@(Model.persona==null?"": Model.persona.NombreCompleto)">
+                                <label for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Persona</label>
                             </div>
-                            <div class="input-field col s6">
-                                @Html.DropDownListFor(x => x.EspecialidadId, (IEnumerable<SelectListItem>)ViewBag.cboEspecialidad)
-                                @*<label for="Usuario_OficinaId">Oficina</label>*@
+                            <div class="input-field col s12 m6 l6">
+                                    @Html.DropDownListFor(x => x.EspecialidadId, (IEnumerable<SelectListItem>)ViewBag.cboEspecialidad)
+                                    <label for="EspecialidadId">Especialidad</label>
                             </div>
-                            <div class="input-field col s12 m3 l2">
-                                <i class="mdi-action-settings-cell prefix"></i>
-                                <label for="NumeroColegio">Nro. Colegio</label>
-                                <input id="NumeroColegio" name="NumeroColegio" type="text" minlength="9" value="@Model.NumeroColegio">
-                            </div>
-                            <div class="input-field col s6 m3 l2">
-                                <i class="mdi-notification-event-note prefix"></i>
-                                <label for="FechaColegiacion">Colegiacion</label>
-                                <input id="FechaColegiacion" name="FechaColegiacion" type="text" class="datepicker" value="@Model.FechaColegiacion">
-                            </div>
-                            
-                            
                             <div class="input-field col s12 m3 l6">
                                 <i class="mdi-communication-email prefix"></i>
                                 <label for="Correo">Titulo Profesional</label>
                                 <input id="TituloProfesional" name="TituloProfesional" type="text" value="@Model.TituloProfesional">
                             </div>
-
                             <div class="input-field col s12 m6 l6">
                                 <i class="mdi-maps-pin-drop prefix"></i>
                                 <label for="Universidad">Universidad</label>
                                 <input id="Universidad" name="Universidad" type="text" value="@Model.Universidad">
                             </div>
+                            <div class="input-field col s12 m3 l2">
+                                <i class="mdi-action-settings-cell prefix"></i>
+                                <label for="NumeroColegio">Nro. Colegio</label>
+                                <input id="NumeroColegio" name="NumeroColegio" type="text" value="@Model.NumeroColegio">
+                            </div>
+                            <div class="input-field col s6 m3 l2">
+                                <i class="mdi-notification-event-note prefix"></i>
+                                <label for="FechaColegiacion">Colegiacion</label>
+                                <input id="FechaColegiacion" name="FechaColegiacion" type="text" class="datepicker" value="@(Model.FechaColegiacion.HasValue ?Model.FechaColegiacion.Value.ToShortDateString():"")">
+                            </div>
                            
-                            @*<div class="input-field col s6 ">
-                                <input type="checkbox" name="pActivo" class="filled-in" id="chkActivo" @if (Model) { <text> checked</text>} />
+                           
+                            <div class="input-field col s6 ">
+                                <input type="checkbox" name="pEstado" class="filled-in" id="chkActivo" @if ( Model.Estado ) { <text> checked</text>} />
                                 <label for="chkActivo">Activo</label>
-                            </div>*@
+                            </div>
                             <div class="input-field col s12">
                                 <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
                                     Guardar

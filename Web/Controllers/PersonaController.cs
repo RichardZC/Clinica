@@ -56,13 +56,9 @@ namespace Web.Controllers
                     return Json(rm);
                 }
                 
-
                 PersonaBL.Guardar(per);                
                 rm.SetResponse(true);
-                if (string.IsNullOrEmpty(href))
-                    rm.href = Url.Action("Index", "Persona");
-                else
-                    rm.href = href;
+                rm.href = string.IsNullOrEmpty(href) ? Url.Action("Index", "Persona") : href;
             }
             catch (Exception ex)
             {
