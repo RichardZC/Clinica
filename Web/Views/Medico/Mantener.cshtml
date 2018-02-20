@@ -31,14 +31,19 @@
                         
                         <input type="hidden" name="MedicoId" value="@Model.MedicoId" />
                         <div class="row">                            
-                            <div class="input-field col s12  m4 l6">
+                            <div class="input-field col s11  m5 l5">
                                 <input type="hidden" id="PersonaId" name="PersonaId" value="@Model.PersonaId" />
                                 <i class="mdi-action-search prefix"></i>
                                 <input id="autocompletar" type="text" placeholder="DNI/Apellidos" 
                                        data-url='@Url.Action("ListarPersonas","Comun")'
                                        data-seleccion="PersonaId" value="@(Model.persona==null?"": Model.persona.NombreCompleto)">
                                 <label for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Persona</label>
+                                
                             </div>
+                            <div class="input-field col s1 m1 l1">
+                                <a href='@Url.Action("Mantener", "Persona",new {id=0 })?href=' class="btn btn-flat teal text white-text tooltipped " style="padding:8px; height:auto;line-height:25px" data-tooltip="Nueva Persona"><i class="mdi-social-person-add"></i></a>
+                            </div>
+
                             <div class="input-field col s12 m6 l6">
                                     @Html.DropDownListFor(x => x.EspecialidadId, (IEnumerable<SelectListItem>)ViewBag.cboEspecialidad)
                                     <label for="EspecialidadId">Especialidad</label>
