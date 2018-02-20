@@ -1,4 +1,4 @@
-﻿@model BE.persona
+﻿@model BE.medico
 <!--breadcrumbs start-->
 <div id="breadcrumbs-wrapper">
     <!-- Search for small screen -->
@@ -29,69 +29,45 @@
                 <div class="row">
                     <form id="formValidate" class="validar" method="post" action='@Url.Action("Guardar","Medico")'>
                         <input type="hidden" name="PersonaId" value="@Model.PersonaId" />
-                        @*<input type="hidden" name="PersonaId" value="@Model.MedicoId" />*@
-                        <div class="row">
-                            <div class="input-field col s12 m12 l2">
+                        <input type="hidden" name="MedicoId" value="@Model.MedicoId" />
+                        <div class="row">                            
+                            <div class="input-field col s12  m4 l6">
                                 <i class="mdi-action-search prefix"></i>
-                                <label for="DNI">DNI*</label>
-                                <input id="DNI" name="DNI" type="number" required minlength="8" maxlength="8" value="@Model.DNI">
+                                <label for="Nombres">Buscar Persona*</label>
+                                <input id="Nombres" name="Nombres" type="text">
                             </div>
-                            <div class="input-field col s12  m4 l4">
-                                <i class="mdi-action-account-circle prefix"></i>
-                                <label for="Nombres">Nombres*</label>
-                                <input id="Nombres" name="Nombres" type="text" required value="@Model.Nombres">
-                            </div>
-                            <div class="input-field col s6 m4 l3">
-                                <label for="Paterno">Ape. Paterno*</label>
-                                <input id="Paterno" name="Paterno" type="text" required value="@Model.Paterno">
-
-                            </div>
-                            <div class="input-field col s6 m4 l3">
-                                <label for="Materno">Ape. Materno*</label>
-                                <input id="Materno" name="Materno" type="text" required value="@Model.Materno">
-                            </div>
-                            <div class="input-field col s6 m3 l2">
-                                <i class="mdi-notification-event-note prefix"></i>
-                                <label for="nacimiento">Nacimiento</label>
-                                <input id="nacimiento" name="FechaNacimiento" type="text" class="datepicker" value="@(Model.FechaNacimiento.HasValue ?Model.FechaNacimiento.Value.ToShortDateString():"")">
-                            </div>
-                            <div class="input-field col s6 m3 l2">
-                                <label for="sexo" class="active">Sexo</label>
-                                <select id="Sexo" name="Sexo">
-                                    <option value="M" @if (Model.Sexo == "M") {  <text> selected</text> }>Masculino</option>
-                                    <option value="F" @if (Model.Sexo == "F") {  <text> selected</text> }>Femenino</option>
-                                </select>
-                                @*<p>
-                                        <input name="Sexo" type="radio" id="rbsexom" value="M" @if (Model.Sexo == "M") {  <text> checked</text> } />
-                                        <label for="rbsexom">Masculino </label>
-                                        <input name="Sexo" type="radio" id="rbsexof" value="F" @if (Model.Sexo == "F") {  <text> checked</text> } />
-                                        <label for="rbsexof">Femenino </label>
-                                    </p>*@
+                            <div class="input-field col s6">
+                                @Html.DropDownListFor(x => x.EspecialidadId, (IEnumerable<SelectListItem>)ViewBag.cboEspecialidad)
+                                @*<label for="Usuario_OficinaId">Oficina</label>*@
                             </div>
                             <div class="input-field col s12 m3 l2">
                                 <i class="mdi-action-settings-cell prefix"></i>
-                                <label for="Celular">Celular</label>
-                                <input id="Celular" name="Celular" type="text" minlength="9" value="@Model.Celular">
-
+                                <label for="NumeroColegio">Nro. Colegio</label>
+                                <input id="NumeroColegio" name="NumeroColegio" type="text" minlength="9" value="@Model.NumeroColegio">
                             </div>
+                            <div class="input-field col s6 m3 l2">
+                                <i class="mdi-notification-event-note prefix"></i>
+                                <label for="FechaColegiacion">Colegiacion</label>
+                                <input id="FechaColegiacion" name="FechaColegiacion" type="text" class="datepicker" value="@Model.FechaColegiacion">
+                            </div>
+                            
+                            
                             <div class="input-field col s12 m3 l6">
                                 <i class="mdi-communication-email prefix"></i>
-                                <label for="Correo">Correo</label>
-                                <input id="Correo" name="Correo" type="email" value="@Model.Correo">
-
+                                <label for="Correo">Titulo Profesional</label>
+                                <input id="TituloProfesional" name="TituloProfesional" type="text" value="@Model.TituloProfesional">
                             </div>
 
                             <div class="input-field col s12 m6 l6">
                                 <i class="mdi-maps-pin-drop prefix"></i>
-                                <label for="txtdireccion">Direccion</label>
-                                <input id="txtdireccion" name="Direccion" type="text" value="@Model.Direccion">
+                                <label for="Universidad">Universidad</label>
+                                <input id="Universidad" name="Universidad" type="text" value="@Model.Universidad">
                             </div>
-                            <div class="input-field col s12 m6 l6">
-                                <i class="mdi-maps-pin-drop prefix"></i>
-                                <label for="txtReferencia">Referencia</label>
-                                <input id="txtReferencia" name="Referencia" type="text" value="@Model.Referencia">
-                            </div>
-
+                           
+                            @*<div class="input-field col s6 ">
+                                <input type="checkbox" name="pActivo" class="filled-in" id="chkActivo" @if (Model) { <text> checked</text>} />
+                                <label for="chkActivo">Activo</label>
+                            </div>*@
                             <div class="input-field col s12">
                                 <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
                                     Guardar

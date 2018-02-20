@@ -1,26 +1,21 @@
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS medico;
-CREATE TABLE `medico` (
-  `MedicoId` INT(11) NOT NULL AUTO_INCREMENT,
-  `PersonaId` INT(11) NOT NULL,
-  `Especialidad` VARCHAR(120) NOT NULL,
-  `TiempoConsulta` VARCHAR(45) NOT NULL,
-  `NumeroColegio` VARCHAR(60) NOT NULL,
-  `FechaColegiacion` DATE NOT NULL,
-  `TituloProfesional` VARCHAR(120) NOT NULL,
-  `Universidad` VARCHAR(120) NOT NULL,
-  Estado bit(1) NOT NULL,
-  PRIMARY KEY (`MedicoId`),
-  INDEX `fk_medico_persona1_idx` (`PersonaId` ASC),
-  CONSTRAINT `fk_medico_persona1`
-    FOREIGN KEY (`PersonaId`)
-    REFERENCES `clinica`.`persona` (`PersonaId`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+CREATE TABLE medico (
+  MedicoId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  PersonaId INT(11) NOT NULL,
+  FOREIGN KEY(PersonaId) REFERENCES Persona(PersonaId) on DELETE no action on UPDATE CASCADE,  
+  EspecialidadId INT(11) NOT NULL,
+  FOREIGN KEY(EspecialidadId) REFERENCES Especialidad(EspecialidadId) on DELETE no action on UPDATE CASCADE,
+  NumeroColegio VARCHAR(60) ,
+  FechaColegiacion DATE ,
+  TituloProfesional VARCHAR(120) ,
+  Universidad VARCHAR(120) ,
+  Estado bit(1) NOT NULL
+  );
 
-INSERT INTO `medico` (`PersonaId`, `Especialidad`, `TiempoConsulta`, `NumeroColegio`, `FechaColegiacion`, `TituloProfesional`, `Universidad`,Estado) 
-VALUES ('1', 'Ginecologia', '5', '00912SDSD1212', '2017-11-13', 'Licenciado en Ginecologia', 'Universidad Nacional de San Cristobal ',1);
+INSERT INTO `medico` (`PersonaId`, `EspecialidadId`, `NumeroColegio`, `FechaColegiacion`, `TituloProfesional`, `Universidad`,Estado) 
+VALUES ('1', 1, '00912SDSD1212', '2017-11-13', 'Licenciado en Ginecologia', 'Universidad Nacional de San Cristobal ',1);
 
 DROP TABLE IF EXISTS Especialidad;
 CREATE TABLE `Especialidad` ( 

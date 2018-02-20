@@ -2,14 +2,15 @@
 using BL;
 using Comun;
 using System;
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Web.Filters;
 
 namespace Web.Controllers
 {
+    [Autenticado]
     public class MedicoController : Controller
     {
         // GET: Medico
@@ -37,25 +38,28 @@ namespace Web.Controllers
             var med = new medico();
             if (id > 0)
                 med = MedicoBL.Obtener(includeProperties:"Persona");
-            
+
+            ViewBag.cboEspecialidad = new SelectList(EspecialidadBL.Listar(), "EspecialidadId", "Denominacion");
             return View(med);
         }
 
 
         [HttpPost]
-        public JsonResult GuardarMedico(medico med, persona per, string href)
+        public JsonResult Guardar(medico med)
         {
-
             var rm = new ResponseModel();
-            per.NombreCompleto = per.Nombres + " " + per.Paterno + " " + per.Materno;
+            if (med.PersonaId==0)
+            {
+                rm.SetResponse(false, "Ingrese a la Persona");
+                return Json(rm);
+            }
+
+            
             try
             {
-                MedicoBL.guardarMedico(med, per);
+                MedicoBL.Guardar(med);
                 rm.SetResponse(true);
-                if (string.IsNullOrEmpty(href))
-                    rm.href = Url.Action("Index", "Persona");
-                else
-                    rm.href = href;
+                
             }
             catch (Exception ex)
             {

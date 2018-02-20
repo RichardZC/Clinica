@@ -40,14 +40,15 @@
         <AssociationConnector Association="clinicaModel.usuario_rol_ibfk_1" ManuallyRouted="false" />
         <EntityTypeShape EntityType="clinicaModel.consultorio" Width="1.5" PointX="7.375" PointY="6.875" IsExpanded="false" />
         <AssociationConnector Association="clinicaModel.fk_programacion_consultorio1" />
-        <EntityTypeShape EntityType="clinicaModel.medico" Width="1.5" PointX="3" PointY="11.5" />
-        <AssociationConnector Association="clinicaModel.fk_programacion_medico1" />
         <EntityTypeShape EntityType="clinicaModel.persona" Width="1.5" PointX="0.75" PointY="3.5" />
         <AssociationConnector Association="clinicaModel.cajadiario_ibfk_2" />
         <AssociationConnector Association="clinicaModel.cajamov_ibfk_2" />
-        <AssociationConnector Association="clinicaModel.fk_medico_persona1" />
         <AssociationConnector Association="clinicaModel.usuario_ibfk_1" />
-        <EntityTypeShape EntityType="clinicaModel.especialidad" Width="1.5" PointX="7.375" PointY="8.75" />
+        <EntityTypeShape EntityType="clinicaModel.especialidad" Width="1.5" PointX="5.75" PointY="10.75" />
+        <EntityTypeShape EntityType="clinicaModel.medico" Width="1.5" PointX="8" PointY="9" />
+        <AssociationConnector Association="clinicaModel.medico_ibfk_2" />
+        <AssociationConnector Association="clinicaModel.fk_programacion_medico1" />
+        <AssociationConnector Association="clinicaModel.medico_ibfk_1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

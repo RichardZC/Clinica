@@ -118,12 +118,12 @@
           </Key>
           <Property Name="MedicoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PersonaId" Type="int" Nullable="false" />
-          <Property Name="Especialidad" Type="varchar" MaxLength="120" Nullable="false" />
-          <Property Name="TiempoConsulta" Type="varchar" MaxLength="45" Nullable="false" />
-          <Property Name="NumeroColegio" Type="varchar" MaxLength="60" Nullable="false" />
-          <Property Name="FechaColegiacion" Type="date" Nullable="false" />
-          <Property Name="TituloProfesional" Type="varchar" MaxLength="120" Nullable="false" />
-          <Property Name="Universidad" Type="varchar" MaxLength="120" Nullable="false" />
+          <Property Name="EspecialidadId" Type="int" Nullable="false" />
+          <Property Name="NumeroColegio" Type="varchar" MaxLength="60" />
+          <Property Name="FechaColegiacion" Type="date" />
+          <Property Name="TituloProfesional" Type="varchar" MaxLength="120" />
+          <Property Name="Universidad" Type="varchar" MaxLength="120" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="menu">
           <Key>
@@ -354,18 +354,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_medico_persona1">
-          <End Role="persona" Type="Self.persona" Multiplicity="1" />
-          <End Role="medico" Type="Self.medico" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="persona">
-              <PropertyRef Name="PersonaId" />
-            </Principal>
-            <Dependent Role="medico">
-              <PropertyRef Name="PersonaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_programacion_consultorio1">
           <End Role="consultorio" Type="Self.consultorio" Multiplicity="1" />
           <End Role="programacion" Type="Self.programacion" Multiplicity="*" />
@@ -387,6 +375,30 @@
             </Principal>
             <Dependent Role="programacion">
               <PropertyRef Name="MedicoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="medico_ibfk_1">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="medico" Type="Self.medico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="PersonaId" />
+            </Principal>
+            <Dependent Role="medico">
+              <PropertyRef Name="PersonaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="medico_ibfk_2">
+          <End Role="especialidad" Type="Self.especialidad" Multiplicity="1" />
+          <End Role="medico" Type="Self.medico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="especialidad">
+              <PropertyRef Name="EspecialidadId" />
+            </Principal>
+            <Dependent Role="medico">
+              <PropertyRef Name="EspecialidadId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -552,10 +564,6 @@
             <End Role="oficina" EntitySet="oficina" />
             <End Role="conceptopago" EntitySet="conceptopago" />
           </AssociationSet>
-          <AssociationSet Name="fk_medico_persona1" Association="Self.fk_medico_persona1">
-            <End Role="persona" EntitySet="persona" />
-            <End Role="medico" EntitySet="medico" />
-          </AssociationSet>
           <AssociationSet Name="fk_programacion_consultorio1" Association="Self.fk_programacion_consultorio1">
             <End Role="consultorio" EntitySet="consultorio" />
             <End Role="programacion" EntitySet="programacion" />
@@ -563,6 +571,14 @@
           <AssociationSet Name="fk_programacion_medico1" Association="Self.fk_programacion_medico1">
             <End Role="medico" EntitySet="medico" />
             <End Role="programacion" EntitySet="programacion" />
+          </AssociationSet>
+          <AssociationSet Name="medico_ibfk_1" Association="Self.medico_ibfk_1">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="medico" EntitySet="medico" />
+          </AssociationSet>
+          <AssociationSet Name="medico_ibfk_2" Association="Self.medico_ibfk_2">
+            <End Role="especialidad" EntitySet="especialidad" />
+            <End Role="medico" EntitySet="medico" />
           </AssociationSet>
           <AssociationSet Name="modelo_ibfk_1" Association="Self.modelo_ibfk_1">
             <End Role="marca" EntitySet="marca" />
@@ -1090,11 +1106,6 @@
             <End Role="consultorio" EntitySet="consultorio" />
             <End Role="programacion" EntitySet="programacion" />
           </AssociationSet>
-          <EntitySet Name="medico" EntityType="clinicaModel.medico" />
-          <AssociationSet Name="fk_programacion_medico1" Association="clinicaModel.fk_programacion_medico1">
-            <End Role="medico" EntitySet="medico" />
-            <End Role="programacion" EntitySet="programacion" />
-          </AssociationSet>
           <EntitySet Name="persona" EntityType="clinicaModel.persona" />
           <AssociationSet Name="cajadiario_ibfk_2" Association="clinicaModel.cajadiario_ibfk_2">
             <End Role="persona" EntitySet="persona" />
@@ -1104,15 +1115,24 @@
             <End Role="persona" EntitySet="persona" />
             <End Role="cajamov" EntitySet="cajamov" />
           </AssociationSet>
-          <AssociationSet Name="fk_medico_persona1" Association="clinicaModel.fk_medico_persona1">
-            <End Role="persona" EntitySet="persona" />
-            <End Role="medico" EntitySet="medico" />
-          </AssociationSet>
           <AssociationSet Name="usuario_ibfk_1" Association="clinicaModel.usuario_ibfk_1">
             <End Role="persona" EntitySet="persona" />
             <End Role="usuario" EntitySet="usuario" />
           </AssociationSet>
           <EntitySet Name="especialidad" EntityType="clinicaModel.especialidad" />
+          <EntitySet Name="medico" EntityType="clinicaModel.medico" />
+          <AssociationSet Name="medico_ibfk_2" Association="clinicaModel.medico_ibfk_2">
+            <End Role="especialidad" EntitySet="especialidad" />
+            <End Role="medico" EntitySet="medico" />
+          </AssociationSet>
+          <AssociationSet Name="fk_programacion_medico1" Association="clinicaModel.fk_programacion_medico1">
+            <End Role="medico" EntitySet="medico" />
+            <End Role="programacion" EntitySet="programacion" />
+          </AssociationSet>
+          <AssociationSet Name="medico_ibfk_1" Association="clinicaModel.medico_ibfk_1">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="medico" EntitySet="medico" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="consultorio">
           <Key>
@@ -1134,33 +1154,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="medico">
-          <Key>
-            <PropertyRef Name="MedicoId" />
-          </Key>
-          <Property Name="MedicoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PersonaId" Type="Int32" Nullable="false" />
-          <Property Name="Especialidad" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="false" />
-          <Property Name="TiempoConsulta" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="NumeroColegio" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="FechaColegiacion" Type="DateTime" Nullable="false" />
-          <Property Name="TituloProfesional" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="false" />
-          <Property Name="Universidad" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="programacion" Relationship="clinicaModel.fk_programacion_medico1" FromRole="medico" ToRole="programacion" />
-          <NavigationProperty Name="persona" Relationship="clinicaModel.fk_medico_persona1" FromRole="medico" ToRole="persona" />
-        </EntityType>
-        <Association Name="fk_programacion_medico1">
-          <End Type="clinicaModel.medico" Role="medico" Multiplicity="1" />
-          <End Type="clinicaModel.programacion" Role="programacion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="medico">
-              <PropertyRef Name="MedicoId" />
-            </Principal>
-            <Dependent Role="programacion">
-              <PropertyRef Name="MedicoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="persona">
           <Key>
             <PropertyRef Name="PersonaId" />
@@ -1179,8 +1172,8 @@
           <Property Name="Referencia" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="cajadiario" Relationship="clinicaModel.cajadiario_ibfk_2" FromRole="persona" ToRole="cajadiario" />
           <NavigationProperty Name="cajamov" Relationship="clinicaModel.cajamov_ibfk_2" FromRole="persona" ToRole="cajamov" />
-          <NavigationProperty Name="medico" Relationship="clinicaModel.fk_medico_persona1" FromRole="persona" ToRole="medico" />
           <NavigationProperty Name="usuario" Relationship="clinicaModel.usuario_ibfk_1" FromRole="persona" ToRole="usuario" />
+          <NavigationProperty Name="medico" Relationship="clinicaModel.medico_ibfk_1" FromRole="persona" ToRole="medico" />
         </EntityType>
         <Association Name="cajadiario_ibfk_2">
           <End Type="clinicaModel.persona" Role="persona" Multiplicity="0..1" />
@@ -1206,18 +1199,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_medico_persona1">
-          <End Type="clinicaModel.persona" Role="persona" Multiplicity="1" />
-          <End Type="clinicaModel.medico" Role="medico" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="persona">
-              <PropertyRef Name="PersonaId" />
-            </Principal>
-            <Dependent Role="medico">
-              <PropertyRef Name="PersonaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="usuario_ibfk_1">
           <End Type="clinicaModel.persona" Role="persona" Multiplicity="0..1" />
           <End Type="clinicaModel.usuario" Role="usuario" Multiplicity="*" />
@@ -1236,7 +1217,60 @@
           </Key>
           <Property Name="EspecialidadId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="medico" Relationship="clinicaModel.medico_ibfk_2" FromRole="especialidad" ToRole="medico" />
         </EntityType>
+        <EntityType Name="medico">
+          <Key>
+            <PropertyRef Name="MedicoId" />
+          </Key>
+          <Property Name="MedicoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonaId" Type="Int32" Nullable="false" />
+          <Property Name="EspecialidadId" Type="Int32" Nullable="false" />
+          <Property Name="NumeroColegio" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="FechaColegiacion" Type="DateTime" />
+          <Property Name="TituloProfesional" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="Universidad" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="especialidad" Relationship="clinicaModel.medico_ibfk_2" FromRole="medico" ToRole="especialidad" />
+          <NavigationProperty Name="programacion" Relationship="clinicaModel.fk_programacion_medico1" FromRole="medico" ToRole="programacion" />
+          <NavigationProperty Name="persona" Relationship="clinicaModel.medico_ibfk_1" FromRole="medico" ToRole="persona" />
+        </EntityType>
+        <Association Name="medico_ibfk_2">
+          <End Type="clinicaModel.especialidad" Role="especialidad" Multiplicity="1" />
+          <End Type="clinicaModel.medico" Role="medico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="especialidad">
+              <PropertyRef Name="EspecialidadId" />
+            </Principal>
+            <Dependent Role="medico">
+              <PropertyRef Name="EspecialidadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_programacion_medico1">
+          <End Type="clinicaModel.medico" Role="medico" Multiplicity="1" />
+          <End Type="clinicaModel.programacion" Role="programacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medico">
+              <PropertyRef Name="MedicoId" />
+            </Principal>
+            <Dependent Role="programacion">
+              <PropertyRef Name="MedicoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="medico_ibfk_1">
+          <End Type="clinicaModel.persona" Role="persona" Multiplicity="1" />
+          <End Type="clinicaModel.medico" Role="medico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="PersonaId" />
+            </Principal>
+            <Dependent Role="medico">
+              <PropertyRef Name="PersonaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1441,20 +1475,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="medico">
-            <EntityTypeMapping TypeName="clinicaModel.medico">
-              <MappingFragment StoreEntitySet="medico">
-                <ScalarProperty Name="Universidad" ColumnName="Universidad" />
-                <ScalarProperty Name="TituloProfesional" ColumnName="TituloProfesional" />
-                <ScalarProperty Name="FechaColegiacion" ColumnName="FechaColegiacion" />
-                <ScalarProperty Name="NumeroColegio" ColumnName="NumeroColegio" />
-                <ScalarProperty Name="TiempoConsulta" ColumnName="TiempoConsulta" />
-                <ScalarProperty Name="Especialidad" ColumnName="Especialidad" />
-                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
-                <ScalarProperty Name="MedicoId" ColumnName="MedicoId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="persona">
             <EntityTypeMapping TypeName="clinicaModel.persona">
               <MappingFragment StoreEntitySet="persona">
@@ -1478,6 +1498,20 @@
               <MappingFragment StoreEntitySet="especialidad">
                 <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
                 <ScalarProperty Name="EspecialidadId" ColumnName="EspecialidadId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="medico">
+            <EntityTypeMapping TypeName="clinicaModel.medico">
+              <MappingFragment StoreEntitySet="medico">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Universidad" ColumnName="Universidad" />
+                <ScalarProperty Name="TituloProfesional" ColumnName="TituloProfesional" />
+                <ScalarProperty Name="FechaColegiacion" ColumnName="FechaColegiacion" />
+                <ScalarProperty Name="NumeroColegio" ColumnName="NumeroColegio" />
+                <ScalarProperty Name="EspecialidadId" ColumnName="EspecialidadId" />
+                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
+                <ScalarProperty Name="MedicoId" ColumnName="MedicoId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -31,19 +31,21 @@ public partial class medico
 
     public int PersonaId { get; set; }
 
-    public string Especialidad { get; set; }
-
-    public string TiempoConsulta { get; set; }
+    public int EspecialidadId { get; set; }
 
     public string NumeroColegio { get; set; }
 
-    public System.DateTime FechaColegiacion { get; set; }
+    public Nullable<System.DateTime> FechaColegiacion { get; set; }
 
     public string TituloProfesional { get; set; }
 
     public string Universidad { get; set; }
 
+    public bool Estado { get; set; }
 
+
+
+    public virtual especialidad especialidad { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 

@@ -58,11 +58,11 @@ namespace Web.Controllers
             }
             return Json(0);
         }
-        public JsonResult GetPersona(string term)
-        {
+        //public JsonResult GetPersona(string term)
+        //{
             
-            return Json(ComunBL.BuscarPersonaAutoComplete(term), JsonRequestBehavior.AllowGet);      
-        }
+        //    return Json(ComunBL.BuscarPersonaAutoComplete(term), JsonRequestBehavior.AllowGet);      
+        //}
 
     }
 }
