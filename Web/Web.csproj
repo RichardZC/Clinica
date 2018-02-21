@@ -185,6 +185,7 @@
     <Content Include="images\user-bg.jpg" />
     <Content Include="images\user-profile-bg.jpg" />
     <Content Include="js\app.js" />
+    <Content Include="js\axios.min.js" />
     <Content Include="js\custom-script.js" />
     <Content Include="js\ini.js" />
     <Content Include="js\jquery.autocomplete.min.js" />
@@ -262,6 +263,7 @@
     <Content Include="js\plugins\sweetalert\dist\facebook.css" />
     <Content Include="js\plugins\sweetalert\dist\sweetalert.css" />
     <Content Include="js\plugins\sweetalert\dist\sweetalert.min.js" />
+    <Content Include="js\vue-select.js" />
     <Content Include="js\vue.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

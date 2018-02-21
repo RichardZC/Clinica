@@ -20,12 +20,12 @@ namespace BL
 
                     if (per.PersonaId > 0)
                     {
+                        PersonaBL.Guardar(per);
                         MedicoBL.Guardar(med);
                     }
                     else
                     {
                         PersonaBL.Guardar(per);
-                        // se hace una consulta a la bd para consultar el id de la persona guardada
                         med.PersonaId = PersonaBL.mostrarIdMedico(per.DNI).PersonaId;
                         MedicoBL.Guardar(med);
 
@@ -41,6 +41,20 @@ namespace BL
             }
         }
 
-        
+        public static List<persona> listarMedico()
+        {
+            List<persona> listaMedico = new List<persona>();
+            using (var db = new clinicaEntities())
+            {
+                db.Configuration.ProxyCreationEnabled = false;
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ValidateOnSaveEnabled = false;
+
+                listaMedico = (from a in db.persona
+                             join b in db.medico on a.PersonaId equals b.PersonaId
+                             select a ).ToList();
+            }
+            return listaMedico;
+        }
     }
 }

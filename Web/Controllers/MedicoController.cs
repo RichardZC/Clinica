@@ -25,6 +25,7 @@ namespace Web.Controllers
 
         public ActionResult Mantener(int id, string href)
         {
+            ViewBag.cboEspecialidad = new SelectList(EspecialidadBL.Listar(), "EspecialidadId", "NombreEspecialidad");
             var med = new medico();
             if (id > 0)
                 med = MedicoBL.Obtener(
@@ -58,6 +59,11 @@ namespace Web.Controllers
             }
 
             return Json(rm);
+        }
+
+        public JsonResult getMedico()
+        {
+            return Json(BL.MedicoBL.listarMedico(), JsonRequestBehavior.AllowGet);
         }
 
 

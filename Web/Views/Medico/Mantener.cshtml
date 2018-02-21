@@ -56,8 +56,10 @@
 
                                 <div class="input-field col s12 m4 l4">
                                     @*<i class="mdi-action-picture-in-picture prefix"></i>*@
-                                    <label class="active" for="Nombres">ESPECIALIDAD*</label>
-                                    <v-select v-model="selectedMedico" label="NombreEspecialidad" :options="especialidades"></v-select>
+                                    @*<label class="active" for="Nombres">ESPECIALIDAD*</label>
+                                    <v-select v-model="selectedMedico" label="NombreEspecialidad" :options="especialidades"></v-select>*@
+                                    @Html.DropDownList("cboEspecialidad")
+                                    <label for="Medico_EspecialidadId">Especialidad</label>
 
                                 </div>
 

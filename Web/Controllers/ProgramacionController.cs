@@ -14,6 +14,10 @@ namespace Web.Controllers
         // GET: Programacion
         public ActionResult Index()
         {
+            ViewBag.cboEspecialidad = new SelectList(MedicoBL.Listar(), "MedicoId", "Especialidad");
+            ViewBag.cboPersona = new SelectList(MedicoBL.listarMedico(), "PersonaId", "NombreCompleto");
+            ViewBag.cboConsultorio = new SelectList(ConsultorioBL.Listar(), "ConsultorioId", "Denominacion");
+            //ViewBag.cboModelo = ModeloBL.Listar();
             return View();
         }
 
@@ -22,12 +26,10 @@ namespace Web.Controllers
         public JsonResult GuardarProgramacion(programacion progr, string href)
         {
             var rm = new ResponseModel();
-            //per.NombreCompleto = per.Nombres + " " + per.Paterno + " " + per.Materno;
+            
             try
             {
-                //MedicoBL.guardarMedico(med, per);
                 ProgramacionBL.Guardar(progr);
-
                 rm.SetResponse(true);
                 if (string.IsNullOrEmpty(href))
                     rm.href = Url.Action("Index", "Persona");
