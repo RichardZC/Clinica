@@ -79,7 +79,7 @@ INSERT INTO menu VALUES (22, 'Atencion', 'Atencion', null, 0, 20);
 INSERT INTO menu VALUES (23, 'Topico', 'Topico', 	null, 0, 20);
 INSERT INTO menu VALUES (24, 'Reportes', 'Informe', 		null, 0, 20);
 INSERT INTO menu VALUES (25, 'Medico', 'Medico', 		null, 0, 20);
-INSERT INTO menu VALUES (26, 'Consultorio', 'Consultorio', 		null, 0, 20);
+INSERT INTO menu VALUES (26, 'Configuracion', 'Config', 		null, 0, 20);
 INSERT INTO menu VALUES (27, 'Programacion', 'Programacion', 		null, 0, 20);
 
 

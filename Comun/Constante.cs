@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace Comun
 {
-    public class App
+    public class Constante
     {
-        
+       public enum PERSONA
+        {
+            CLIENTE = 0,
+            MEDICO = 1,
+            PROVEEDOR = 2
+        }
     }
 }

@@ -1,13 +1,10 @@
-﻿<!--start container-->
-<main>
+﻿<main>
     <div class="container">
-
         <div id="mail-app" class="section">
             <div class="row">
                 <div class="col s12">
                     <nav class="blue darken-2">
                         <div class="nav-wrapper">
-
                             <div class="left col s3 m3 l3">
                                 <ul>
                                     <li>
@@ -17,7 +14,6 @@
                                         <a href="#!" class="email-type">MEDICOS</a>
                                     </li>
                                 </ul>
-
                             </div>
                             <div class="col s9 m9 l9 hide-on-med-and-down">
                                 <form class="row">
@@ -33,18 +29,15 @@
                     </nav>
                 </div>
                 <div class="col s12" id="listaMedicos">
-
-
                     <div id="email-list" class="col s12 m12 l12 card-panel z-depth-1">
-
                         <ul class="collection">
-                            <li  v-for="(medico,index) in medico" class="collection-item avatar  {<text>selected</text>}"
-                                ondblclick="MostrarEditar({{medico.Especialidad}});"
+                            <li  v-for="(medico,index) in items" class="collection-item avatar  {<text>selected</text>}"
+                                v-on:dblclick="Editar( medico.MedicoId )"
                                 onclick="$(this).addClass('selected').siblings().removeClass('selected');">
-                                <span class="circle light-blue">L</span>
-                                <span class="email-title">{{medico.TituloProfesional}}</span>
-                                <p class="truncate grey-text ultra-small">{{medico.TituloProfesional}}</p>
-                                <a class="secondary-content email-time"><span class="blue-text ultra-small">DNI {{medico.Especialidad}}</span></a>
+                                <span class="circle" v-bind:class="{'light-blue':medico.Estado, 'red': !medico.Estado}">{{medico.Nombres.substring(0,1)}}</span>
+                                <span class="email-title">{{medico.DNI}} {{medico.Nombres}} </span>
+                                <p class="truncate grey-text ultra-small">{{medico.Titulo}}</p>
+                                <a class="secondary-content email-time"><span class="blue-text ultra-small">{{medico.Celular}} - {{medico.Correo}}</span></a>
                             </li>
                         </ul>
 
@@ -54,32 +47,30 @@
                             </a>
                         </div>
                     </div>
-                </div>
-                
+                </div>                
             </div>
-
-
-
         </div>
     </div>
 </main>
-<!--end container-->
 
 @section scripts{
     <script>
         var vmedico = new Vue({
             el: 'main',
             data: {
-                medico: {}
+                items: {}
             },
-            mounted: function () {
+            created: function () {
                 var self = this;
-                $.get('@Url.Action("ObtenerMedico", "Medico")', {}, function (d) {
-                    self.medico = d;
+                $.get('@Url.Action("Listar", "Medico")', {}, function (d) {
+                    self.items = d;
                 });
             },
+            methods: {
+                Editar:function(id){
+                    window.location = '@Url.Action("Mantener", "Medico")' + '/' + id;
+                }
+            }
         })
-
-
     </script>
 }

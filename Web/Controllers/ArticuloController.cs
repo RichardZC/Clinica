@@ -30,23 +30,24 @@ namespace Web.Controllers
 
             if (string.IsNullOrEmpty(href)) href = string.Empty;
             ViewBag.href = href;
-            ViewBag.cboTipoArticulo = new SelectList(TipoArticuloBL.Listar(), "TipoArticuloId", "Denominacion") ;
+            ViewBag.cboTipoArticulo = TipoArticuloBL.Listar();
             ViewBag.cboModelo = ModeloBL.Listar();
 
             return View(per);
         }
 
         [HttpPost]
-        public JsonResult Guardar(persona per, string href)
+        public JsonResult Guardar(articulo art, string href, string Estado, string IndServicio)
         {
             var rm = new ResponseModel();
-            per.NombreCompleto = per.Nombres + " " + per.Paterno + " " + per.Materno;
             try
             {
-                PersonaBL.Guardar(per);
+                if (!string.IsNullOrEmpty(Estado)) art.Estado = true;
+                if (!string.IsNullOrEmpty(IndServicio)) art.IndServicio = true;
+                ArticuloBL.Guardar(art);
                 rm.SetResponse(true);
                 if (string.IsNullOrEmpty(href))
-                    rm.href = Url.Action("Index", "Persona");
+                    rm.href = Url.Action("Index", "Articulo");
                 else
                     rm.href = href;
             }

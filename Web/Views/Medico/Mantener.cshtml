@@ -1,29 +1,15 @@
-﻿<!--breadcrumbs start-->
-<main>
-    <div id="breadcrumbs-wrapper">
-        <!-- Search for small screen -->
-        <div class="header-search-wrapper grey hide-on-large-only">
-            <i class="mdi-action-search active"></i>
-            <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize">
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col s12 m12 l12">
-                    <h5 class="breadcrumbs-title">GESTIÓN DE MÉDICO</h5>
-                    <ol class="breadcrumbs">
-                        <li><a href='@Url.Action("Index","Home")'>Inicio</a></li>
-                        <li><a href="@Url.Action("Index","Persona")">Personas</a></li>
-                        <li class="active">Mantenimiento</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
+﻿@model BE.medico
+<!--breadcrumbs start-->
+<div id="breadcrumbs-wrapper">
+    <!-- Search for small screen -->
+    <div class="header-search-wrapper grey hide-on-large-only">
+        <i class="mdi-action-search active"></i>
+        <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize">
     </div>
-    <!--breadcrumbs end-->
-
-    <div id="default-validation" class="section">
+    <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
+<<<<<<< HEAD
                 <div class="card-panel">
                     <h4 class="header2">DATOS PERSONALES</h4>
                     <div class="row">
@@ -107,130 +93,91 @@
                                     </button>
                                 </div>
 
+=======
+                <h5 class="breadcrumbs-title">GESTIÓN DE MEDICOS</h5>
+                <ol class="breadcrumbs">
+                    <li><a href='@Url.Action("Index","Home")'>Inicio</a></li>
+                    <li><a href="@Url.Action("Index","Medico")">Medicos</a></li>
+                    <li class="active">Mantenimiento</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs end-->
+
+<div id="default-validation" class="section">
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <div class="card-panel">
+                @*<h4 class="header2">Datos personales</h4>*@
+                <div class="row">
+                    <form id="formValidate" class="validar right-alert" method="post" action='@Url.Action("Guardar","Medico")'>
+                        
+                        <input type="hidden" name="MedicoId" value="@Model.MedicoId" />
+                        <div class="row">                            
+                            <div class="input-field col s11  m5 l5">
+                                <input type="hidden" id="PersonaId" name="PersonaId" value="@Model.PersonaId" />
+                                <i class="mdi-action-search prefix"></i>
+                                <input id="autocompletar" type="text" placeholder="DNI/Apellidos" 
+                                       data-url='@Url.Action("ListarPersonas","Comun")'
+                                       data-seleccion="PersonaId" value="@(Model.persona==null?"": Model.persona.NombreCompleto)" 
+                                       @if ( Model.MedicoId==0 ){ <text> autofocus </text>} >
+                                <label class="right" for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Persona</label>
+                                
                             </div>
-                        </form>
+                            <div class="input-field col s1 m1 l1">                               
+                                <a href='@Url.Action("Mantener", "Persona",new {id=0,href= Request.Url.AbsoluteUri })' class="btn btn-flat teal text white-text tooltipped " style="padding:8px; height:auto;line-height:25px" data-tooltip="Nueva Persona"><i class="mdi-social-person-add"></i></a>
+>>>>>>> 45dfb445e923491f43e086cbdaad52dc38153f6c
+                            </div>
 
-
-
-
-
-
-
-
-
-
-
-                    </div>
+                            <div class="input-field col s12 m6 l6">
+                                    @Html.DropDownListFor(x => x.EspecialidadId, (IEnumerable<SelectListItem>)ViewBag.cboEspecialidad)
+                                    <label for="EspecialidadId">Especialidad</label>
+                            </div>
+                            <div class="input-field col s12 m3 l6">
+                                <i class="mdi-communication-email prefix"></i>
+                                <label for="Correo">Titulo Profesional</label>
+                                <input id="TituloProfesional" name="TituloProfesional" type="text" value="@Model.TituloProfesional">
+                            </div>
+                            <div class="input-field col s12 m6 l6">
+                                <i class="mdi-maps-pin-drop prefix"></i>
+                                <label for="Universidad">Universidad</label>
+                                <input id="Universidad" name="Universidad" type="text" value="@Model.Universidad">
+                            </div>
+                            <div class="input-field col s12 m3 l2">
+                                <i class="mdi-action-settings-cell prefix"></i>
+                                <label for="NumeroColegio">Nro. Colegio</label>
+                                <input id="NumeroColegio" name="NumeroColegio" type="text" value="@Model.NumeroColegio">
+                            </div>
+                            <div class="input-field col s6 m3 l2">
+                                <i class="mdi-notification-event-note prefix"></i>
+                                <label for="FechaColegiacion">Colegiacion</label>
+                                <input id="FechaColegiacion" name="FechaColegiacion" type="text" class="datepicker" value="@(Model.FechaColegiacion.HasValue ?Model.FechaColegiacion.Value.ToShortDateString():"")">
+                            </div>
+                           
+                           
+                            <div class="input-field col s6 ">
+                                <input type="checkbox" name="pEstado" class="filled-in" id="chkActivo" @if ( Model.Estado ) { <text> checked</text>} />
+                                <label for="chkActivo">Activo</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
+                                    Guardar
+                                    <i class="mdi-action-done right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-
         </div>
-
-
     </div>
-</main>
+</div>
 @section scripts{
-    <script>
-        function pulsar(e) {
-            tecla = (document.all) ? e.keyCode : e.which;
-            return (tecla != 13);
-        }
-    </script>
-
     <script type="text/javascript">
-        Vue.component("v-select", VueSelect.VueSelect);
         $(function () {
             $(".datepicker").pickadate({ selectMonths: !0, selectYears: 50, format: 'dd/mm/yyyy' })
         });
-
-
-        var vmedico = new Vue({
-            el: 'main',
-            data: {
-                selectedMedico:'',
-                medico: {},
-                persona: {},
-                estadoPersona: false,
-                especialidades: [],
-            },
-
-            
-            mounted: function () {
-                this.$nextTick(function () {
-                    axios.get('/clinica/Especialidad/Obtenerespecialidad', {
-                    })
-                .then(response => {
-                    this.especialidades = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-                }),
-                this.medico.FechaColegio = "09/02/2018";
-                @*$.get('@Url.Action("Obtenerespecialidad", "Especialidad")', {}, function (d) {
-                    self.especialidades = d;
-                });*@
-            },
-
-
-            methods: {
-
-                guardarMedico: function () {
-                    if (this.persona.PersonaId > 0) {
-                        this.medico.PersonaId = this.persona.PersonaId;
-                    }
-                    else {
-                        this.medico.PersonaId = 0;
-                    }
-                    this.medico.MedicoId = 0;
-
-                    this.medico.Especialidad = "xxxxxxxx",
-                    this.medico.TiempoConsulta = "xxxxxxx",
-                    //alert(JSON.stringify(this.medico));
-                    axios.post('/clinica/Medico/GuardarMedico', {
-                        med: this.medico,
-                        per: this.persona,
-                        href: "",
-                    })
-                      .then(response => {
-                          console.log(response);
-                      })
-                      .catch(function (error) {
-                          console.log(error);
-                      });
-
-
-                },
-
-                sendToServer: function () {
-                    var dni2 = this.persona.DNI;
-                    axios.get('/clinica/Persona/ObtenerPersona', {
-                        params: {
-                            dni: this.persona.DNI,
-                        },
-                    })
-                        .then(response => {
-                            this.estadoPersona = true;
-                            if (response.data) {
-                                this.persona = response.data;
-                                $('#numeroColegio').focus();
-                            }
-                            else {
-                                this.persona = {};
-                                this.persona.PersonaId = 0;
-                                this.persona.DNI = dni2;
-                            }
-                        })
-                         .catch(function (error) {
-                             console.log(error);
-                         });
-                }
-
-
-            },
-
-        })
-
-
     </script>
 }
