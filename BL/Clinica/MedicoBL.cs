@@ -10,7 +10,6 @@ namespace BL
 {
     public class MedicoBL : Repositorio<medico>
     {
-<<<<<<< HEAD
         public static bool guardarMedico(medico med, persona per)
         {
 
@@ -57,9 +56,6 @@ namespace BL
             }
             return listaMedico;
         }
-=======
-        
-        
->>>>>>> 45dfb445e923491f43e086cbdaad52dc38153f6c
+
     }
 }

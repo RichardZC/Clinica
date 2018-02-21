@@ -9,91 +9,6 @@
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
-<<<<<<< HEAD
-                <div class="card-panel">
-                    <h4 class="header2">DATOS PERSONALES</h4>
-                    <div class="row">
-                        <form id="formValidate" class="validar" method="post">
-                            <input type="hidden" v-model="persona.PersonaId" name="PersonaId" />
-                            <div class="row">
-                                <div class="input-field col s12 m4 l3">
-                                    <i class="mdi-action-picture-in-picture prefix"></i>
-                                    <label>DNI*</label>
-                                    <input onkeypress="return pulsar(event)" v-model="persona.DNI" type="number" minlength="8" maxlength="8" v-on:keyup.enter="sendToServer" required>
-                                    @*<button v-on:click="sendToServer">...</button>*@
-                                </div>
-                                <div v-if="estadoPersona == true" id="persona">
-                                    <div class="input-field col s12 m4 l3">
-                                        <i class="mdi-action-account-circle prefix"></i>
-                                        <label class="active" for="Nombres">Nombres*</label>
-                                        <input type="text" v-model="persona.Nombres" required placeholder="">
-                                    </div>
-                                    <div class="input-field col s12 m4 l3">
-                                        @*<i class="mdi-action-account-circle prefix"></i>*@
-                                        <label class="active" for="Paterno">Ape. Paterno*</label>
-                                        <input type="text" required v-model="persona.Paterno" placeholder="">
-                                    </div>
-                                    <div class="input-field col s12 m4 l3">
-                                        @*<i class="mdi-action-account-circle prefix"></i>*@
-                                        <label class="active" for="Materno">Ape. Materno*</label>
-                                        <input type="text" v-model="persona.Materno" placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="input-field col s12 m4 l4">
-                                    @*<i class="mdi-action-picture-in-picture prefix"></i>*@
-                                    @*<label class="active" for="Nombres">ESPECIALIDAD*</label>
-                                    <v-select v-model="selectedMedico" label="NombreEspecialidad" :options="especialidades"></v-select>*@
-                                    @Html.DropDownList("cboEspecialidad")
-                                    <label for="Medico_EspecialidadId">Especialidad</label>
-
-                                </div>
-
-                                <div class="input-field col s12 m4 l4">
-                                    @*<i class="mdi-action-account-circle prefix"></i>*@
-                                    <label class="active" for="Nombres">TIEMPO CONSULTA*</label>
-                                    <select @*v-model="TiempoSelected"*@>
-                                        <option value="" disabled selected>Choose your option</option>
-                                        <option value="15">15 minutos</option>
-                                        <option value="25">25 minutos</option>
-                                        <option value="30">30 minutos</option>
-                                    </select>
-
-                                </div>
-                                <div class="input-field col s12 m4 l4">
-                                    @*<i class="mdi-action-account-circle prefix"></i>*@
-                                    <label for="numeroColegio">NÚMERO COLEGIO*</label>
-                                    <input v-model="medico.NumeroColegio" id="numeroColegio" name="numeroColegio" type="text">
-
-                                </div>
-                                <div class="input-field col s12 m4 l4">
-                                    <i class="mdi-action-settings-cell prefix"></i>
-                                    <label for="Celular">TITULO PROFESIONAL</label>
-                                    <input v-model="medico.TituloProfesional" type="text" minlength="9">
-
-                                </div>
-                                <div class="input-field col s12 m4 l4">
-                                    <i class="mdi-communication-email prefix"></i>
-                                    <label for="Correo">UNIVERSIDAD</label>
-                                    <input v-model="medico.Universidad" type="text">
-
-                                </div>
-
-                                <div class="input-field col s1 m4 l4">
-                                    <i class="mdi-notification-event-note prefix"></i>
-                                    <label class="active" for="FechaColegio">FECHA COLEGIACIÓN*</label>
-                                    <input required v-model="medico.FechaColegio" type="text" class="datepicker" placeholder="">
-
-                                </div>
-
-                                <div class="input-field col s12 m3 l12">
-                                    <button v-on:click="guardarMedico" class="btn waves-effect waves-light right" @*type="submit"data-ajax="true"*@>
-                                        Guardar
-                                        <i class="mdi-action-done right"></i>
-                                    </button>
-                                </div>
-
-=======
                 <h5 class="breadcrumbs-title">GESTIÓN DE MEDICOS</h5>
                 <ol class="breadcrumbs">
                     <li><a href='@Url.Action("Index","Home")'>Inicio</a></li>
@@ -113,27 +28,26 @@
                 @*<h4 class="header2">Datos personales</h4>*@
                 <div class="row">
                     <form id="formValidate" class="validar right-alert" method="post" action='@Url.Action("Guardar","Medico")'>
-                        
+
                         <input type="hidden" name="MedicoId" value="@Model.MedicoId" />
-                        <div class="row">                            
+                        <div class="row">
                             <div class="input-field col s11  m5 l5">
                                 <input type="hidden" id="PersonaId" name="PersonaId" value="@Model.PersonaId" />
                                 <i class="mdi-action-search prefix"></i>
-                                <input id="autocompletar" type="text" placeholder="DNI/Apellidos" 
+                                <input id="autocompletar" type="text" placeholder="DNI/Apellidos"
                                        data-url='@Url.Action("ListarPersonas","Comun")'
-                                       data-seleccion="PersonaId" value="@(Model.persona==null?"": Model.persona.NombreCompleto)" 
-                                       @if ( Model.MedicoId==0 ){ <text> autofocus </text>} >
+                                       data-seleccion="PersonaId" value="@(Model.persona==null?"": Model.persona.NombreCompleto)"
+                                       @if (Model.MedicoId == 0) { <text> autofocus </text> }>
                                 <label class="right" for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Persona</label>
-                                
+
                             </div>
-                            <div class="input-field col s1 m1 l1">                               
+                            <div class="input-field col s1 m1 l1">
                                 <a href='@Url.Action("Mantener", "Persona",new {id=0,href= Request.Url.AbsoluteUri })' class="btn btn-flat teal text white-text tooltipped " style="padding:8px; height:auto;line-height:25px" data-tooltip="Nueva Persona"><i class="mdi-social-person-add"></i></a>
->>>>>>> 45dfb445e923491f43e086cbdaad52dc38153f6c
                             </div>
 
                             <div class="input-field col s12 m6 l6">
-                                    @Html.DropDownListFor(x => x.EspecialidadId, (IEnumerable<SelectListItem>)ViewBag.cboEspecialidad)
-                                    <label for="EspecialidadId">Especialidad</label>
+                                @Html.DropDownListFor(x => x.EspecialidadId, (IEnumerable<SelectListItem>)ViewBag.cboEspecialidad)
+                                <label for="EspecialidadId">Especialidad</label>
                             </div>
                             <div class="input-field col s12 m3 l6">
                                 <i class="mdi-communication-email prefix"></i>
@@ -155,10 +69,10 @@
                                 <label for="FechaColegiacion">Colegiacion</label>
                                 <input id="FechaColegiacion" name="FechaColegiacion" type="text" class="datepicker" value="@(Model.FechaColegiacion.HasValue ?Model.FechaColegiacion.Value.ToShortDateString():"")">
                             </div>
-                           
-                           
+
+
                             <div class="input-field col s6 ">
-                                <input type="checkbox" name="pEstado" class="filled-in" id="chkActivo" @if ( Model.Estado ) { <text> checked</text>} />
+                                <input type="checkbox" name="pEstado" class="filled-in" id="chkActivo" @if (Model.Estado) { <text> checked</text>} />
                                 <label for="chkActivo">Activo</label>
                             </div>
                             <div class="input-field col s12">
