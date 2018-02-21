@@ -27,7 +27,7 @@
             <div class="card-panel">
                 @*<h4 class="header2">Datos personales</h4>*@
                 <div class="row">
-                    <form id="formValidate" class="validar" method="post" action='@Url.Action("Guardar","Medico")'>
+                    <form id="formValidate" class="validar right-alert" method="post" action='@Url.Action("Guardar","Medico")'>
                         
                         <input type="hidden" name="MedicoId" value="@Model.MedicoId" />
                         <div class="row">                            
@@ -36,12 +36,13 @@
                                 <i class="mdi-action-search prefix"></i>
                                 <input id="autocompletar" type="text" placeholder="DNI/Apellidos" 
                                        data-url='@Url.Action("ListarPersonas","Comun")'
-                                       data-seleccion="PersonaId" value="@(Model.persona==null?"": Model.persona.NombreCompleto)">
-                                <label for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Persona</label>
+                                       data-seleccion="PersonaId" value="@(Model.persona==null?"": Model.persona.NombreCompleto)" 
+                                       @if ( Model.MedicoId==0 ){ <text> autofocus </text>} >
+                                <label class="right" for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Persona</label>
                                 
                             </div>
-                            <div class="input-field col s1 m1 l1">
-                                <a href='@Url.Action("Mantener", "Persona",new {id=0 })?href=' class="btn btn-flat teal text white-text tooltipped " style="padding:8px; height:auto;line-height:25px" data-tooltip="Nueva Persona"><i class="mdi-social-person-add"></i></a>
+                            <div class="input-field col s1 m1 l1">                               
+                                <a href='@Url.Action("Mantener", "Persona",new {id=0,href= Request.Url.AbsoluteUri })' class="btn btn-flat teal text white-text tooltipped " style="padding:8px; height:auto;line-height:25px" data-tooltip="Nueva Persona"><i class="mdi-social-person-add"></i></a>
                             </div>
 
                             <div class="input-field col s12 m6 l6">

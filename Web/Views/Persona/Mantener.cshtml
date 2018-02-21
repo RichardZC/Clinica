@@ -33,7 +33,7 @@
                             <div class="input-field col s12 m12 l2">
                                 <i class="mdi-action-search prefix"></i>
                                 <label for="DNI">DNI*</label>
-                                <input id="DNI" name="DNI" type="number" required minlength="8" maxlength="8" value="@Model.DNI">
+                                <input id="DNI" name="DNI" type="text" required minlength="8" value="@Model.DNI" autofocus>
                             </div>
                             <div class="input-field col s12  m4 l4">
                                 <i class="mdi-action-account-circle prefix"></i>
@@ -107,7 +107,10 @@
 @section scripts{
     <script type="text/javascript">
         $(function () {
-            $(".datepicker").pickadate({ selectMonths: !0, selectYears: 50, format: 'dd/mm/yyyy' })
+            $(".datepicker").pickadate({ selectMonths: !0, selectYears: 50, format: 'dd/mm/yyyy' });
+            $('#DNI').formatter({
+                'pattern': '{{99999999}}'
+            });
         });
     </script>
 }
