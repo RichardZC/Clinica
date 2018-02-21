@@ -265,14 +265,17 @@
                     </form>
 
 
-
+                    @{ 
+                        DateTime v2 = DateTime.Now; 
+                        int semana = System.Globalization.CultureInfo.CurrentUICulture.Calendar.GetWeekOfYear(v2, System.Globalization.CalendarWeekRule.FirstDay, v2.DayOfWeek);
+                    }
 
                     <div class="row">
                         <br /><br />
                         <div class="input-field col s6 m3 l3">
                             <i class="mdi-notification-event-note prefix"></i>
                             @*<label class="active" for="Semana">Semana</label>*@
-                            <input id="semana" name="Semana" type="week">
+                            <input id="semana" name="Semana" type="text" value="semana: @semana">
                         </div>
                         <br /><br /><br /><br /><br /><br />
                         <table class="bordered striped centered">
