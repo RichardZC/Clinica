@@ -1,232 +1,323 @@
-﻿@model BE.persona
+﻿@model BE.programacion
 <main>
 
     <div id="default-validation" class="section">
         <div class="row">
+
+
+
+
             <div class="col s12 m12 l12">
                 <div class="card-panel">
                     <h4 class="header2">Programación</h4>
+                    <form id="formValidate" class="validar right-alert" method="post" action='@Url.Action("Guardar", "Programacion")'>
+                        <input type="hidden" name="ProgramacionId" id="ProgramacionId" value="0" />
+
+                        <div class="row">
+
+                            <div class="input-field col s12 m4 l5">
+                                @Html.DropDownListFor(x => x.PersonaId, (IEnumerable<SelectListItem>)ViewBag.cboPersona)
+                                @*@Html.DropDownList("cboPersona")*@
+                                <label for="PersonaId">Nombre</label>
+                            </div>
+
+                            <div class="input-field col s12 m4 l4">
+                                @Html.DropDownListFor(x => x.ConsultorioId, (IEnumerable<SelectListItem>)ViewBag.cboConsultorio)
+                                @*@Html.DropDownList("cboConsultorio")*@
+                                <label for="ConsultorioId">Consultorio</label>
+                            </div>
+                            <div class="input-field col s6 m3 l3">
+                                <i class="mdi-notification-event-note prefix"></i>
+                                <label for="FechaLimite">Fecha Limite</label>
+                                <input id="FechaLimite" name="FechaLimite" type="text" class="datepicker" value="@(Model.FechaLimite.HasValue ? Model.FechaLimite.Value.ToShortDateString() : "")" />
+                            </div>
+                            <div class="input-field col s6 m3 l2">
+                                <input type="checkbox" name="pEstado" class="filled-in" id="chkActivo" />
+                                <label for="chkActivo">Activo</label>
+                            </div>
+                            <div class="input-field col s6 m3 l2">
+                                <input type="checkbox" name="pRepite" class="filled-in" id="chkRepite" />
+                                <label for="chkRepite">Se repite?</label>
+                            </div>
+                            <div class="input-field col s6 m3 l2">
+                                <!-- Modal Trigger -->
+                                <a class="waves-effect waves-light btn modal-trigger" href="#modal1">HORARIO</a>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
+                                    Guardar
+                                    <i class="mdi-action-done right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+
+                        <div id="modal1" class="modal modal-fixed-footer">
+                            <div class="modal-content">
+                                <div class="row">
+                                    <div class="input-field col s12 m4 l2">
+                                        <input v-model="programacion.Lunes" id="chbLunes" type="checkbox" />
+                                        <label for="chbLunes">Lunes</label>
+                                        <input type="hidden" value="-" name="Lunes" id="Lunes" />
+
+                                    </div>
+                                    <div v-show="programacion.Lunes">
+                                        <div class="input-field col s12 m4 l5">
+                                            <select id="lunesI" name="Lunes">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option v-for="option in options" v-bind:value="option.value">
+                                                    {{ option.text }}
+                                                </option>
+                                            </select>
+                                            <label>Hora Inicio</label>
+                                        </div>
+                                        <div class="input-field col s12 m4 l5">
+                                            <select id="lunesF">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option v-for="option in options" v-bind:value="option.value">
+                                                    {{ option.text }}
+                                                </option>
+                                            </select>
+                                            <label>Hora Final</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="input-field col s12 m4 l2">
+                                        <input v-model="programacion.Martes" id="chbMartes" type="checkbox" />
+                                        <label for="chbMartes">Martes</label>
+                                        <input type="hidden" name="Martes" id="Martes" value="-" />
+                                    </div>
+                                    <div v-show="programacion.Martes">
+                                        <div class="input-field col s12 m4 l5">
+                                            <select id="martesI">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option v-for="option in options" v-bind:value="option.value">
+                                                    {{ option.text }}
+                                                </option>
+                                            </select>
+                                            <label>Hora Inicio</label>
+                                        </div>
+                                        <div class="input-field col s12 m4 l5">
+                                            <select id="martesF">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option v-for="option in options" v-bind:value="option.value">
+                                                    {{ option.text }}
+                                                </option>
+                                            </select>
+                                            <label>Hora Final</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="input-field col s12 m4 l2">
+                                        <input v-model="programacion.Miercoles" id="chbMiercoles" type="checkbox" />
+                                        <label for="chbMiercoles">Miércoles</label>
+                                        <input type="hidden" name="Miercoles" id="Miercoles" value="-" />
+                                    </div>
+                                    <div v-show="programacion.Miercoles">
+                                        <div class="input-field col s12 m4 l5">
+                                            <select id="miercolesI">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option v-for="option in options" v-bind:value="option.value">
+                                                    {{ option.text }}
+                                                </option>
+                                            </select>
+                                            <label>Hora Inicio</label>
+                                        </div>
+                                        <div class="input-field col s12 m4 l5">
+                                            <select id="miercolesF">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option v-for="option in options" v-bind:value="option.value">
+                                                    {{ option.text }}
+                                                </option>
+                                            </select>
+                                            <label>Hora Final</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="input-field col s12 m4 l2">
+                                        <input v-model="programacion.Jueves" id="chbJueves" type="checkbox" />
+                                        <label for="chbJueves">Jueves</label>
+                                        <input type="hidden" name="Jueves" id="Jueves" value="-" />
+                                    </div>
+                                    <div v-show="programacion.Jueves">
+                                        <div class="input-field col s12 m4 l5">
+                                            <select id="juevesI">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option v-for="option in options" v-bind:value="option.value">
+                                                    {{ option.text }}
+                                                </option>
+                                            </select>
+                                            <label>Hora Inicio</label>
+                                        </div>
+                                        <div class="input-field col s12 m4 l5">
+                                            <select id="juevesF">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option v-for="option in options" v-bind:value="option.value">
+                                                    {{ option.text }}
+                                                </option>
+                                            </select>
+                                            <label>Hora Final</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="input-field col s12 m4 l2">
+                                        <input v-model="programacion.Viernes" id="chbViernes" type="checkbox" />
+                                        <label for="chbViernes">Viernes</label>
+                                        <input type="hidden" name="Viernes" id="Viernes" value="-" />
+                                    </div>
+                                    <div v-show="programacion.Viernes">
+                                        <div class="input-field col s12 m4 l5">
+                                            <select id="viernesI">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option v-for="option in options" v-bind:value="option.value">
+                                                    {{ option.text }}
+                                                </option>
+                                            </select>
+                                            <label>Hora Inicio</label>
+                                        </div>
+                                        <div class="input-field col s12 m4 l5">
+                                            <select id="viernesF">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option v-for="option in options" v-bind:value="option.value">
+                                                    {{ option.text }}
+                                                </option>
+                                            </select>
+                                            <label>Hora Final</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="input-field col s12 m4 l2">
+                                        <input v-model="programacion.Sabado" id="chbSabado" type="checkbox" />
+                                        <label for="chbSabado">Sabado</label>
+                                        <input type="hidden" name="Sabado" id="Sabado" value="-" />
+                                    </div>
+                                    <div v-show="programacion.Sabado">
+                                        <div class="input-field col s12 m4 l5">
+                                            <select id="sabadoI">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option v-for="option in options" v-bind:value="option.value">
+                                                    {{ option.text }}
+                                                </option>
+                                            </select>
+                                            <label>Hora Inicio</label>
+                                        </div>
+                                        <div class="input-field col s12 m4 l5">
+                                            <select id="sabadoF">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option v-for="option in options" v-bind:value="option.value">
+                                                    {{ option.text }}
+                                                </option>
+                                            </select>
+                                            <label>Hora Final</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="input-field col s12 m4 l2">
+                                        <input v-model="programacion.Domingo" id="chbDomingo" type="checkbox" />
+                                        <label for="chbDomingo">Domingo</label>
+                                        <input type="hidden" name="Domingo" id="Domingo" value="-" />
+                                    </div>
+                                    <div v-show="programacion.Domingo">
+                                        <div class="input-field col s12 m4 l5">
+                                            <select id="domingoI">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option v-for="option in options" v-bind:value="option.value">
+                                                    {{ option.text }}
+                                                </option>
+                                            </select>
+                                            <label>Hora Inicio</label>
+                                        </div>
+                                        <div class="input-field col s12 m4 l5">
+                                            <select id="domingoF">
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option v-for="option in options" v-bind:value="option.value">
+                                                    {{ option.text }}
+                                                </option>
+                                            </select>
+                                            <label>Hora Final</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <a v-on:click="CargarDias" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                            </div>
+                        </div>
+
+                    </form>
+
+
+
+
                     <div class="row">
+                        <br /><br />
+                        <div class="input-field col s6 m3 l3">
+                            <i class="mdi-notification-event-note prefix"></i>
+                            @*<label class="active" for="Semana">Semana</label>*@
+                            <input id="semana" name="Semana" type="week">
+                        </div>
+                        <br /><br /><br /><br /><br /><br />
+                        <table class="bordered striped centered">
+                            <thead>
+                                <tr>
+                                    <th>Medico</th>
+                                    <th>Lunes</th>
+                                    <th>Martes</th>
+                                    <th>Miercoles</th>
+                                    <th>Jueves</th>
+                                    <th>Viernes</th>
+                                    <th>Sabado</th>
+                                    <th>Domingo</th>
+                                </tr>
+                            </thead>
 
-                        <div class="input-field col s12 m4 l4">
-                            @Html.DropDownList("cboEspecialidad")
-                            <label for="Medico_MedicoId">Especialidad</label>
-                        </div>
-                        <div class="input-field col s12 m4 l4">
-                            @Html.DropDownList("cboPersona")
-                            <label for="Persona_PersonaId">Nombre</label>
-                        </div>
+                            <tbody>
 
-                        <div class="input-field col s12 m4 l4">
-                            @Html.DropDownList("cboConsultorio")
-                            <label for="Consultorio_ConsultorioId">Consultorio</label>
-                        </div>
+                                @{
+
+                                    foreach (var item in @ViewBag.listaHorario)
+                                    {
+                                        <tr>
+                                            <td>medico id: @item.PersonaId</td>
+                                                <td><span>@item.Lunes <br /> Consultorio id: @item.ConsultorioId</span></td>
+                                                <td>@item.Martes</td>
+                                                <td>@item.Miercoles</td>
+                                                <td>@item.Jueves</td>
+                                                <td>@item.Viernes</td>
+                                                <td>@item.Sabado</td>
+                                                <td>@item.Domingo</td>
+                                            </tr>
+                                    }
+
+                                }
+
+
+
+                            </tbody>
+                        </table>
 
                     </div>
- 
-
-
-                    <!-- Modal Trigger -->
-                    <a class="waves-effect waves-light btn modal-trigger" href="#modal1">HORARIO</a>
-
                     <!-- Modal Structure -->
-                    <div id="modal1" class="modal modal-fixed-footer">
-                        <div class="modal-content">
-                            <div class="row">
-                                <div class="input-field col s12 m4 l2">
-                                    <input v-model="programacion.Lunes" id="chbLunes" type="checkbox" />
-                                    <label for="chbLunes">Lunes</label>
-                                </div>
-                                <div v-show="programacion.Lunes == true">
-                                    <div class="input-field col s12 m4 l5">
-                                        <select>
-                                            <option value="" disabled selected>Choose your option</option>
-                                            <option v-for="option in options" v-bind:value="option.value">
-                                                {{ option.text }}
-                                            </option>
-                                        </select>
-                                        <label>Hora Inicio</label>
-                                    </div>
-                                    <div class="input-field col s12 m4 l5">
-                                        <select>
-                                            <option value="" disabled selected>Choose your option</option>
-                                            <option v-for="option in options" v-bind:value="option.value">
-                                                {{ option.text }}
-                                            </option>
-                                        </select>
-                                        <label>Hora Final</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="input-field col s12 m4 l2">
-                                    <input v-model="programacion.Martes" id="chbMartes" type="checkbox" />
-                                    <label for="chbMartes">Martes</label>
-                                </div>
-                                <div v-show="programacion.Martes">
-                                    <div class="input-field col s12 m4 l5">
-                                        <select>
-                                            <option value="" disabled selected>Choose your option</option>
-                                            <option v-for="option in options" v-bind:value="option.value">
-                                                {{ option.text }}
-                                            </option>
-                                        </select>
-                                        <label>Hora Inicio</label>
-                                    </div>
-                                    <div class="input-field col s12 m4 l5">
-                                        <select>
-                                            <option value="" disabled selected>Choose your option</option>
-                                            <option v-for="option in options" v-bind:value="option.value">
-                                                {{ option.text }}
-                                            </option>
-                                        </select>
-                                        <label>Hora Final</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="input-field col s12 m4 l2">
-                                    <input v-model="programacion.Miercoles" id="chbMiercoles" type="checkbox" />
-                                    <label for="chbMiercoles">Miércoles</label>
-                                </div>
-                                <div v-show="programacion.Miercoles">
-                                    <div class="input-field col s12 m4 l5">
-                                        <select>
-                                            <option value="" disabled selected>Choose your option</option>
-                                            <option v-for="option in options" v-bind:value="option.value">
-                                                {{ option.text }}
-                                            </option>
-                                        </select>
-                                        <label>Hora Inicio</label>
-                                    </div>
-                                    <div class="input-field col s12 m4 l5">
-                                        <select>
-                                            <option value="" disabled selected>Choose your option</option>
-                                            <option v-for="option in options" v-bind:value="option.value">
-                                                {{ option.text }}
-                                            </option>
-                                        </select>
-                                        <label>Hora Final</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="input-field col s12 m4 l2">
-                                    <input v-model="programacion.Jueves" id="chbJueves" type="checkbox" />
-                                    <label for="chbJueves">Jueves</label>
-                                </div>
-                                <div v-show="programacion.Jueves">
-                                    <div class="input-field col s12 m4 l5">
-                                        <select>
-                                            <option value="" disabled selected>Choose your option</option>
-                                            <option v-for="option in options" v-bind:value="option.value">
-                                                {{ option.text }}
-                                            </option>
-                                        </select>
-                                        <label>Hora Inicio</label>
-                                    </div>
-                                    <div class="input-field col s12 m4 l5">
-                                        <select>
-                                            <option value="" disabled selected>Choose your option</option>
-                                            <option v-for="option in options" v-bind:value="option.value">
-                                                {{ option.text }}
-                                            </option>
-                                        </select>
-                                        <label>Hora Final</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="input-field col s12 m4 l2">
-                                    <input v-model="programacion.Viernes" id="chbViernes" type="checkbox" />
-                                    <label for="chbViernes">Viernes</label>
-                                </div>
-                                <div v-show="programacion.Viernes">
-                                    <div class="input-field col s12 m4 l5">
-                                        <select>
-                                            <option value="" disabled selected>Choose your option</option>
-                                            <option v-for="option in options" v-bind:value="option.value">
-                                                {{ option.text }}
-                                            </option>
-                                        </select>
-                                        <label>Hora Inicio</label>
-                                    </div>
-                                    <div class="input-field col s12 m4 l5">
-                                        <select>
-                                            <option value="" disabled selected>Choose your option</option>
-                                            <option v-for="option in options" v-bind:value="option.value">
-                                                {{ option.text }}
-                                            </option>
-                                        </select>
-                                        <label>Hora Final</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="input-field col s12 m4 l2">
-                                    <input v-model="programacion.Sabado" id="chbSabado" type="checkbox" />
-                                    <label for="chbSabado">Sabado</label>
-                                </div>
-                                <div v-show="programacion.Sabado">
-                                    <div class="input-field col s12 m4 l5">
-                                        <select>
-                                            <option value="" disabled selected>Choose your option</option>
-                                            <option v-for="option in options" v-bind:value="option.value">
-                                                {{ option.text }}
-                                            </option>
-                                        </select>
-                                        <label>Hora Inicio</label>
-                                    </div>
-                                    <div class="input-field col s12 m4 l5">
-                                        <select>
-                                            <option value="" disabled selected>Choose your option</option>
-                                            <option v-for="option in options" v-bind:value="option.value">
-                                                {{ option.text }}
-                                            </option>
-                                        </select>
-                                        <label>Hora Final</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="input-field col s12 m4 l2">
-                                    <input v-model="programacion.Domingo" id="chbDomingo" type="checkbox" />
-                                    <label for="chbDomingo">Domingo</label>
-                                </div>
-                                <div v-show="programacion.Domingo">
-                                    <div class="input-field col s12 m4 l5">
-                                        <select>
-                                            <option value="" disabled selected>Choose your option</option>
-                                            <option v-for="option in options" v-bind:value="option.value">
-                                                {{ option.text }}
-                                            </option>
-                                        </select>
-                                        <label>Hora Inicio</label>
-                                    </div>
-                                    <div class="input-field col s12 m4 l5">
-                                        <select>
-                                            <option value="" disabled selected>Choose your option</option>
-                                            <option v-for="option in options" v-bind:value="option.value">
-                                                {{ option.text }}
-                                            </option>
-                                        </select>
-                                        <label>Hora Final</label>
-                                    </div>
-                                </div>
-                            </div>
 
 
-                        </div>
-                        <div class="modal-footer">
-                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-                        </div>
-                    </div>
 
                 </div>
             </div>
@@ -235,8 +326,6 @@
 </main>
 @section scripts{
     <script>
-
-
         $(function () {
             $(".datepicker").pickadate({
                 selectMonths: !0, selectYears: 50, format: 'dd/mm/yyyy',
@@ -247,39 +336,60 @@
         var vprogramacion = new Vue({
             el: 'main',
             data: {
-                programacion:{},
+                programacion: {},
                 options: [
-                  { text: '8:00 A.M.', value: 'A' },
-                  { text: '8:30 A.M.', value: 'B' },
-                  { text: '9:00 A.M.', value: 'C' },
-                  { text: '9:30 A.M.', value: 'C' },
-                  { text: '10:30 A.M.', value: 'C' },
-                  { text: '11:00 A.M.', value: 'C' },
-                  { text: '11:30 A.M.', value: 'C' },
-                  { text: '12:00 A.M.', value: 'C' },
-                  { text: '12:30 P.M.', value: 'C' },
-                  { text: '1:00 P.M.', value: 'C' },
-                  { text: '1:30 P.M.', value: 'C' },
-                  { text: '2:00 P.M.', value: 'C' },
-                  { text: '2:30 P.M.', value: 'C' },
-                  { text: '3:00 P.M.', value: 'C' },
-                  { text: '3:30 P.M.', value: 'C' },
-                  { text: '4:00 P.M.', value: 'C' },
-                  { text: '4:30 P.M.', value: 'C' },
-                  { text: '5:00 P.M.', value: 'C' },
-                  { text: '5:30 P.M.', value: 'C' },
-                  { text: '6:00 P.M.', value: 'C' },
-                  { text: '6:30 P.M.', value: 'C' },
-                  { text: '7:00 P.M.', value: 'C' },
-
+                  { text: '8:00 A.M.', value: '8:00 A.M.' },
+                  { text: '8:30 A.M.', value: '8:30 A.M.' },
+                  { text: '9:00 A.M.', value: '9:00 A.M.' },
+                  { text: '9:30 A.M.', value: '9:30 A.M.' },
+                  { text: '10:30 A.M.', value: '10:30 A.M.' },
+                  { text: '11:00 A.M.', value: '11:00 A.M.' },
+                  { text: '11:30 A.M.', value: '11:30 A.M.' },
+                  { text: '12:00 A.M.', value: '12:00 A.M.' },
+                  { text: '12:30 P.M.', value: '12:30 P.M.' },
+                  { text: '1:00 P.M.', value: '1:00 P.M.' },
+                  { text: '1:30 P.M.', value: '1:30 P.M.' },
+                  { text: '2:00 P.M.', value: '2:00 P.M.' },
+                  { text: '2:30 P.M.', value: '2:30 P.M.' },
+                  { text: '3:00 P.M.', value: '3:00 P.M.' },
+                  { text: '3:30 P.M.', value: '3:30 P.M.' },
+                  { text: '4:00 P.M.', value: '4:00 P.M.' },
+                  { text: '4:30 P.M.', value: '4:30 P.M.' },
+                  { text: '5:00 P.M.', value: '5:00 P.M.' },
+                  { text: '5:30 P.M.', value: '5:30 P.M.' },
+                  { text: '6:00 P.M.', value: '6:00 P.M.' },
+                  { text: '6:30 P.M.', value: '6:30 P.M.' },
+                  { text: '7:00 P.M.', value: '7:00 P.M.' },
                 ]
-
-            },
-            mounted: function () {
 
             },
             methods: {
 
+                CargarDias: function (event) {
+
+                    if ($("#chbLunes").is(":checked")) {
+                        $("#Lunes").attr("value", $("#lunesI").val() + ' - ' + $("#lunesF").val());
+                    };
+                    if ($("#chbMartes").is(":checked")) {
+                        $("#Martes").attr("value", $("#martesI").val() + ' - ' + $("#martesF").val());
+                    };
+                    if ($("#chbMiercoles").is(":checked")) {
+                        $("#Miercoles").attr("value", $("#miercolesI").val() + ' - ' + $("#miercolesF").val());
+                    };
+                    if ($("#chbJueves").is(":checked")) {
+                        $("#Jueves").attr("value", $("#juevesI").val() + ' - ' + $("#juevesF").val());
+                    };
+                    if ($("#chbViernes").is(":checked")) {
+                        $("#Viernes").attr("value", $("#viernesI").val() + ' - ' + $("#viernesF").val());
+                    };
+                    if ($("#chbSabado").is(":checked")) {
+                        $("#Sabado").attr("value", $("#sabadoI").val() + ' - ' + $("#sabadoF").val());
+                    };
+                    if ($("#chbDomingo").is(":checked")) {
+                        $("#Domingo").attr("value", $("#domingoI").val() + ' - ' + $("#domingoF").val());
+                    };
+
+                }
             }
         })
     </script>

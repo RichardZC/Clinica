@@ -34,24 +34,28 @@ CREATE TABLE `consultorio` (
 INSERT INTO `consultorio` (`ConsultorioId`, `denominacion`) VALUES ('0', 'Consultorio01'), ('0', 'Consultorio02');
 
 
+
+
+
 DROP TABLE IF EXISTS programacion;
-CREATE TABLE programacion (
-  `ProgramacionId` INT(11) NOT NULL AUTO_INCREMENT,
-  `MedicoId` INT(11) NOT NULL,
-  `ConsultorioId` INT(11) NOT NULL,
-  `FechaInicio` DATE NOT NULL,
-  `FechaFin` DATE NOT NULL,
-  `Horario` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`ProgramacionId`),
-  INDEX `fk_programacion_consultorio1_idx` (`ConsultorioId` ASC),
-  INDEX `fk_programacion_medico1_idx` (`MedicoId` ASC),
-  CONSTRAINT `fk_programacion_consultorio1`
-    FOREIGN KEY (`ConsultorioId`)
-    REFERENCES `clinica`.`consultorio` (`ConsultorioId`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_programacion_medico1`
-    FOREIGN KEY (`MedicoId`)
-    REFERENCES `clinica`.`medico` (`MedicoId`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+	CREATE TABLE `programacion` (
+	  `ProgramacionId` int(11) NOT NULL AUTO_INCREMENT,
+	  `PersonaId` int(11) NOT NULL,
+	  `ConsultorioId` int(11) NOT NULL,
+	  `FechaLimite` date NOT NULL,
+	  `Estado` bit(1) NOT NULL,
+	  `Repite` bit(1) NOT NULL,
+	  `Lunes` varchar(45) NOT NULL,
+	  `Martes` varchar(45) NOT NULL,
+	  `Miercoles` varchar(45) NOT NULL,
+	  `Jueves` varchar(45) NOT NULL,
+	  `Viernes` varchar(45) NOT NULL,
+	  `Sabado` varchar(45) NOT NULL,
+	  `Domingo` varchar(45) NOT NULL,
+	  PRIMARY KEY (`ProgramacionId`),
+	  KEY `PersonaId` (`PersonaId`),
+	  KEY `ConsultorioId` (`ConsultorioId`),
+	  CONSTRAINT `programacion_ibfk_1` FOREIGN KEY (`PersonaId`) REFERENCES `persona` (`PersonaId`) ON DELETE NO ACTION ON UPDATE CASCADE,
+	  CONSTRAINT `programacion_ibfk_2` FOREIGN KEY (`ConsultorioId`) REFERENCES `consultorio` (`ConsultorioId`) ON DELETE NO ACTION ON UPDATE CASCADE
+	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
