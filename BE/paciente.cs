@@ -14,6 +14,12 @@ namespace BE
     
     public partial class paciente
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public paciente()
+        {
+            this.atencion = new HashSet<atencion>();
+        }
+    
         public int PacienteId { get; set; }
         public int PersonaId { get; set; }
         public string NumeroHistoria { get; set; }
@@ -21,6 +27,8 @@ namespace BE
         public string AntecedentePersonal { get; set; }
         public string AntecedenteFamiliar { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<atencion> atencion { get; set; }
         public virtual persona persona { get; set; }
     }
 }

@@ -7,20 +7,22 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DA
+namespace BE
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class paciente
+    public partial class atencion
     {
+        public int AtencionId { get; set; }
         public int PacienteId { get; set; }
-        public int PersonaId { get; set; }
-        public string NumeroHistoria { get; set; }
-        public string Alergia { get; set; }
-        public string AntecedentePersonal { get; set; }
-        public string AntecedenteFamiliar { get; set; }
+        public int MedicoId { get; set; }
+        public System.DateTime FechaColegiacion { get; set; }
+        public string TituloProfesional { get; set; }
+        public string Universidad { get; set; }
+        public bool Estado { get; set; }
     
-        public virtual persona persona { get; set; }
+        public virtual paciente paciente { get; set; }
+        public virtual medico medico { get; set; }
     }
 }

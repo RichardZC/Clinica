@@ -14,6 +14,12 @@ namespace BE
     
     public partial class medico
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public medico()
+        {
+            this.atencion = new HashSet<atencion>();
+        }
+    
         public int MedicoId { get; set; }
         public int PersonaId { get; set; }
         public int EspecialidadId { get; set; }
@@ -23,6 +29,8 @@ namespace BE
         public string Universidad { get; set; }
         public bool Estado { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<atencion> atencion { get; set; }
         public virtual especialidad especialidad { get; set; }
         public virtual persona persona { get; set; }
     }

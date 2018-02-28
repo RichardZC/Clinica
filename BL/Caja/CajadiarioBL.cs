@@ -115,7 +115,7 @@ namespace BL
         {
             decimal ingresoMov = 0, egresoMov = 0;
 
-            using (var bd = new clinicaEntities())
+            using (var bd = new BE.clinicaEntities())
             {
                 ingresoMov = bd.cajamov
                     .Where(x => x.CajaDiarioId == pCajaDiarioId && x.IndEntrada && x.Estado == "T" && x.Operacion != "INI")
