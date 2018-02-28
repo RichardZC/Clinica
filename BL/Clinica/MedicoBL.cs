@@ -10,6 +10,7 @@ namespace BL
 {
     public class MedicoBL : Repositorio<medico>
     {
+
         public static bool guardarMedico(medico med, persona per)
         {
 

@@ -14,27 +14,27 @@ namespace Web.Controllers
         // GET: Programacion
         public ActionResult Index()
         {
-            ViewBag.cboEspecialidad = new SelectList(MedicoBL.Listar(), "MedicoId", "Especialidad");
+            programacion progr = new programacion();
+            progr.ProgramacionId = 0;
             ViewBag.cboPersona = new SelectList(MedicoBL.listarMedico(), "PersonaId", "NombreCompleto");
             ViewBag.cboConsultorio = new SelectList(ConsultorioBL.Listar(), "ConsultorioId", "Denominacion");
-            //ViewBag.cboModelo = ModeloBL.Listar();
-            return View();
+            ViewBag.listaHorario = ProgramacionBL.Listar() ;
+            return View(progr);
         }
 
 
         [HttpPost]
-        public JsonResult GuardarProgramacion(programacion progr, string href)
+        public JsonResult Guardar(programacion progr, string pEstado, string pRepite)
         {
             var rm = new ResponseModel();
-            
+
             try
             {
+                if (!string.IsNullOrEmpty(pEstado)) progr.Estado = true;
+                if (!string.IsNullOrEmpty(pRepite)) progr.Repite = true;
                 ProgramacionBL.Guardar(progr);
                 rm.SetResponse(true);
-                if (string.IsNullOrEmpty(href))
-                    rm.href = Url.Action("Index", "Persona");
-                else
-                    rm.href = href;
+                rm.href = Url.Action("Index", "Programacion");
             }
             catch (Exception ex)
             {
@@ -43,6 +43,8 @@ namespace Web.Controllers
             }
 
             return Json(rm);
+
+            //return Json(progr, JsonRequestBehavior.AllowGet);
         }
     }
 }

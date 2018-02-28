@@ -1,4 +1,6 @@
 ﻿@model BE.medico
+<<<<<<< HEAD
+=======
 <!--breadcrumbs start-->
 <div id="breadcrumbs-wrapper">
     <!-- Search for small screen -->
@@ -20,6 +22,7 @@
     </div>
 </div>
 <!--breadcrumbs end-->
+>>>>>>> fb336a748df9f06b16f5590bc325d94e064b8a85
 
 <div id="default-validation" class="section">
     <div class="row">
@@ -41,11 +44,16 @@
                                 <label class="right" for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Persona</label>
 
                             </div>
+<<<<<<< HEAD
+                            <div class="input-field col s1 m1 l1">                               
+                                <a href='@Url.Action("Mantener", "Persona",new {id=0,href= Request.Url.AbsoluteUri })' class="btn btn-flat teal text white-text tooltipped " style="padding:8px; height:auto;line-height:25px" data-tooltip="Nueva Persona"><i class="mdi-social-person-add"></i></a>
+=======
                           
                             <div class="input-field col s1 ">
                                 <a class="btn btn-floating tooltipped" data-tooltip="Crear Persona" data-position="left" href='@Url.Action("Mantener","Persona",new { id=0,href = Request.Url.AbsoluteUri })'>
                                     <i class="mdi-social-person-add"></i>
                                 </a>
+>>>>>>> fb336a748df9f06b16f5590bc325d94e064b8a85
                             </div>
                             <div class="input-field col s12 m6 l6">
                                 @Html.DropDownListFor(x => x.EspecialidadId, (IEnumerable<SelectListItem>)ViewBag.cboEspecialidad)
