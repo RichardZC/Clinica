@@ -61,11 +61,11 @@ public partial class usuario
 
     public virtual oficina oficina { get; set; }
 
+    public virtual persona persona { get; set; }
+
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<usuario_rol> usuario_rol { get; set; }
-
-    public virtual persona persona { get; set; }
 
 }
 

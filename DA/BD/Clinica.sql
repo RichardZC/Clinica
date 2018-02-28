@@ -55,3 +55,27 @@ CREATE TABLE programacion (
     REFERENCES `clinica`.`medico` (`MedicoId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+
+
+DROP TABLE IF EXISTS paciente;
+CREATE TABLE paciente (
+  PacienteId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  PersonaId INT(11) NOT NULL,
+  FOREIGN KEY(PersonaId) REFERENCES Persona(PersonaId) on DELETE no action on UPDATE CASCADE,  
+  Alergia VARCHAR(500) ,
+  Estado bit(1) NOT NULL
+  );
+
+
+DROP TABLE IF EXISTS atencion;
+CREATE TABLE atencion (
+  AtencionId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  PacienteId INT(11) NOT NULL,
+  FOREIGN KEY(PacinteId) REFERENCES Paciente(PacienteId) on DELETE no action on UPDATE CASCADE,  
+  MedicoId INT(11) NOT NULL,
+  FOREIGN KEY(MedicoId) REFERENCES Medico(MedicoId) on DELETE no action on UPDATE CASCADE,
+  FechaColegiacion DATE NOT NULL,
+  TituloProfesional VARCHAR(120),
+  Universidad VARCHAR(120) ,
+  Estado bit(1) NOT NULL
+  );

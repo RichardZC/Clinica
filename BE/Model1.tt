@@ -4,6 +4,7 @@
   
   
 
+
 const string inputFile = @"..\DA\Model1.edmx";
 var textTransform = DynamicTextTransformation.Create(this);
 var code = new CodeGenerationTools(this);

@@ -1,4 +1,5 @@
 ﻿using BE;
+using Comun;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,36 +41,8 @@ namespace BL
 
                     if (SaldoInicial > 0)
                     {
-                        //mov origen
-                        var boveda = ComunBL.GetBoveda();
-                        CajaMovBL.Crear(new cajamov
-                        {
-                            CajaDiarioId = boveda.CajaDiarioId,
-                            PersonaId = ComunBL.GetPersonaIdSesion(),
-                            Monto = SaldoInicial,
-                            Operacion = "TRA",
-                            Glosa = "TRANS. BOVEDA A " + boveda.caja.Denominacion,
-                            IndEntrada = false,
-                            Estado = "T",
-                            UsuarioRegId = Comun.SessionHelper.GetUser(),
-                            FechaReg = DateTime.Now
-                        });
-                        // mov destino
-                        CajaMovBL.Crear(new cajamov
-                        {
-                            CajaDiarioId = cd.CajaDiarioId,
-                            PersonaId = cd.PersonaId.Value,
-                            Monto = cd.SaldoInicial,
-                            Operacion = "INI",
-                            Glosa = "TRANS. SALDO INICIAL",
-                            IndEntrada = true,
-                            Estado = "T",
-                            UsuarioRegId = Comun.SessionHelper.GetUser(),
-                            FechaReg = DateTime.Now
-                        });
-
-                        ActualizarSaldoCajaDiario(boveda.CajaDiarioId);
-                        ActualizarSaldoCajaDiario(cd.CajaDiarioId);
+                        var bovedaId = ComunBL.GetBovedaCajaDiarioId();
+                        Transferir(bovedaId, cd.CajaDiarioId, cd.SaldoInicial, Constante.OPERACION.INI);
                     }
 
                     scope.Complete();
@@ -83,6 +56,58 @@ namespace BL
             }
         }
 
+
+        public static bool Transferir(int pCajaDiarioOrigenId, int pCajaDiarioDestinoId, decimal pImporte, string Operacion)
+        {
+            var pCajaDiarioOrigen = CajadiarioBL.Obtener(x => x.CajaDiarioId == pCajaDiarioOrigenId, "Caja");
+            var pCajaDiarioDestino = CajadiarioBL.Obtener(x => x.CajaDiarioId == pCajaDiarioDestinoId, "Caja");
+            using (var scope = new TransactionScope())
+            {
+                try
+                {
+                    if (pImporte > 0)
+                    {
+                        CajaMovBL.Crear(new cajamov
+                        {
+                            CajaDiarioId = pCajaDiarioOrigenId,
+                            PersonaId = ComunBL.GetPersonaIdSesion(),
+                            Monto = pImporte,
+                            Operacion = Constante.OPERACION.TRANSFERENCIA,
+                            Glosa = "TRANS. " + pCajaDiarioOrigen.caja.Denominacion + " A " + pCajaDiarioDestino.caja.Denominacion,
+                            IndEntrada = false,
+                            Estado = Constante.CAJADIARIO.Terminado,
+                            UsuarioRegId = Comun.SessionHelper.GetUser(),
+                            FechaReg = DateTime.Now,
+                            CajaDiarioTransId = pCajaDiarioDestinoId
+                        });
+                        CajaMovBL.Crear(new cajamov
+                        {
+                            CajaDiarioId = pCajaDiarioDestinoId,
+                            PersonaId = ComunBL.GetPersonaIdSesion(),
+                            Monto = pImporte,
+                            Operacion = Operacion,
+                            Glosa = "TRANS. " + pCajaDiarioOrigen.caja.Denominacion + " A " + pCajaDiarioDestino.caja.Denominacion,
+                            IndEntrada = true,
+                            Estado = Constante.CAJADIARIO.Terminado,
+                            UsuarioRegId = Comun.SessionHelper.GetUser(),
+                            FechaReg = DateTime.Now,
+                            CajaDiarioTransId = pCajaDiarioOrigenId
+                        });
+
+                        ActualizarSaldoCajaDiario(pCajaDiarioOrigenId);
+                        ActualizarSaldoCajaDiario(pCajaDiarioDestinoId);
+                    }
+
+                    scope.Complete();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    scope.Dispose();
+                    throw new Exception(ex.Message);
+                }
+            }
+        }
 
 
 
@@ -111,7 +136,7 @@ namespace BL
 
         public static bool CrearSaldoInicial(int cajaDiarioId, decimal saldoInicial)
         {
-            
+
             using (var scope = new TransactionScope())
             {
                 try
@@ -143,7 +168,7 @@ namespace BL
         }
 
 
-        public static bool TranferenciaBancoBoveda(decimal monto,bool indEntrada)
+        public static cajadiario TranferenciaBovedaBanco(decimal monto, bool indEntrada)
         {
             var b = ComunBL.GetBoveda();
             using (var scope = new TransactionScope())
@@ -155,17 +180,15 @@ namespace BL
                         CajaDiarioId = b.CajaDiarioId,
                         PersonaId = ComunBL.GetPersonaIdSesion(),
                         Monto = monto,
-                        Operacion = "TRA",
-                        Glosa = "TRANS. A BANCO",
+                        Operacion = Constante.OPERACION.TRANSFERENCIA,
+                        Glosa = indEntrada ? "TRANS. A BOVEDA" : "TRANS. A BANCO",
                         IndEntrada = indEntrada,
-                        Estado = "T",
+                        Estado = Constante.CAJADIARIO.Terminado,
                         UsuarioRegId = Comun.SessionHelper.GetUser(),
                         FechaReg = DateTime.Now
                     });
                     ActualizarSaldoCajaDiario(b.CajaDiarioId);
-
                     scope.Complete();
-                    return true;
                 }
                 catch (Exception ex)
                 {
@@ -173,6 +196,7 @@ namespace BL
                     throw new Exception(ex.Message);
                 }
             }
+            return BL.ComunBL.GetBoveda();
         }
 
     }

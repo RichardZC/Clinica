@@ -24,6 +24,8 @@ public partial class cajadiario
 
         this.cajamov = new HashSet<cajamov>();
 
+        this.cajamov1 = new HashSet<cajamov>();
+
     }
 
 
@@ -51,11 +53,15 @@ public partial class cajadiario
 
     public virtual caja caja { get; set; }
 
+    public virtual persona persona { get; set; }
+
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<cajamov> cajamov { get; set; }
 
-    public virtual persona persona { get; set; }
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<cajamov> cajamov1 { get; set; }
 
 }
 

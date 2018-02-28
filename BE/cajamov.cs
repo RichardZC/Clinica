@@ -55,9 +55,15 @@ public partial class cajamov
 
     public Nullable<System.DateTime> FechaDespacho { get; set; }
 
+    public Nullable<int> CajaDiarioTransId { get; set; }
+
 
 
     public virtual cajadiario cajadiario { get; set; }
+
+    public virtual cajadiario cajadiario1 { get; set; }
+
+    public virtual persona persona { get; set; }
 
     public virtual usuario usuario { get; set; }
 
@@ -66,8 +72,6 @@ public partial class cajamov
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<cajamovdetalle> cajamovdetalle { get; set; }
-
-    public virtual persona persona { get; set; }
 
 }
 

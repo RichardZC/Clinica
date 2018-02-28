@@ -186,6 +186,7 @@
     <Content Include="images\user-profile-bg.jpg" />
     <Content Include="js\app.js" />
     <Content Include="js\axios.min.js" />
+    <Content Include="js\componentes\transferirCaja.js" />
     <Content Include="js\custom-script.js" />
     <Content Include="js\ini.js" />
     <Content Include="js\jquery.autocomplete.min.js" />
@@ -193,6 +194,7 @@
     <Content Include="js\jquery.validate.unobtrusive.min.js" />
     <Content Include="js\materialize.js" />
     <Content Include="js\materialize.min.js" />
+    <Content Include="js\moment.min.js" />
     <Content Include="js\plugins.js" />
     <Content Include="js\plugins.min.js" />
     <Content Include="js\plugins\angular-materialize.js" />
