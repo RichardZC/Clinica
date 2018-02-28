@@ -5,6 +5,12 @@
 
 
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> dba15561bc772339983c6c16755187c31b72af33
 const string inputFile = @"..\DA\Model1.edmx";
 var textTransform = DynamicTextTransformation.Create(this);
 var code = new CodeGenerationTools(this);

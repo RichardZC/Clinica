@@ -15,7 +15,7 @@ namespace Web.Controllers
     {
         // GET: Cajadiario
         public ActionResult Index()
-        {   
+        {
             return View();
         }
 
@@ -39,8 +39,8 @@ namespace Web.Controllers
             {
                 int cajaDiarioId = CajadiarioBL.AsignarCajero(pCajaId, pPersonaId, SaldoInicial);
                 var cd = CajadiarioBL.Obtener(x => x.CajaDiarioId == cajaDiarioId, includeProperties: "Persona");
-               
-                
+
+
                 rm.SetResponse(true);
                 //rm.function = "RefreshRowOf(" + pCajaId + ",'" + cd.persona.NombreCompleto + "','" + cd.FechaInicio + "'," + cd.SaldoInicial + "," + cd.Entradas + "," + cd.Salidas + "," + cd.SaldoFinal + ");fn.notificar();";
                 rm.href = "self";
@@ -92,23 +92,48 @@ namespace Web.Controllers
                 .Select(x => new { Id = x.PersonaId, Valor = x.NombreCompleto })
                 , JsonRequestBehavior.AllowGet);
         }
-        public JsonResult ContarUsuariosCajaAsignar() {
+        public JsonResult ContarUsuariosCajaAsignar()
+        {
             return Json(BL.UsuarioBL.ListarUsuariosSinCaja().Count, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult CrearSaldoInicial(int cajaDiarioId, decimal saldoInicial) {
+        public JsonResult CrearSaldoInicial(int cajaDiarioId, decimal saldoInicial)
+        {
             return Json(CajadiarioBL.CrearSaldoInicial(cajaDiarioId, saldoInicial));
         }
         [HttpPost]
-        public JsonResult TranferenciaBancoBoveda(decimal monto, bool indEntrada)
+        public JsonResult TranferenciaBovedaBanco(decimal monto, bool indEntrada)
         {
-            return Json(CajadiarioBL.TranferenciaBancoBoveda(monto, indEntrada));
+            var c = CajadiarioBL.TranferenciaBovedaBanco(monto, indEntrada);
+            return Json(c);
         }
 
-        public JsonResult ObtenerBoveda() {
-            return Json(BL.ComunBL.GetBoveda(),JsonRequestBehavior.AllowGet);
+        public JsonResult ObtenerBoveda()
+        {
+            return Json(BL.ComunBL.GetBoveda(), JsonRequestBehavior.AllowGet);
             //return Json(BL.CajadiarioBL.Obtener(1), JsonRequestBehavior.AllowGet);
         }
+        public JsonResult ListarMovimientos(int id)
+        {
+            return Json(BL.CajaMovBL.Listar(x => x.CajaDiarioId == id && x.Estado == Constante.CAJADIARIO.Terminado, includeProperties: "persona").Select(x => new Movimientos
+            {
+                CajaMovId = x.CajaMovId,
+                FechaReg = x.FechaReg,
+                NombrePersona = x.persona.NombreCompleto,
+                Glosa = x.Glosa,
+                Ingreso = x.IndEntrada ? x.Monto.ToString() : "",
+                Egreso = x.IndEntrada ? "" : x.Monto.ToString()
+            })
+                , JsonRequestBehavior.AllowGet);
+        }
+
+    }
+
+    public class Movimientos : cajamov
+    {
+        public string NombrePersona { get; set; }
+        public string Ingreso { get; set; }
+        public string Egreso { get; set; }
     }
 }

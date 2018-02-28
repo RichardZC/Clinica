@@ -56,7 +56,9 @@ create table CajaMov(
 	FechaAnulacion DateTime,
 	UsuarioDespachoId int(11) ,
 		FOREIGN KEY(UsuarioDespachoId) REFERENCES Usuario(UsuarioId) on DELETE no action on UPDATE CASCADE,
-	FechaDespacho DateTime	
+	FechaDespacho DateTime,
+	CajaDiarioTransId int(11),
+		FOREIGN KEY(CajaDiarioTransId) REFERENCES CajaDiario(CajaDiarioId) on DELETE no action on UPDATE CASCADE
 );
 
 create table CajaMovDetalle(

@@ -34,9 +34,39 @@ CREATE TABLE `consultorio` (
 INSERT INTO `consultorio` (`ConsultorioId`, `denominacion`) VALUES ('0', 'Consultorio01'), ('0', 'Consultorio02');
 
 
+DROP TABLE IF EXISTS programacion;
+CREATE TABLE programacion (
+  `ProgramacionId` INT(11) NOT NULL AUTO_INCREMENT,
+  `MedicoId` INT(11) NOT NULL,
+  `ConsultorioId` INT(11) NOT NULL,
+  `FechaInicio` DATE NOT NULL,
+  `FechaFin` DATE NOT NULL,
+  `Horario` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`ProgramacionId`),
+  INDEX `fk_programacion_consultorio1_idx` (`ConsultorioId` ASC),
+  INDEX `fk_programacion_medico1_idx` (`MedicoId` ASC),
+  CONSTRAINT `fk_programacion_consultorio1`
+    FOREIGN KEY (`ConsultorioId`)
+    REFERENCES `clinica`.`consultorio` (`ConsultorioId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_programacion_medico1`
+    FOREIGN KEY (`MedicoId`)
+    REFERENCES `clinica`.`medico` (`MedicoId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
 
 
+DROP TABLE IF EXISTS paciente;
+CREATE TABLE paciente (
+  PacienteId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  PersonaId INT(11) NOT NULL,
+  FOREIGN KEY(PersonaId) REFERENCES Persona(PersonaId) on DELETE no action on UPDATE CASCADE,  
+  Alergia VARCHAR(500) ,
+  Estado bit(1) NOT NULL
+  );
 
+<<<<<<< HEAD
 DROP TABLE IF EXISTS programacion;
 	CREATE TABLE `programacion` (
 	  `ProgramacionId` int(11) NOT NULL AUTO_INCREMENT,
@@ -74,3 +104,18 @@ DROP TABLE IF EXISTS programacion;
     CONSTRAINT `PersonaId` FOREIGN KEY(`PersonaId`) REFERENCES `clinica`.`persona`(`PersonaId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
 
+=======
+
+DROP TABLE IF EXISTS atencion;
+CREATE TABLE atencion (
+  AtencionId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  PacienteId INT(11) NOT NULL,
+  FOREIGN KEY(PacinteId) REFERENCES Paciente(PacienteId) on DELETE no action on UPDATE CASCADE,  
+  MedicoId INT(11) NOT NULL,
+  FOREIGN KEY(MedicoId) REFERENCES Medico(MedicoId) on DELETE no action on UPDATE CASCADE,
+  FechaColegiacion DATE NOT NULL,
+  TituloProfesional VARCHAR(120),
+  Universidad VARCHAR(120) ,
+  Estado bit(1) NOT NULL
+  );
+>>>>>>> dba15561bc772339983c6c16755187c31b72af33

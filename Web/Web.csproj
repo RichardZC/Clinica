@@ -187,6 +187,7 @@
     <Content Include="images\user-profile-bg.jpg" />
     <Content Include="js\app.js" />
     <Content Include="js\axios.min.js" />
+    <Content Include="js\componentes\transferirCaja.js" />
     <Content Include="js\custom-script.js" />
     <Content Include="js\fullcalendar-script.js" />
     <Content Include="js\fullcalendar.min.js" />
