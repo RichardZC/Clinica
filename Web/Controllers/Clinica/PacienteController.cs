@@ -6,58 +6,53 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Web.Filters;
 
-namespace Web.Controllers
+namespace Web.Controllers.Clinica
 {
-    [Autenticado]
-    public class MedicoController : Controller
+    public class PacienteController : Controller
     {
-        // GET: Medico
+        // GET: Paciente
         public ActionResult Index()
         {
             return View();
         }
 
+
         public JsonResult Listar()
         {
-            return Json(BL.MedicoBL.Listar(includeProperties: "Persona").Select(x => new
+            return Json(BL.PacienteBL.Listar(includeProperties: "Persona").Select(x => new
             {
                 PersonaId = x.PersonaId,
-                MedicoId = x.MedicoId,
-                Titulo = x.TituloProfesional,
+                PacienteId = x.PacienteId,
+                NumeroHistoria = x.NumeroHistoria,
                 Nombres = x.persona.NombreCompleto,
                 DNI = x.persona.DNI,
                 Celular = x.persona.Celular,
                 Correo = x.persona.Correo,
-                Estado = x.Estado
+                Alergia = x.Alergia
             }), JsonRequestBehavior.AllowGet);
         }
 
+
         public ActionResult Mantener(int id)
         {
-            //ViewBag.cboEspecialidad = new SelectList(EspecialidadBL.Listar(), "EspecialidadId", "NombreEspecialidad");
-            var med = new medico();
-            med.Estado = true;
+            var pac = new paciente();
             if (id > 0)
-                med = MedicoBL.Obtener(x=>x.MedicoId==id, includeProperties:"Persona");
-
-            ViewBag.cboEspecialidad = new SelectList(EspecialidadBL.Listar(), "EspecialidadId", "Denominacion");
-            return View(med);
+                pac = PacienteBL.Obtener(x => x.PacienteId == id, includeProperties: "Persona");
+            return View(pac);
         }
 
-
         [HttpPost]
-        public JsonResult Guardar(medico med, string pEstado)
+        public JsonResult Guardar(paciente pac)
         {
             var rm = new ResponseModel();
-            
-            if (med.PersonaId==0)
+
+            if (pac.PersonaId == 0)
             {
                 rm.SetResponse(false, "Ingrese a la Persona");
                 return Json(rm);
             }
-            var val = MedicoBL.Contar(x => x.MedicoId!=med.MedicoId && x.PersonaId == med.PersonaId);
+            var val = PacienteBL.Contar(x => x.PacienteId != pac.PacienteId && x.PersonaId == pac.PersonaId);
             if (val > 0)
             {
                 rm.SetResponse(false, "Ya existe el médico para esta persona, ingrese otro");
@@ -65,10 +60,9 @@ namespace Web.Controllers
             }
             try
             {
-                if (!string.IsNullOrEmpty(pEstado)) med.Estado = true;
-                MedicoBL.Guardar(med);
+                PacienteBL.Guardar(pac);
                 rm.SetResponse(true);
-                rm.href = Url.Action("Index", "Medico");
+                rm.href = Url.Action("Index", "Paciente");
             }
             catch (Exception ex)
             {
@@ -78,13 +72,5 @@ namespace Web.Controllers
 
             return Json(rm);
         }
-
-        public JsonResult getMedico()
-        {
-            return Json(BL.MedicoBL.listarMedico(), JsonRequestBehavior.AllowGet);
-        }
-
-
-
     }
 }

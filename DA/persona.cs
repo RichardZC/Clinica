@@ -21,6 +21,7 @@ namespace DA
             this.cajamov = new HashSet<cajamov>();
             this.usuario = new HashSet<usuario>();
             this.medico = new HashSet<medico>();
+            this.paciente = new HashSet<paciente>();
             this.programacion = new HashSet<programacion>();
         }
     
@@ -45,6 +46,8 @@ namespace DA
         public virtual ICollection<usuario> usuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<medico> medico { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<paciente> paciente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<programacion> programacion { get; set; }
     }

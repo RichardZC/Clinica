@@ -16,19 +16,14 @@ namespace BE
     {
         public int ProgramacionId { get; set; }
         public int PersonaId { get; set; }
-        public int ConsultorioId { get; set; }
+        public Nullable<System.DateTime> FechaInicio { get; set; }
         public Nullable<System.DateTime> FechaLimite { get; set; }
-        public bool Estado { get; set; }
-        public bool Repite { get; set; }
-        public string Lunes { get; set; }
-        public string Martes { get; set; }
-        public string Miercoles { get; set; }
-        public string Jueves { get; set; }
-        public string Viernes { get; set; }
-        public string Sabado { get; set; }
-        public string Domingo { get; set; }
+        public System.TimeSpan HoraInicio { get; set; }
+        public System.TimeSpan HoraFin { get; set; }
+        public Nullable<bool> Estado { get; set; }
+        public Nullable<bool> Repite { get; set; }
+        public Nullable<bool> Semanal { get; set; }
     
-        public virtual consultorio consultorio { get; set; }
         public virtual persona persona { get; set; }
     }
 }

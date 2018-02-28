@@ -45,6 +45,8 @@ DROP TABLE IF EXISTS programacion;
 	  `FechaLimite` date NOT NULL,
 	  `Estado` bit(1) NOT NULL,
 	  `Repite` bit(1) NOT NULL,
+	  `SemanaInicio`  int(11) NOT NULL,
+	  `SemanaFin`  int(11) NOT NULL,
 	  `Lunes` varchar(45) NOT NULL,
 	  `Martes` varchar(45) NOT NULL,
 	  `Miercoles` varchar(45) NOT NULL,
@@ -58,4 +60,17 @@ DROP TABLE IF EXISTS programacion;
 	  CONSTRAINT `programacion_ibfk_1` FOREIGN KEY (`PersonaId`) REFERENCES `persona` (`PersonaId`) ON DELETE NO ACTION ON UPDATE CASCADE,
 	  CONSTRAINT `programacion_ibfk_2` FOREIGN KEY (`ConsultorioId`) REFERENCES `consultorio` (`ConsultorioId`) ON DELETE NO ACTION ON UPDATE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+	--Creacion de tabla paciente
+	DROP TABLE IF EXISTS paciente;
+	CREATE TABLE `clinica`.`paciente`(
+    `PacienteId` INT(11) NOT NULL AUTO_INCREMENT,
+    `PersonaId` INT(11) NOT NULL,
+	`NumeroHistoria` VARCHAR(45) NOT NULL,
+    `Alergia` VARCHAR(255) NOT NULL,
+    `AntecedentePersonal` VARCHAR(255) NOT NULL,
+    `AntecedenteFamiliar` VARCHAR(255) NOT NULL,
+    PRIMARY KEY(`PacienteId`),
+    CONSTRAINT `PersonaId` FOREIGN KEY(`PersonaId`) REFERENCES `clinica`.`persona`(`PersonaId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB;
 

@@ -61,6 +61,7 @@
     <Compile Include="Clinica\ConsultorioBL.cs" />
     <Compile Include="Clinica\EspecialidadBL.cs" />
     <Compile Include="Clinica\MedicoBL.cs" />
+    <Compile Include="Clinica\PacienteBL.cs" />
     <Compile Include="Clinica\ProgramacionBL.cs" />
     <Compile Include="ConceptopagoBL.cs" />
     <Compile Include="Maestro\CargoBL.cs" />

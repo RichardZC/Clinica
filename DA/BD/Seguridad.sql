@@ -81,6 +81,8 @@ INSERT INTO menu VALUES (24, 'Reportes', 'Informe', 		null, 0, 20);
 INSERT INTO menu VALUES (25, 'Medico', 'Medico', 		null, 0, 20);
 INSERT INTO menu VALUES (26, 'Configuracion', 'Config', 		null, 0, 20);
 INSERT INTO menu VALUES (27, 'Programacion', 'Programacion', 		null, 0, 20);
+INSERT INTO menu VALUES (28, 'Paciente', 'Paciente', 		null, 0, 20);
+
 
 
 INSERT INTO menu VALUES (30, 'Caja', 		'Cajadiario', 	'mdi-action-book', 	1, null);
@@ -116,6 +118,8 @@ INSERT INTO rol_menu(MenuId,RolId) VALUES (24, 1);
 INSERT INTO rol_menu(MenuId,RolId) VALUES (25, 1);
 INSERT INTO rol_menu(MenuId,RolId) VALUES (26, 1);
 INSERT INTO rol_menu(MenuId,RolId) VALUES (27, 1);
+INSERT INTO rol_menu(MenuId,RolId) VALUES (28, 1);
+
 
 INSERT INTO rol_menu(MenuId,RolId) VALUES (30, 1);
 INSERT INTO rol_menu(MenuId,RolId) VALUES (31, 1);

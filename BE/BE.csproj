@@ -102,6 +102,9 @@
     <Compile Include="oficina.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="paciente.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="persona.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

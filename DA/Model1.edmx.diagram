@@ -46,8 +46,9 @@
         <EntityTypeShape EntityType="clinicaModel.medico" Width="1.5" PointX="6" PointY="2.75" IsExpanded="false" />
         <AssociationConnector Association="clinicaModel.medico_ibfk_2" />
         <AssociationConnector Association="clinicaModel.medico_ibfk_1" />
-        <EntityTypeShape EntityType="clinicaModel.programacion" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
-        <AssociationConnector Association="clinicaModel.programacion_ibfk_2" />
+        <EntityTypeShape EntityType="clinicaModel.paciente" Width="1.5" PointX="0.875" PointY="12.25" IsExpanded="false" />
+        <AssociationConnector Association="clinicaModel.PersonaId" />
+        <EntityTypeShape EntityType="clinicaModel.programacion" Width="1.5" PointX="3" PointY="13.5" />
         <AssociationConnector Association="clinicaModel.programacion_ibfk_1" />
       </Diagram>
     </edmx:Diagrams>

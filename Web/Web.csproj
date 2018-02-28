@@ -16,7 +16,7 @@
     <RootNamespace>Web</RootNamespace>
     <AssemblyName>Web</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -124,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\custom\custom-style.css" />
+    <Content Include="css\fullcalendar.min.css" />
     <Content Include="css\layouts\page-center.css" />
     <Content Include="css\layouts\style-fullscreen.css" />
     <Content Include="css\layouts\style-horizontal.css" />
@@ -187,12 +188,16 @@
     <Content Include="js\app.js" />
     <Content Include="js\axios.min.js" />
     <Content Include="js\custom-script.js" />
+    <Content Include="js\fullcalendar-script.js" />
+    <Content Include="js\fullcalendar.min.js" />
     <Content Include="js\ini.js" />
+    <Content Include="js\jquery-ui.custom.min.js" />
     <Content Include="js\jquery.autocomplete.min.js" />
     <Content Include="js\jquery.form.min.js" />
     <Content Include="js\jquery.validate.unobtrusive.min.js" />
     <Content Include="js\materialize.js" />
     <Content Include="js\materialize.min.js" />
+    <Content Include="js\moment.min.js" />
     <Content Include="js\plugins.js" />
     <Content Include="js\plugins.min.js" />
     <Content Include="js\plugins\angular-materialize.js" />
@@ -274,9 +279,11 @@
     <Compile Include="Controllers\ArticuloController.cs" />
     <Compile Include="Controllers\BandejaController.cs" />
     <Compile Include="Controllers\Caja\CajadiarioController.cs" />
-    <Compile Include="Controllers\CitaController.cs" />
+    <Compile Include="Controllers\Clinica\CitaController.cs" />
     <Compile Include="Controllers\Clinica\AtencionController.cs" />
     <Compile Include="Controllers\Clinica\ConfigController.cs" />
+    <Compile Include="Controllers\Clinica\PacienteController.cs" />
+    <Compile Include="Controllers\Clinica\ProgramacionController.cs" />
     <Compile Include="Controllers\ComunController.cs" />
     <Compile Include="Controllers\Caja\DiarioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -284,7 +291,6 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\Maestro\MantenimientoController.cs" />
     <Compile Include="Controllers\Clinica\MedicoController.cs" />
-    <Compile Include="Controllers\ProgramacionController.cs" />
     <Compile Include="Controllers\Seguridad\RolController.cs" />
     <Compile Include="Controllers\Maestro\PersonaController.cs" />
     <Compile Include="Controllers\Seguridad\UsuarioController.cs" />
@@ -378,7 +384,6 @@
     <Content Include="Views\Login\CambiarClave.cshtml" />
     <Content Include="Views\Persona\Buscar.cshtml" />
     <Content Include="Views\Persona\Index.cshtml" />
-    <Content Include="Views\Persona\Mantener.cshtml" />
     <Content Include="Views\Login\_CargarMenu.cshtml" />
     <Content Include="Views\Cajadiario\Index.cshtml" />
     <Content Include="Views\Mantenimiento\Index.cshtml" />
@@ -389,12 +394,15 @@
     <Content Include="Views\Cita\Index.cshtml" />
     <Content Include="Views\Medico\Index.cshtml" />
     <Content Include="Views\Medico\Mantener.cshtml" />
-    <Content Include="Views\Programacion\Index.cshtml" />
     <Content Include="Views\Articulo\Index.cshtml" />
     <Content Include="Views\Articulo\Buscar.cshtml" />
     <Content Include="Views\Articulo\Mantener.cshtml" />
     <Content Include="Views\Config\Index.cshtml" />
     <Content Include="Views\Atencion\Index.cshtml" />
+    <Content Include="Views\Paciente\Index.cshtml" />
+    <Content Include="Views\Paciente\Mantener.cshtml" />
+    <Content Include="Views\Programacion\Index.cshtml" />
+    <Content Include="Views\Programacion\Mantener.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

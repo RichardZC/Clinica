@@ -45,6 +45,7 @@ namespace BE
         public virtual DbSet<persona> persona { get; set; }
         public virtual DbSet<especialidad> especialidad { get; set; }
         public virtual DbSet<medico> medico { get; set; }
+        public virtual DbSet<paciente> paciente { get; set; }
         public virtual DbSet<programacion> programacion { get; set; }
     }
 }

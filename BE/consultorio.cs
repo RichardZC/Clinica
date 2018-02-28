@@ -14,16 +14,7 @@ namespace BE
     
     public partial class consultorio
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public consultorio()
-        {
-            this.programacion = new HashSet<programacion>();
-        }
-    
         public int ConsultorioId { get; set; }
         public string Denominacion { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<programacion> programacion { get; set; }
     }
 }

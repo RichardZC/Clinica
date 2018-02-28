@@ -1,4 +1,4 @@
-﻿@model BE.medico
+﻿@model BE.paciente
 
 <!--breadcrumbs start-->
 <div id="breadcrumbs-wrapper">
@@ -10,10 +10,10 @@
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
-                <h5 class="breadcrumbs-title">GESTIÓN DE MEDICOS</h5>
+                <h5 class="breadcrumbs-title">GESTIÓN DE PACIENTES</h5>
                 <ol class="breadcrumbs">
-                    <li><a href='@Url.Action("Index","Home")'>Inicio</a></li>
-                    <li><a href="@Url.Action("Index","Medico")">Medicos</a></li>
+                    <li><a href='@Url.Action("Index", "Home")'>Inicio</a></li>
+                    <li><a href="@Url.Action("Index", "Paciente")">Medicos</a></li>
                     <li class="active">Mantenimiento</li>
                 </ol>
             </div>
@@ -28,58 +28,44 @@
             <div class="card-panel">
                 @*<h4 class="header2">Datos personales</h4>*@
                 <div class="row">
-                    <form id="formValidate" class="validar right-alert" method="post" action='@Url.Action("Guardar","Medico")'>
+                    <form id="formValidate" class="validar right-alert" method="post" action='@Url.Action("Guardar", "Paciente")'>
 
-                        <input type="hidden" name="MedicoId" value="@Model.MedicoId" />
+                        <input type="hidden" name="PacienteId" value="@Model.PacienteId}" />
                         <div class="row">
-                            <div class="input-field col s11  m5 l5">
+                            <div class="input-field col s11  m5 l4">
                                 <input type="hidden" id="PersonaId" name="PersonaId" value="@Model.PersonaId" />
                                 <i class="mdi-action-search prefix"></i>
                                 <input id="autocompletar" type="text" placeholder="DNI/Apellidos"
                                        data-url='@Url.Action("ListarPersonas","Comun")'
                                        data-seleccion="PersonaId" value="@(Model.persona==null?"": Model.persona.NombreCompleto)"
-                                       @if (Model.MedicoId == 0) { <text> autofocus </text> }>
+                                       @if (Model.PacienteId == 0) { <text> autofocus </text>  }>
                                 <label class="right" for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Persona</label>
 
                             </div>
                             <div class="input-field col s1 m1 l1">
                                 <a href='@Url.Action("Mantener", "Persona",new {id=0,href= Request.Url.AbsoluteUri })' class="btn btn-flat teal text white-text tooltipped " style="padding:8px; height:auto;line-height:25px" data-tooltip="Nueva Persona"><i class="mdi-social-person-add"></i></a>
                             </div>
-                            <div class="input-field col s1 ">
-                                <a class="btn btn-floating tooltipped" data-tooltip="Crear Persona" data-position="left" href='@Url.Action("Mantener","Persona",new { id=0,href = Request.Url.AbsoluteUri })'>
-                                    <i class="mdi-social-person-add"></i>
-                                </a>
+                            <div class="input-field col s12 m3 l3">
+                                <i class="mdi-editor-format-list-numbered prefix"></i>
+                                <label for="NumeroHistoria">Historia Clinica</label>
+                                <input id="NumeroHistoria" name="NumeroHistoria" type="text" value="@Model.NumeroHistoria">
                             </div>
-                            <div class="input-field col s12 m6 l6">
-                                @Html.DropDownListFor(x => x.EspecialidadId, (IEnumerable<SelectListItem>)ViewBag.cboEspecialidad)
-                                <label for="EspecialidadId">Especialidad</label>
+                            <div class="input-field col s12 m6 l4">
+                                <i class="mdi-action-report-problem prefix"></i>
+                                <label for="Alergia">Alergia</label>
+                                <input id="Alergia" name="Alergia" type="text" value="@Model.Alergia">
                             </div>
                             <div class="input-field col s12 m3 l6">
-                                <i class="mdi-communication-email prefix"></i>
-                                <label for="Correo">Titulo Profesional</label>
-                                <input id="TituloProfesional" name="TituloProfesional" type="text" value="@Model.TituloProfesional">
-                            </div>
-                            <div class="input-field col s12 m6 l6">
-                                <i class="mdi-maps-pin-drop prefix"></i>
-                                <label for="Universidad">Universidad</label>
-                                <input id="Universidad" name="Universidad" type="text" value="@Model.Universidad">
-                            </div>
-                            <div class="input-field col s12 m3 l2">
-                                <i class="mdi-action-settings-cell prefix"></i>
-                                <label for="NumeroColegio">Nro. Colegio</label>
-                                <input id="NumeroColegio" name="NumeroColegio" type="text" value="@Model.NumeroColegio">
-                            </div>
-                            <div class="input-field col s6 m3 l2">
                                 <i class="mdi-notification-event-note prefix"></i>
-                                <label for="FechaColegiacion">Colegiacion</label>
-                                <input id="FechaColegiacion" name="FechaColegiacion" type="text" class="datepicker" value="@(Model.FechaColegiacion.HasValue ?Model.FechaColegiacion.Value.ToShortDateString():"")">
+                                <label for="AntecedentePersonal">Antecedente  Personal</label>
+                                <input id="AntecedentePersonal" name="AntecedentePersonal" type="text" value="@Model.AntecedentePersonal">
+                            </div>
+                            <div class="input-field col s6 m3 l6">
+                                <i class="mdi-notification-event-note prefix"></i>
+                                <label for="AntecedenteFamiliar">Antecedente  Familiar</label>
+                                <input id="AntecedenteFamiliar" name="AntecedenteFamiliar" type="text"  value="@Model.AntecedenteFamiliar">
                             </div>
 
-
-                            <div class="input-field col s6 ">
-                                <input type="checkbox" name="pEstado" class="filled-in" id="chkActivo" @if (Model.Estado) { <text> checked</text>} />
-                                <label for="chkActivo">Activo</label>
-                            </div>
                             <div class="input-field col s12">
                                 <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
                                     Guardar
