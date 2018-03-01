@@ -19,6 +19,18 @@
           <Property Name="IndServicio" Type="bit" Nullable="false" />
           <Property Name="Estado" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="atencion">
+          <Key>
+            <PropertyRef Name="AtencionId" />
+          </Key>
+          <Property Name="AtencionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PacienteId" Type="int" Nullable="false" />
+          <Property Name="MedicoId" Type="int" Nullable="false" />
+          <Property Name="FechaColegiacion" Type="date" Nullable="false" />
+          <Property Name="TituloProfesional" Type="varchar" MaxLength="120" />
+          <Property Name="Universidad" Type="varchar" MaxLength="120" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="caja">
           <Key>
             <PropertyRef Name="CajaId" />
@@ -152,6 +164,15 @@
           <Property Name="OficinaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Denominacion" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
+        <EntityType Name="paciente">
+          <Key>
+            <PropertyRef Name="PacienteId" />
+          </Key>
+          <Property Name="PacienteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonaId" Type="int" Nullable="false" />
+          <Property Name="Alergia" Type="varchar" MaxLength="500" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="persona">
           <Key>
             <PropertyRef Name="PersonaId" />
@@ -179,6 +200,8 @@
           <Property Name="FechaInicio" Type="date" Nullable="false" />
           <Property Name="FechaFin" Type="date" Nullable="false" />
           <Property Name="Horario" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="Repite" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="rol">
           <Key>
@@ -244,6 +267,30 @@
             </Principal>
             <Dependent Role="articulo">
               <PropertyRef Name="ModeloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="atencion_ibfk_1">
+          <End Role="paciente" Type="Self.paciente" Multiplicity="1" />
+          <End Role="atencion" Type="Self.atencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paciente">
+              <PropertyRef Name="PacienteId" />
+            </Principal>
+            <Dependent Role="atencion">
+              <PropertyRef Name="PacienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="atencion_ibfk_2">
+          <End Role="medico" Type="Self.medico" Multiplicity="1" />
+          <End Role="atencion" Type="Self.atencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medico">
+              <PropertyRef Name="MedicoId" />
+            </Principal>
+            <Dependent Role="atencion">
+              <PropertyRef Name="MedicoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -427,6 +474,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="paciente_ibfk_1">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="paciente" Type="Self.paciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="PersonaId" />
+            </Principal>
+            <Dependent Role="paciente">
+              <PropertyRef Name="PersonaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="rol_menu_ibfk_1">
           <End Role="rol" Type="Self.rol" Multiplicity="1" />
           <End Role="rol_menu" Type="Self.rol_menu" Multiplicity="*" />
@@ -513,6 +572,7 @@
         </Association>
         <EntityContainer Name="clinicaModelStoreContainer">
           <EntitySet Name="articulo" EntityType="Self.articulo" Schema="clinica" store:Type="Tables" />
+          <EntitySet Name="atencion" EntityType="Self.atencion" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="caja" EntityType="Self.caja" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="cajadiario" EntityType="Self.cajadiario" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="cajamov" EntityType="Self.cajamov" Schema="clinica" store:Type="Tables" />
@@ -526,6 +586,7 @@
           <EntitySet Name="menu" EntityType="Self.menu" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="modelo" EntityType="Self.modelo" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="oficina" EntityType="Self.oficina" Schema="clinica" store:Type="Tables" />
+          <EntitySet Name="paciente" EntityType="Self.paciente" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="persona" EntityType="Self.persona" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="programacion" EntityType="Self.programacion" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="rol" EntityType="Self.rol" Schema="clinica" store:Type="Tables" />
@@ -540,6 +601,14 @@
           <AssociationSet Name="articulo_ibfk_2" Association="Self.articulo_ibfk_2">
             <End Role="modelo" EntitySet="modelo" />
             <End Role="articulo" EntitySet="articulo" />
+          </AssociationSet>
+          <AssociationSet Name="atencion_ibfk_1" Association="Self.atencion_ibfk_1">
+            <End Role="paciente" EntitySet="paciente" />
+            <End Role="atencion" EntitySet="atencion" />
+          </AssociationSet>
+          <AssociationSet Name="atencion_ibfk_2" Association="Self.atencion_ibfk_2">
+            <End Role="medico" EntitySet="medico" />
+            <End Role="atencion" EntitySet="atencion" />
           </AssociationSet>
           <AssociationSet Name="cajadiario_ibfk_1" Association="Self.cajadiario_ibfk_1">
             <End Role="caja" EntitySet="caja" />
@@ -601,6 +670,10 @@
             <End Role="marca" EntitySet="marca" />
             <End Role="modelo" EntitySet="modelo" />
           </AssociationSet>
+          <AssociationSet Name="paciente_ibfk_1" Association="Self.paciente_ibfk_1">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="paciente" EntitySet="paciente" />
+          </AssociationSet>
           <AssociationSet Name="rol_menu_ibfk_1" Association="Self.rol_menu_ibfk_1">
             <End Role="rol" EntitySet="rol" />
             <End Role="rol_menu" EntitySet="rol_menu" />
@@ -636,6 +709,7 @@
       <Schema Namespace="clinicaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="clinicaEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="articulo" EntityType="clinicaModel.articulo" />
+          <EntitySet Name="atencion" EntityType="clinicaModel.atencion" />
           <EntitySet Name="caja" EntityType="clinicaModel.caja" />
           <EntitySet Name="cajadiario" EntityType="clinicaModel.cajadiario" />
           <EntitySet Name="cajamov" EntityType="clinicaModel.cajamov" />
@@ -649,8 +723,8 @@
           <EntitySet Name="menu" EntityType="clinicaModel.menu" />
           <EntitySet Name="modelo" EntityType="clinicaModel.modelo" />
           <EntitySet Name="oficina" EntityType="clinicaModel.oficina" />
+          <EntitySet Name="paciente" EntityType="clinicaModel.paciente" />
           <EntitySet Name="persona" EntityType="clinicaModel.persona" />
-          <EntitySet Name="programacion" EntityType="clinicaModel.programacion" />
           <EntitySet Name="rol" EntityType="clinicaModel.rol" />
           <EntitySet Name="rol_menu" EntityType="clinicaModel.rol_menu" />
           <EntitySet Name="tipoarticulo" EntityType="clinicaModel.tipoarticulo" />
@@ -663,6 +737,14 @@
           <AssociationSet Name="articulo_ibfk_2" Association="clinicaModel.articulo_ibfk_2">
             <End Role="modelo" EntitySet="modelo" />
             <End Role="articulo" EntitySet="articulo" />
+          </AssociationSet>
+          <AssociationSet Name="atencion_ibfk_1" Association="clinicaModel.atencion_ibfk_1">
+            <End Role="paciente" EntitySet="paciente" />
+            <End Role="atencion" EntitySet="atencion" />
+          </AssociationSet>
+          <AssociationSet Name="atencion_ibfk_2" Association="clinicaModel.atencion_ibfk_2">
+            <End Role="medico" EntitySet="medico" />
+            <End Role="atencion" EntitySet="atencion" />
           </AssociationSet>
           <AssociationSet Name="cajadiario_ibfk_1" Association="clinicaModel.cajadiario_ibfk_1">
             <End Role="caja" EntitySet="caja" />
@@ -708,10 +790,6 @@
             <End Role="oficina" EntitySet="oficina" />
             <End Role="conceptopago" EntitySet="conceptopago" />
           </AssociationSet>
-          <AssociationSet Name="fk_programacion_consultorio1" Association="clinicaModel.fk_programacion_consultorio1">
-            <End Role="consultorio" EntitySet="consultorio" />
-            <End Role="programacion" EntitySet="programacion" />
-          </AssociationSet>
           <AssociationSet Name="medico_ibfk_2" Association="clinicaModel.medico_ibfk_2">
             <End Role="especialidad" EntitySet="especialidad" />
             <End Role="medico" EntitySet="medico" />
@@ -719,10 +797,6 @@
           <AssociationSet Name="modelo_ibfk_1" Association="clinicaModel.modelo_ibfk_1">
             <End Role="marca" EntitySet="marca" />
             <End Role="modelo" EntitySet="modelo" />
-          </AssociationSet>
-          <AssociationSet Name="fk_programacion_medico1" Association="clinicaModel.fk_programacion_medico1">
-            <End Role="medico" EntitySet="medico" />
-            <End Role="programacion" EntitySet="programacion" />
           </AssociationSet>
           <AssociationSet Name="medico_ibfk_1" Association="clinicaModel.medico_ibfk_1">
             <End Role="persona" EntitySet="persona" />
@@ -735,6 +809,10 @@
           <AssociationSet Name="usuario_ibfk_3" Association="clinicaModel.usuario_ibfk_3">
             <End Role="oficina" EntitySet="oficina" />
             <End Role="usuario" EntitySet="usuario" />
+          </AssociationSet>
+          <AssociationSet Name="paciente_ibfk_1" Association="clinicaModel.paciente_ibfk_1">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="paciente" EntitySet="paciente" />
           </AssociationSet>
           <AssociationSet Name="usuario_ibfk_1" Association="clinicaModel.usuario_ibfk_1">
             <End Role="persona" EntitySet="persona" />
@@ -752,6 +830,15 @@
             <End Role="usuario" EntitySet="usuario" />
             <End Role="usuario_rol" EntitySet="usuario_rol" />
           </AssociationSet>
+          <EntitySet Name="programacion" EntityType="clinicaModel.programacion" />
+          <AssociationSet Name="fk_programacion_consultorio1" Association="clinicaModel.fk_programacion_consultorio1">
+            <End Role="consultorio" EntitySet="consultorio" />
+            <End Role="programacion" EntitySet="programacion" />
+          </AssociationSet>
+          <AssociationSet Name="fk_programacion_medico1" Association="clinicaModel.fk_programacion_medico1">
+            <End Role="medico" EntitySet="medico" />
+            <End Role="programacion" EntitySet="programacion" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="articulo">
           <Key>
@@ -768,6 +855,20 @@
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tipoarticulo" Relationship="clinicaModel.articulo_ibfk_1" FromRole="articulo" ToRole="tipoarticulo" />
           <NavigationProperty Name="modelo" Relationship="clinicaModel.articulo_ibfk_2" FromRole="articulo" ToRole="modelo" />
+        </EntityType>
+        <EntityType Name="atencion">
+          <Key>
+            <PropertyRef Name="AtencionId" />
+          </Key>
+          <Property Name="AtencionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PacienteId" Type="Int32" Nullable="false" />
+          <Property Name="MedicoId" Type="Int32" Nullable="false" />
+          <Property Name="FechaColegiacion" Type="DateTime" Nullable="false" />
+          <Property Name="TituloProfesional" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="Universidad" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="paciente" Relationship="clinicaModel.atencion_ibfk_1" FromRole="atencion" ToRole="paciente" />
+          <NavigationProperty Name="medico" Relationship="clinicaModel.atencion_ibfk_2" FromRole="atencion" ToRole="medico" />
         </EntityType>
         <EntityType Name="caja">
           <Key>
@@ -894,9 +995,10 @@
           <Property Name="TituloProfesional" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
           <Property Name="Universidad" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="atencion" Relationship="clinicaModel.atencion_ibfk_2" FromRole="medico" ToRole="atencion" />
           <NavigationProperty Name="especialidad" Relationship="clinicaModel.medico_ibfk_2" FromRole="medico" ToRole="especialidad" />
-          <NavigationProperty Name="programacion" Relationship="clinicaModel.fk_programacion_medico1" FromRole="medico" ToRole="programacion" />
           <NavigationProperty Name="persona" Relationship="clinicaModel.medico_ibfk_1" FromRole="medico" ToRole="persona" />
+          <NavigationProperty Name="programacion" Relationship="clinicaModel.fk_programacion_medico1" FromRole="medico" ToRole="programacion" />
         </EntityType>
         <EntityType Name="menu">
           <Key>
@@ -929,6 +1031,17 @@
           <NavigationProperty Name="conceptopago" Relationship="clinicaModel.conceptopago_ibfk_1" FromRole="oficina" ToRole="conceptopago" />
           <NavigationProperty Name="usuario" Relationship="clinicaModel.usuario_ibfk_3" FromRole="oficina" ToRole="usuario" />
         </EntityType>
+        <EntityType Name="paciente">
+          <Key>
+            <PropertyRef Name="PacienteId" />
+          </Key>
+          <Property Name="PacienteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonaId" Type="Int32" Nullable="false" />
+          <Property Name="Alergia" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="atencion" Relationship="clinicaModel.atencion_ibfk_1" FromRole="paciente" ToRole="atencion" />
+          <NavigationProperty Name="persona" Relationship="clinicaModel.paciente_ibfk_1" FromRole="paciente" ToRole="persona" />
+        </EntityType>
         <EntityType Name="persona">
           <Key>
             <PropertyRef Name="PersonaId" />
@@ -948,20 +1061,8 @@
           <NavigationProperty Name="cajadiario" Relationship="clinicaModel.cajadiario_ibfk_2" FromRole="persona" ToRole="cajadiario" />
           <NavigationProperty Name="cajamov" Relationship="clinicaModel.cajamov_ibfk_2" FromRole="persona" ToRole="cajamov" />
           <NavigationProperty Name="medico" Relationship="clinicaModel.medico_ibfk_1" FromRole="persona" ToRole="medico" />
+          <NavigationProperty Name="paciente" Relationship="clinicaModel.paciente_ibfk_1" FromRole="persona" ToRole="paciente" />
           <NavigationProperty Name="usuario" Relationship="clinicaModel.usuario_ibfk_1" FromRole="persona" ToRole="usuario" />
-        </EntityType>
-        <EntityType Name="programacion">
-          <Key>
-            <PropertyRef Name="ProgramacionId" />
-          </Key>
-          <Property Name="ProgramacionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MedicoId" Type="Int32" Nullable="false" />
-          <Property Name="ConsultorioId" Type="Int32" Nullable="false" />
-          <Property Name="FechaInicio" Type="DateTime" Nullable="false" />
-          <Property Name="FechaFin" Type="DateTime" Nullable="false" />
-          <Property Name="Horario" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="consultorio" Relationship="clinicaModel.fk_programacion_consultorio1" FromRole="programacion" ToRole="consultorio" />
-          <NavigationProperty Name="medico" Relationship="clinicaModel.fk_programacion_medico1" FromRole="programacion" ToRole="medico" />
         </EntityType>
         <EntityType Name="rol">
           <Key>
@@ -1040,6 +1141,30 @@
             </Principal>
             <Dependent Role="articulo">
               <PropertyRef Name="ModeloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="atencion_ibfk_1">
+          <End Type="clinicaModel.paciente" Role="paciente" Multiplicity="1" />
+          <End Type="clinicaModel.atencion" Role="atencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paciente">
+              <PropertyRef Name="PacienteId" />
+            </Principal>
+            <Dependent Role="atencion">
+              <PropertyRef Name="PacienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="atencion_ibfk_2">
+          <End Type="clinicaModel.medico" Role="medico" Multiplicity="1" />
+          <End Type="clinicaModel.atencion" Role="atencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medico">
+              <PropertyRef Name="MedicoId" />
+            </Principal>
+            <Dependent Role="atencion">
+              <PropertyRef Name="MedicoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1175,18 +1300,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_programacion_consultorio1">
-          <End Type="clinicaModel.consultorio" Role="consultorio" Multiplicity="1" />
-          <End Type="clinicaModel.programacion" Role="programacion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="consultorio">
-              <PropertyRef Name="ConsultorioId" />
-            </Principal>
-            <Dependent Role="programacion">
-              <PropertyRef Name="ConsultorioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="medico_ibfk_2">
           <End Type="clinicaModel.especialidad" Role="especialidad" Multiplicity="1" />
           <End Type="clinicaModel.medico" Role="medico" Multiplicity="*" />
@@ -1208,18 +1321,6 @@
             </Principal>
             <Dependent Role="modelo">
               <PropertyRef Name="MarcaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_programacion_medico1">
-          <End Type="clinicaModel.medico" Role="medico" Multiplicity="1" />
-          <End Type="clinicaModel.programacion" Role="programacion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="medico">
-              <PropertyRef Name="MedicoId" />
-            </Principal>
-            <Dependent Role="programacion">
-              <PropertyRef Name="MedicoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1256,6 +1357,18 @@
             </Principal>
             <Dependent Role="usuario">
               <PropertyRef Name="OficinaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="paciente_ibfk_1">
+          <End Type="clinicaModel.persona" Role="persona" Multiplicity="1" />
+          <End Type="clinicaModel.paciente" Role="paciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="PersonaId" />
+            </Principal>
+            <Dependent Role="paciente">
+              <PropertyRef Name="PersonaId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1307,6 +1420,45 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="programacion">
+          <Key>
+            <PropertyRef Name="ProgramacionId" />
+          </Key>
+          <Property Name="ProgramacionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MedicoId" Type="Int32" Nullable="false" />
+          <Property Name="ConsultorioId" Type="Int32" Nullable="false" />
+          <Property Name="FechaInicio" Type="DateTime" Nullable="false" />
+          <Property Name="FechaFin" Type="DateTime" Nullable="false" />
+          <Property Name="Horario" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="Repite" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="consultorio" Relationship="clinicaModel.fk_programacion_consultorio1" FromRole="programacion" ToRole="consultorio" />
+          <NavigationProperty Name="medico" Relationship="clinicaModel.fk_programacion_medico1" FromRole="programacion" ToRole="medico" />
+        </EntityType>
+        <Association Name="fk_programacion_consultorio1">
+          <End Type="clinicaModel.consultorio" Role="consultorio" Multiplicity="1" />
+          <End Type="clinicaModel.programacion" Role="programacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="consultorio">
+              <PropertyRef Name="ConsultorioId" />
+            </Principal>
+            <Dependent Role="programacion">
+              <PropertyRef Name="ConsultorioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_programacion_medico1">
+          <End Type="clinicaModel.medico" Role="medico" Multiplicity="1" />
+          <End Type="clinicaModel.programacion" Role="programacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medico">
+              <PropertyRef Name="MedicoId" />
+            </Principal>
+            <Dependent Role="programacion">
+              <PropertyRef Name="MedicoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1325,6 +1477,19 @@
                 <ScalarProperty Name="ModeloId" ColumnName="ModeloId" />
                 <ScalarProperty Name="TipoArticuloId" ColumnName="TipoArticuloId" />
                 <ScalarProperty Name="ArticuloId" ColumnName="ArticuloId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="atencion">
+            <EntityTypeMapping TypeName="clinicaModel.atencion">
+              <MappingFragment StoreEntitySet="atencion">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Universidad" ColumnName="Universidad" />
+                <ScalarProperty Name="TituloProfesional" ColumnName="TituloProfesional" />
+                <ScalarProperty Name="FechaColegiacion" ColumnName="FechaColegiacion" />
+                <ScalarProperty Name="MedicoId" ColumnName="MedicoId" />
+                <ScalarProperty Name="PacienteId" ColumnName="PacienteId" />
+                <ScalarProperty Name="AtencionId" ColumnName="AtencionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1474,6 +1639,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="paciente">
+            <EntityTypeMapping TypeName="clinicaModel.paciente">
+              <MappingFragment StoreEntitySet="paciente">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Alergia" ColumnName="Alergia" />
+                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
+                <ScalarProperty Name="PacienteId" ColumnName="PacienteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="persona">
             <EntityTypeMapping TypeName="clinicaModel.persona">
               <MappingFragment StoreEntitySet="persona">
@@ -1489,18 +1664,6 @@
                 <ScalarProperty Name="Paterno" ColumnName="Paterno" />
                 <ScalarProperty Name="Nombres" ColumnName="Nombres" />
                 <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="programacion">
-            <EntityTypeMapping TypeName="clinicaModel.programacion">
-              <MappingFragment StoreEntitySet="programacion">
-                <ScalarProperty Name="Horario" ColumnName="Horario" />
-                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
-                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
-                <ScalarProperty Name="ConsultorioId" ColumnName="ConsultorioId" />
-                <ScalarProperty Name="MedicoId" ColumnName="MedicoId" />
-                <ScalarProperty Name="ProgramacionId" ColumnName="ProgramacionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1549,6 +1712,20 @@
                 <ScalarProperty Name="RolId" ColumnName="RolId" />
                 <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="programacion">
+            <EntityTypeMapping TypeName="clinicaModel.programacion">
+              <MappingFragment StoreEntitySet="programacion">
+                <ScalarProperty Name="Repite" ColumnName="Repite" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Horario" ColumnName="Horario" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="ConsultorioId" ColumnName="ConsultorioId" />
+                <ScalarProperty Name="MedicoId" ColumnName="MedicoId" />
+                <ScalarProperty Name="ProgramacionId" ColumnName="ProgramacionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

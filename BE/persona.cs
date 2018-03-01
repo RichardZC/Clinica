@@ -28,6 +28,8 @@ public partial class persona
 
         this.medico = new HashSet<medico>();
 
+        this.paciente = new HashSet<paciente>();
+
         this.usuario = new HashSet<usuario>();
 
     }
@@ -70,6 +72,10 @@ public partial class persona
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<medico> medico { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<paciente> paciente { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 

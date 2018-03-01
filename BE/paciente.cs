@@ -9,33 +9,39 @@
 //------------------------------------------------------------------------------
 
 
-namespace DA
+namespace BE
 {
 
 using System;
     using System.Collections.Generic;
     
-public partial class especialidad
+public partial class paciente
 {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public especialidad()
+    public paciente()
     {
 
-        this.medico = new HashSet<medico>();
+        this.atencion = new HashSet<atencion>();
 
     }
 
 
-    public int EspecialidadId { get; set; }
+    public int PacienteId { get; set; }
 
-    public string Denominacion { get; set; }
+    public int PersonaId { get; set; }
+
+    public string Alergia { get; set; }
+
+    public bool Estado { get; set; }
 
 
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<medico> medico { get; set; }
+    public virtual ICollection<atencion> atencion { get; set; }
+
+    public virtual persona persona { get; set; }
 
 }
 

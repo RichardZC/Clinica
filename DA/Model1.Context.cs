@@ -34,6 +34,8 @@ public partial class clinicaEntities : DbContext
 
     public virtual DbSet<articulo> articulo { get; set; }
 
+    public virtual DbSet<atencion> atencion { get; set; }
+
     public virtual DbSet<caja> caja { get; set; }
 
     public virtual DbSet<cajadiario> cajadiario { get; set; }
@@ -60,9 +62,9 @@ public partial class clinicaEntities : DbContext
 
     public virtual DbSet<oficina> oficina { get; set; }
 
-    public virtual DbSet<persona> persona { get; set; }
+    public virtual DbSet<paciente> paciente { get; set; }
 
-    public virtual DbSet<programacion> programacion { get; set; }
+    public virtual DbSet<persona> persona { get; set; }
 
     public virtual DbSet<rol> rol { get; set; }
 
@@ -73,6 +75,8 @@ public partial class clinicaEntities : DbContext
     public virtual DbSet<usuario> usuario { get; set; }
 
     public virtual DbSet<usuario_rol> usuario_rol { get; set; }
+
+    public virtual DbSet<programacion> programacion { get; set; }
 
 }
 

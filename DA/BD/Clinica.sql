@@ -71,7 +71,7 @@ DROP TABLE IF EXISTS atencion;
 CREATE TABLE atencion (
   AtencionId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   PacienteId INT(11) NOT NULL,
-  FOREIGN KEY(PacinteId) REFERENCES Paciente(PacienteId) on DELETE no action on UPDATE CASCADE,  
+  FOREIGN KEY(PacienteId) REFERENCES Paciente(PacienteId) on DELETE no action on UPDATE CASCADE,  
   MedicoId INT(11) NOT NULL,
   FOREIGN KEY(MedicoId) REFERENCES Medico(MedicoId) on DELETE no action on UPDATE CASCADE,
   FechaColegiacion DATE NOT NULL,
