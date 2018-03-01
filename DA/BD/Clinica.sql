@@ -34,28 +34,6 @@ CREATE TABLE `consultorio` (
 INSERT INTO `consultorio` (`ConsultorioId`, `denominacion`) VALUES ('0', 'Consultorio01'), ('0', 'Consultorio02');
 
 
-DROP TABLE IF EXISTS programacion;
-CREATE TABLE programacion (
-  `ProgramacionId` INT(11) NOT NULL AUTO_INCREMENT,
-  `MedicoId` INT(11) NOT NULL,
-  `ConsultorioId` INT(11) NOT NULL,
-  `FechaInicio` DATE NOT NULL,
-  `FechaFin` DATE NOT NULL,
-  `Horario` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`ProgramacionId`),
-  INDEX `fk_programacion_consultorio1_idx` (`ConsultorioId` ASC),
-  INDEX `fk_programacion_medico1_idx` (`MedicoId` ASC),
-  CONSTRAINT `fk_programacion_consultorio1`
-    FOREIGN KEY (`ConsultorioId`)
-    REFERENCES `clinica`.`consultorio` (`ConsultorioId`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_programacion_medico1`
-    FOREIGN KEY (`MedicoId`)
-    REFERENCES `clinica`.`medico` (`MedicoId`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
-
 
 DROP TABLE IF EXISTS paciente;
 CREATE TABLE paciente (
@@ -65,6 +43,20 @@ CREATE TABLE paciente (
   Alergia VARCHAR(500) ,
   Estado bit(1) NOT NULL
   );
+
+
+	--Creacion de tabla paciente
+	DROP TABLE IF EXISTS paciente;
+	CREATE TABLE `clinica`.`paciente`(
+    `PacienteId` INT(11) NOT NULL AUTO_INCREMENT,
+    `PersonaId` INT(11) NOT NULL,
+	`NumeroHistoria` VARCHAR(45) NOT NULL,
+    `Alergia` VARCHAR(255) NOT NULL,
+    `AntecedentePersonal` VARCHAR(255) NOT NULL,
+    `AntecedenteFamiliar` VARCHAR(255) NOT NULL,
+    PRIMARY KEY(`PacienteId`),
+    CONSTRAINT `PersonaId` FOREIGN KEY(`PersonaId`) REFERENCES `clinica`.`persona`(`PersonaId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB;
 
 
 DROP TABLE IF EXISTS atencion;
@@ -79,3 +71,17 @@ CREATE TABLE atencion (
   Universidad VARCHAR(120) ,
   Estado bit(1) NOT NULL
   );
+
+  DROP TABLE IF EXISTS programacion;
+  CREATE TABLE programacion (
+  ProgramacionId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  PersonaId int(11) NOT NULL,
+  FOREIGN KEY(PersonaId) REFERENCES persona(PersonaId) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FechaInicio date NOT NULL,
+  FechaLimite date DEFAULT NULL,
+  HoraInicio time NOT NULL,
+  HoraFin time NOT NULL,
+  Estado bit(1) DEFAULT NULL,
+  Repite bit(1) DEFAULT NULL,
+  Semanal bit(1) DEFAULT NULL
+);

@@ -82,10 +82,10 @@
     <Compile Include="especialidad.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="marca.cs">
+    <Compile Include="consultorio.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="consultorio.cs">
+    <Compile Include="marca.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="medico.cs">

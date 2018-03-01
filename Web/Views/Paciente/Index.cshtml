@@ -1,0 +1,76 @@
+﻿<main>
+    <div class="container">
+        <div id="mail-app" class="section">
+            <div class="row">
+                <div class="col s12">
+                    <nav class="blue darken-2">
+                        <div class="nav-wrapper">
+                            <div class="left col s3 m3 l3">
+                                <ul>
+                                    <li>
+                                        <a href="#!" class="email-menu"><i class="mdi-navigation-menu"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="#!" class="email-type">PACIENTES</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col s9 m9 l9 hide-on-med-and-down">
+                                <form class="row">
+                                    <div class="input-field">
+                                        <input id="btnb" type="text" placeholder="Buscar Medico" autofocus>
+                                        <label for="btnb">
+                                            <i class="mdi-action-search"></i>
+                                        </label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div class="col s12" id="listaMedicos">
+                    <div id="email-list" class="col s12 m12 l12 card-panel z-depth-1">
+                        <ul class="collection">
+                            <li v-for="(paciente,index) in items" class="collection-item avatar  {<text>selected</text>}"
+                                v-on:dblclick="Editar( paciente.PacienteId )"
+                                onclick="$(this).addClass('selected').siblings().removeClass('selected');">
+                                <span class="circle" v-bind:class="{'light-blue':paciente.Estado, 'red': !paciente.Estado}">{{paciente.Nombres.substring(0,1)}}</span>
+                                <span class="email-title">{{paciente.DNI}} {{paciente.Nombres}} </span>
+                                <p class="truncate grey-text ultra-small">Historia Clinica:{{paciente.NumeroHistoria}}</p>
+                                <a class="secondary-content email-time"><span class="blue-text ultra-small">{{paciente.Celular}} - {{paciente.Correo}}</span></a>
+                            </li>
+                        </ul>
+
+                        <div class="fixed-action-btn" style="bottom: 50px; right: 19px;">
+                            <a class="btn btn-floating btn-large red" href='@Url.Action("Mantener","Paciente",new { id=0 })'>
+                                <i class="mdi-social-person-add"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section scripts{
+    <script>
+        var vmedico = new Vue({
+            el: 'main',
+            data: {
+                items: {}
+            },
+            created: function () {
+                var self = this;
+                $.get('@Url.Action("Listar", "Paciente")', {}, function (d) {
+                    self.items = d;
+                });
+            },
+            methods: {
+                Editar:function(id){
+                    window.location = '@Url.Action("Mantener", "Paciente")' + '/' + id;
+                }
+            }
+        })
+    </script>
+}
