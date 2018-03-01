@@ -16,7 +16,7 @@ namespace BE
     {
         public int ProgramacionId { get; set; }
         public int PersonaId { get; set; }
-        public Nullable<System.DateTime> FechaInicio { get; set; }
+        public System.DateTime FechaInicio { get; set; }
         public Nullable<System.DateTime> FechaLimite { get; set; }
         public System.TimeSpan HoraInicio { get; set; }
         public System.TimeSpan HoraFin { get; set; }
