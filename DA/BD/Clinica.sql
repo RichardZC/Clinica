@@ -34,20 +34,8 @@ CREATE TABLE `consultorio` (
 INSERT INTO `consultorio` (`ConsultorioId`, `denominacion`) VALUES ('0', 'Consultorio01'), ('0', 'Consultorio02');
 
 
-
-DROP TABLE IF EXISTS paciente;
-CREATE TABLE paciente (
-  PacienteId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  PersonaId INT(11) NOT NULL,
-  FOREIGN KEY(PersonaId) REFERENCES Persona(PersonaId) on DELETE no action on UPDATE CASCADE,  
-  Alergia VARCHAR(500) ,
-  Estado bit(1) NOT NULL
-  );
-
-
-	--Creacion de tabla paciente
 	DROP TABLE IF EXISTS paciente;
-	CREATE TABLE `clinica`.`paciente`(
+	CREATE TABLE paciente(
     `PacienteId` INT(11) NOT NULL AUTO_INCREMENT,
     `PersonaId` INT(11) NOT NULL,
 	`NumeroHistoria` VARCHAR(45) NOT NULL,
@@ -56,7 +44,7 @@ CREATE TABLE paciente (
     `AntecedenteFamiliar` VARCHAR(255) NOT NULL,
     PRIMARY KEY(`PacienteId`),
     CONSTRAINT `PersonaId` FOREIGN KEY(`PersonaId`) REFERENCES `clinica`.`persona`(`PersonaId`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE = InnoDB;
+);
 
 
 DROP TABLE IF EXISTS atencion;

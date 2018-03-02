@@ -42,9 +42,7 @@
                                 <label class="right" for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Persona</label>
 
                             </div>
-                            <div class="input-field col s1 m1 l1">
-                                <a href='@Url.Action("Mantener", "Persona",new {id=0,href= Request.Url.AbsoluteUri })' class="btn btn-flat teal text white-text tooltipped " style="padding:8px; height:auto;line-height:25px" data-tooltip="Nueva Persona"><i class="mdi-social-person-add"></i></a>
-                            </div>
+                            
                             <div class="input-field col s1 ">
                                 <a class="btn btn-floating tooltipped" data-tooltip="Crear Persona" data-position="left" href='@Url.Action("Mantener","Persona",new { id=0,href = Request.Url.AbsoluteUri })'>
                                     <i class="mdi-social-person-add"></i>

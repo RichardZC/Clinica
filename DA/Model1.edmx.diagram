@@ -20,40 +20,40 @@
         <EntityTypeShape EntityType="clinicaModel.menu" Width="1.5" PointX="3" PointY="26.375" IsExpanded="true" />
         <EntityTypeShape EntityType="clinicaModel.modelo" Width="1.5" PointX="13" PointY="3" IsExpanded="true" />
         <EntityTypeShape EntityType="clinicaModel.oficina" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="clinicaModel.paciente" Width="1.5" PointX="3" PointY="18.75" IsExpanded="true" />
         <EntityTypeShape EntityType="clinicaModel.persona" Width="1.5" PointX="0.75" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="clinicaModel.programacion" Width="1.5" PointX="3" PointY="22.125" IsExpanded="true" />
         <EntityTypeShape EntityType="clinicaModel.rol" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="clinicaModel.rol_menu" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
         <EntityTypeShape EntityType="clinicaModel.tipoarticulo" Width="1.5" PointX="13" PointY="7.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="clinicaModel.usuario" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="clinicaModel.usuario_rol" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
         <AssociationConnector Association="clinicaModel.articulo_ibfk_1" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.articulo_ibfk_2" ManuallyRouted="false" />
-        <AssociationConnector Association="clinicaModel.atencion_ibfk_1" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.atencion_ibfk_2" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.cajadiario_ibfk_1" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.cajadiario_ibfk_2" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.cajamov_ibfk_1" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.cajamov_ibfk_5" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.cajamov_ibfk_2" ManuallyRouted="false" />
-        <AssociationConnector Association="clinicaModel.cajamov_ibfk_3" ManuallyRouted="false" />
-        <AssociationConnector Association="clinicaModel.cajamov_ibfk_4" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.cajamovdetalle_ibfk_1" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.cajamovdetalle_ibfk_2" ManuallyRouted="false" />
-        <AssociationConnector Association="clinicaModel.usuario_ibfk_2" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.conceptopago_ibfk_1" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.medico_ibfk_2" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.modelo_ibfk_1" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.medico_ibfk_1" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.rol_menu_ibfk_2" ManuallyRouted="false" />
-        <AssociationConnector Association="clinicaModel.usuario_ibfk_3" ManuallyRouted="false" />
-        <AssociationConnector Association="clinicaModel.PersonaId" ManuallyRouted="false" />
-        <AssociationConnector Association="clinicaModel.programacion_ibfk_1" ManuallyRouted="false" />
-        <AssociationConnector Association="clinicaModel.usuario_ibfk_1" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.rol_menu_ibfk_1" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.usuario_rol_ibfk_2" ManuallyRouted="false" />
-        <AssociationConnector Association="clinicaModel.usuario_rol_ibfk_1" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="clinicaModel.usuario" Width="1.5" PointX="3" PointY="7" />
+        <AssociationConnector Association="clinicaModel.cajamov_ibfk_3" />
+        <AssociationConnector Association="clinicaModel.cajamov_ibfk_4" />
+        <AssociationConnector Association="clinicaModel.usuario_ibfk_2" />
+        <AssociationConnector Association="clinicaModel.usuario_ibfk_3" />
+        <AssociationConnector Association="clinicaModel.usuario_ibfk_1" />
+        <AssociationConnector Association="clinicaModel.usuario_rol_ibfk_1" />
+        <EntityTypeShape EntityType="clinicaModel.paciente" Width="1.5" PointX="3" PointY="16.375" />
+        <EntityTypeShape EntityType="clinicaModel.programacion" Width="1.5" PointX="3" PointY="19.625" />
+        <AssociationConnector Association="clinicaModel.atencion_ibfk_1" />
+        <AssociationConnector Association="clinicaModel.PersonaId" />
+        <AssociationConnector Association="clinicaModel.programacion_ibfk_1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

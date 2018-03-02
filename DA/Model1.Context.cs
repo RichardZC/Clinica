@@ -40,13 +40,13 @@ namespace BE
         public virtual DbSet<menu> menu { get; set; }
         public virtual DbSet<modelo> modelo { get; set; }
         public virtual DbSet<oficina> oficina { get; set; }
-        public virtual DbSet<paciente> paciente { get; set; }
         public virtual DbSet<persona> persona { get; set; }
-        public virtual DbSet<programacion> programacion { get; set; }
         public virtual DbSet<rol> rol { get; set; }
         public virtual DbSet<rol_menu> rol_menu { get; set; }
         public virtual DbSet<tipoarticulo> tipoarticulo { get; set; }
-        public virtual DbSet<usuario> usuario { get; set; }
         public virtual DbSet<usuario_rol> usuario_rol { get; set; }
+        public virtual DbSet<usuario> usuario { get; set; }
+        public virtual DbSet<paciente> paciente { get; set; }
+        public virtual DbSet<programacion> programacion { get; set; }
     }
 }

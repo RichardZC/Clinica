@@ -40,7 +40,7 @@ namespace Web.Controllers
             var med = new medico();
             med.Estado = true;
             if (id > 0)
-                med = MedicoBL.Obtener(x=>x.MedicoId==id, includeProperties:"Persona");
+                med = MedicoBL.Obtener(x => x.MedicoId == id, includeProperties: "Persona");
 
             ViewBag.cboEspecialidad = new SelectList(EspecialidadBL.Listar(), "EspecialidadId", "Denominacion");
             return View(med);
@@ -51,13 +51,13 @@ namespace Web.Controllers
         public JsonResult Guardar(medico med, string pEstado)
         {
             var rm = new ResponseModel();
-            
-            if (med.PersonaId==0)
+
+            if (med.PersonaId == 0)
             {
                 rm.SetResponse(false, "Ingrese a la Persona");
                 return Json(rm);
             }
-            var val = MedicoBL.Contar(x => x.MedicoId!=med.MedicoId && x.PersonaId == med.PersonaId);
+            var val = MedicoBL.Contar(x => x.MedicoId != med.MedicoId && x.PersonaId == med.PersonaId);
             if (val > 0)
             {
                 rm.SetResponse(false, "Ya existe el médico para esta persona, ingrese otro");
@@ -67,6 +67,23 @@ namespace Web.Controllers
             {
                 if (!string.IsNullOrEmpty(pEstado)) med.Estado = true;
                 MedicoBL.Guardar(med);
+                if (UsuarioBL.Contar(x => x.PersonaId == med.PersonaId) == 0)
+                {
+                    var p = PersonaBL.Obtener(med.PersonaId);
+                    var rol_medico = new List<usuario_rol>();
+                    rol_medico.Add(new usuario_rol { RolId = Constante.SEGURIDAD.ROL_MEDICO });
+                    UsuarioBL.Crear(new usuario
+                    {
+                        PersonaId = med.PersonaId,
+                        Nombre = p.Nombres.Substring(0, 1) + p.Paterno,
+                        Clave = Constante.SEGURIDAD.CLAVE_DEFAULT,
+                        Activo = true,
+                        IndCambio = true,
+                        usuario_rol = rol_medico
+                    });
+                    
+                }
+
                 rm.SetResponse(true);
                 rm.href = Url.Action("Index", "Medico");
             }

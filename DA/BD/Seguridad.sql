@@ -27,9 +27,9 @@ create table Usuario(
 	Activo bit(1) NOT NULL DEFAULT b'1',
     IndCambio bit(1) NOT NULL DEFAULT b'1',
 	FOREIGN KEY(PersonaId) REFERENCES Persona(PersonaId) on DELETE no action on UPDATE CASCADE,
-    CargoId int(11) NOT NULL,
+    CargoId int(11) ,
     FOREIGN KEY(CargoId) REFERENCES Cargo(CargoId) on DELETE no action on UPDATE CASCADE,
-    OficinaId int(11) NOT NULL,
+    OficinaId int(11) ,
     FOREIGN KEY(OficinaId) REFERENCES Oficina(OficinaId) on DELETE no action on UPDATE CASCADE
 );
 INSERT INTO usuario VALUES ('1', '1', 'ADMIN', '202cb962ac59075b964b07152d234b70', 1, 0,1,2);
@@ -40,8 +40,8 @@ create table rol(
 	Denominacion VARCHAR(100) NOT NULL 
 );
 INSERT INTO rol VALUES (1, 'ADMINISTRADOR');
-INSERT INTO rol VALUES (2, 'CLINICA');
-INSERT INTO rol VALUES (3, 'SEGURIDAD');
+INSERT INTO rol VALUES (2, 'SEGURIDAD');
+INSERT INTO rol VALUES (3, 'MEDICO');
 INSERT INTO rol VALUES (4, 'CAJERO');
 
 DROP TABLE IF EXISTS Usuario_Rol;
