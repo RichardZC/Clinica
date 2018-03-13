@@ -1,1 +1,84 @@
-﻿cargado de la vista oarcial
+﻿@model BE.programacion
+<main>
+    <div class="card-panel">
+
+        <div class="row">
+            <form id="formValidate" class="validar right-alert" method="post" action='@Url.Action("Guardar", "Programacion")'>
+                <input type="hidden" name="ProgramacionId" id="ProgramacionId" value="@Model.ProgramacionId" />
+
+                <div class="row">
+
+
+                    <div class="input-field col s11  m5 l5">
+                        <input type="hidden" id="MedicoId" name="MedicoId" value="@Model.MedicoId" />
+                        <i class="mdi-action-search prefix"></i>
+                        <input id="autocompletar" type="text" placeholder="DNI/Apellidos"
+                               data-url='@Url.Action("ListarMedicos","Comun")'
+                               data-seleccion="MedicoId" value="@(Model.medico == null ? "" : Model.medico.persona.NombreCompleto)"
+                               @if (Model.ProgramacionId == 0) { <text> autofocus </text>    }>
+                        <label class="right" for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Medico</label>
+
+                    </div>
+                    <div class="input-field col s1 m1 l1">
+                        <a href='@Url.Action("Mantener", "Medico", new { id = 0, href = Request.Url.AbsoluteUri })' class="btn btn-flat teal text white-text tooltipped " style="padding:8px; height:auto;line-height:25px" data-tooltip="Nuevo Médico"><i class="mdi-social-person-add"></i></a>
+                    </div>
+                    <div class="input-field col s6 m3 l3">
+                        <i class="mdi-notification-event-note prefix"></i>
+                        <input placeholder="" id="FechaInicio" name="FechaInicio" type="text" value="@Model.FechaInicio.Value.ToShortDateString()">
+                        <label class="active" for="FechaInicio">Fecha Inicio</label>
+
+                    </div>
+                    <div v-show="repite" class="input-field col s6 m3 l3">
+                        <label class="active" for="FechaLimite">Fecha Limite</label>
+                        <input type="text" id="FechaLimite" name="FechaLimite" class="datepicker" value="@Model.FechaLimite.Value.ToShortDateString()">
+                    </div>
+                    <div class="row"></div>
+                    <div class="input-field col s12 m6 l3">
+                        @Html.DropDownListFor(x => x.HoraInicio, (IEnumerable<SelectListItem>)ViewBag.cboHoras)
+                        <label for="HoraInicio">Hora Inicio</label>
+                    </div>
+                    <div class="input-field col s12 m6 l3">
+                        @Html.DropDownListFor(x => x.HoraFin, (IEnumerable<SelectListItem>)ViewBag.cboHoras)
+                        <label for="HoraFin">Hora Fin</label>
+                    </div>
+                    <div class="input-field col s3 m3 l2">
+                        <input type="checkbox" name="pEstado" class="filled-in" id="Activo" @{if (Model.Estado.Value) {  <text> checked </text>    } } />
+                        <label for="Activo">Activo</label>
+                    </div>
+                    <div  class="input-field col s3 m3 l2">
+                        <input type="checkbox" name="pRepite" v-model="repite" class="filled-in" id="Repite" @{if (Model.Repite.Value) {  <text> checked </text>    } } />
+                        <label for="Repite">repite?</label>
+                    </div>
+                    <div v-show="repite" class="input-field col s3 m3 l2">
+                        <input type="checkbox" name="pRepiteSemana" class="filled-in" id="RepiteSemana" @{if (Model.Semanal.Value) {  <text> checked </text>    } } />
+                        <label for="RepiteSemana">Semanal?</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
+                            Guardar
+                            <i class="mdi-action-done right"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+        });
+        var vprogramacion = new Vue({
+            el: 'main',
+            data: {
+                repite: true,
+                r: true,
+                programacion: {},
+            },
+            created: function () {
+               if(@Model.ProgramacionId>0){this.repite=false;}
+            },
+        })
+    </script>
+}

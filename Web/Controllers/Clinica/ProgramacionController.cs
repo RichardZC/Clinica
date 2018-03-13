@@ -16,27 +16,30 @@ namespace Web.Controllers.Clinica
         {
             programacion progr = new programacion();
             progr.ProgramacionId = 0;
-            ViewBag.cboPersona = new SelectList(MedicoBL.listarMedico(), "PersonaId", "NombreCompleto");
-            ViewBag.fechaActual = DateTime.Now;
-            List<programacion> lista = new List<programacion>();
+            ViewBag.cboHoras = new SelectList(ProgramacionBL.Horas(), "Id", "Valor");
             return View(progr);
         }
 
         public JsonResult GetEvents()
         {
             var clientList = new List<object>();
-            foreach (var e in ProgramacionBL.Listar())
+            foreach (var e in ProgramacionBL.Listar(includeProperties: "Medico"))
             {
                 clientList.Add(new
                 {
                     id = e.ProgramacionId,
-                    title = "\n" + BL.PersonaBL.Obtener(e.PersonaId).NombreCompleto,
+                    title = BL.PersonaBL.Obtener(e.medico.PersonaId).NombreCompleto + "\n" + BL.EspecialidadBL.Obtener(e.medico.EspecialidadId).Denominacion
+                    + "\n" + e.HoraInicio + " - " + e.HoraFin,
                     start = e.FechaInicio.Value.ToString("yyyy-MM-dd") + "T" + e.HoraInicio,
                     end = e.FechaLimite.Value.ToString("yyyy-MM-dd") + "T" + e.HoraFin
                 });
             }
             return Json(clientList.ToArray(), JsonRequestBehavior.AllowGet);
         }
+
+
+
+
 
         [HttpPost]
         public JsonResult Guardar(programacion progr, string pEstado, string pRepite, string pRepiteSemana)
@@ -45,6 +48,7 @@ namespace Web.Controllers.Clinica
 
             try
             {
+
                 if (!string.IsNullOrEmpty(pEstado)) { progr.Estado = true; } else { progr.Estado = false; }
                 if (!string.IsNullOrEmpty(pRepite)) { progr.Repite = true; } else { progr.Repite = false; }
                 if (!string.IsNullOrEmpty(pRepiteSemana)) { progr.Semanal = true; } else { progr.Semanal = false; }
@@ -55,7 +59,7 @@ namespace Web.Controllers.Clinica
                     DateTime FecFinal = progr.FechaLimite.Value;
                     System.TimeSpan dif = FecFinal - Fecini;
                     DateTime FecSec;
-                    if (progr.Semanal.Value)
+                    if (progr.Repite.Value && progr.Semanal.Value)
                     {
                         for (int n = 0; n <= dif.Days; n++)
                         {
@@ -82,10 +86,12 @@ namespace Web.Controllers.Clinica
                         }
                     }
                 }
-                else {
+                else
+                {
                     progr.FechaLimite = progr.FechaInicio;
                     ProgramacionBL.Guardar(progr);
                 }
+
                 rm.SetResponse(true);
                 rm.href = Url.Action("Index", "Programacion");
                 //rm.function = "cargar();";
@@ -98,9 +104,11 @@ namespace Web.Controllers.Clinica
             return Json(rm);
         }
 
-        public PartialViewResult VistaMantener(int id)
+        public ActionResult Mantener(int id)
         {
-            return PartialView();
+            ViewBag.cboHoras = new SelectList(ProgramacionBL.Horas(), "Id", "Valor");
+            programacion prog = ProgramacionBL.Obtener(x => x.ProgramacionId == id, includeProperties: "Medico.Persona");
+            return View(prog);
         }
     }
 }

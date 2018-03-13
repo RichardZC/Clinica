@@ -404,6 +404,9 @@
     <Content Include="Views\Paciente\Mantener.cshtml" />
     <Content Include="Views\Programacion\Index.cshtml" />
     <Content Include="Views\Programacion\Mantener.cshtml" />
+    <Content Include="Views\Persona\Mantener.cshtml" />
+    <Content Include="Views\Cita\Mantener.cshtml" />
+    <Content Include="Views\Cita\Cita.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

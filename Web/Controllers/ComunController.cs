@@ -24,6 +24,24 @@ namespace Web.Controllers
             , JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult ListarPacientes()
+        {
+            return Json(BL.PacienteBL.Listar(includeProperties: "Persona").Select(x => new
+            {
+                value = x.persona.DNI + " - " + x.persona.NombreCompleto,
+                data = x.PacienteId
+            }), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ListarMedicos()
+        {
+            return Json(BL.MedicoBL.Listar(includeProperties: "Persona").Select(x => new
+            {
+                value = x.persona.DNI + " - " + x.persona.NombreCompleto,
+                data = x.MedicoId
+            }), JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpPost]
         public JsonResult GuardarTabla(string tabla, BL.Modelo.Tabla data)

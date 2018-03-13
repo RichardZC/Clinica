@@ -18,6 +18,7 @@ namespace BE
         public paciente()
         {
             this.atencion = new HashSet<atencion>();
+            this.cita = new HashSet<cita>();
         }
     
         public int PacienteId { get; set; }
@@ -30,5 +31,7 @@ namespace BE
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<atencion> atencion { get; set; }
         public virtual persona persona { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<cita> cita { get; set; }
     }
 }

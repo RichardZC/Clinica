@@ -93,18 +93,11 @@
     overflow: hidden;
 }
 
-#modalP { 
-    /*display: none;
-    position: fixed;
-    left: 0;
-    right: 0;
-    background-color: #fafafa;
-    padding: 0;*/
-    width: 80%;
-    /*margin: auto;
-    overflow-y: auto;
-    border-radius: 2px;
-    will-change: top, opacity;*/
+#modalP,#modalMantener { 
+   
+    /*width: 80%;*/
+    height:63%;
+    
 }  
 
 

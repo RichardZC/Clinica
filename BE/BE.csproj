@@ -76,6 +76,9 @@
     <Compile Include="cargo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="cita.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="conceptopago.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
