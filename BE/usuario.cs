@@ -28,8 +28,8 @@ namespace BE
         public string Clave { get; set; }
         public bool Activo { get; set; }
         public bool IndCambio { get; set; }
-        public int CargoId { get; set; }
-        public int OficinaId { get; set; }
+        public Nullable<int> CargoId { get; set; }
+        public Nullable<int> OficinaId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<cajamov> cajamov { get; set; }

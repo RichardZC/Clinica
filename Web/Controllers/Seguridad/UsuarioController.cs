@@ -48,7 +48,7 @@ namespace Web.Controllers
                 u.PersonaId = pPersonaId;
                 u.IndCambio = true;
 
-                u.Clave = "202cb962ac59075b964b07152d234b70";//123
+                u.Clave = Constante.SEGURIDAD.CLAVE_DEFAULT;
                 UsuarioBL.Crear(u);
 
                 id = u.UsuarioId;

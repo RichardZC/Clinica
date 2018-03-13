@@ -27,9 +27,9 @@ create table Usuario(
 	Activo bit(1) NOT NULL DEFAULT b'1',
     IndCambio bit(1) NOT NULL DEFAULT b'1',
 	FOREIGN KEY(PersonaId) REFERENCES Persona(PersonaId) on DELETE no action on UPDATE CASCADE,
-    CargoId int(11) NOT NULL,
+    CargoId int(11) ,
     FOREIGN KEY(CargoId) REFERENCES Cargo(CargoId) on DELETE no action on UPDATE CASCADE,
-    OficinaId int(11) NOT NULL,
+    OficinaId int(11) ,
     FOREIGN KEY(OficinaId) REFERENCES Oficina(OficinaId) on DELETE no action on UPDATE CASCADE
 );
 INSERT INTO usuario VALUES ('1', '1', 'ADMIN', '202cb962ac59075b964b07152d234b70', 1, 0,1,2);
@@ -40,8 +40,8 @@ create table rol(
 	Denominacion VARCHAR(100) NOT NULL 
 );
 INSERT INTO rol VALUES (1, 'ADMINISTRADOR');
-INSERT INTO rol VALUES (2, 'CLINICA');
-INSERT INTO rol VALUES (3, 'SEGURIDAD');
+INSERT INTO rol VALUES (2, 'SEGURIDAD');
+INSERT INTO rol VALUES (3, 'MEDICO');
 INSERT INTO rol VALUES (4, 'CAJERO');
 
 DROP TABLE IF EXISTS Usuario_Rol;
@@ -81,8 +81,6 @@ INSERT INTO menu VALUES (24, 'Reportes', 'Informe', 		null, 0, 20);
 INSERT INTO menu VALUES (25, 'Medico', 'Medico', 		null, 0, 20);
 INSERT INTO menu VALUES (26, 'Configuracion', 'Config', 		null, 0, 20);
 INSERT INTO menu VALUES (27, 'Programacion', 'Programacion', 		null, 0, 20);
-INSERT INTO menu VALUES (28, 'Paciente', 'Paciente', 		null, 0, 20);
-
 
 
 INSERT INTO menu VALUES (30, 'Caja', 		'Cajadiario', 	'mdi-action-book', 	1, null);
@@ -118,8 +116,6 @@ INSERT INTO rol_menu(MenuId,RolId) VALUES (24, 1);
 INSERT INTO rol_menu(MenuId,RolId) VALUES (25, 1);
 INSERT INTO rol_menu(MenuId,RolId) VALUES (26, 1);
 INSERT INTO rol_menu(MenuId,RolId) VALUES (27, 1);
-INSERT INTO rol_menu(MenuId,RolId) VALUES (28, 1);
-
 
 INSERT INTO rol_menu(MenuId,RolId) VALUES (30, 1);
 INSERT INTO rol_menu(MenuId,RolId) VALUES (31, 1);

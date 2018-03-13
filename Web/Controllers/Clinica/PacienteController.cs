@@ -24,7 +24,7 @@ namespace Web.Controllers.Clinica
             {
                 PersonaId = x.PersonaId,
                 PacienteId = x.PacienteId,
-                NumeroHistoria = x.NumeroHistoria,
+                //NumeroHistoria = x.NumeroHistoria,
                 Nombres = x.persona.NombreCompleto,
                 DNI = x.persona.DNI,
                 Celular = x.persona.Celular,
