@@ -22,7 +22,7 @@ namespace BE
         public string Universidad { get; set; }
         public bool Estado { get; set; }
     
-        public virtual medico medico { get; set; }
         public virtual paciente paciente { get; set; }
+        public virtual medico medico { get; set; }
     }
 }

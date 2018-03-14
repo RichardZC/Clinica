@@ -137,7 +137,7 @@
 
         function combo() {
             if(@Model.CitaId>0){
-                fn.CargarCombo("@Url.Action("ComboEspecialidadCita", "Cita")" + "?fechaCita=5/03/2018" @*+@Model.FechaAtencion()*@, "pEspecialidad");
+                fn.CargarCombo("@Url.Action("ComboEspecialidadCita", "Cita")" + "?fechaCita=" +$("#FechaAtencion").val(), "pEspecialidad");
             };
         };
 

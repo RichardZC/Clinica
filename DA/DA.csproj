@@ -95,7 +95,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>
-      <CustomToolNamespace>BE</CustomToolNamespace>
     </Content>
   </ItemGroup>
   <ItemGroup>
