@@ -1,29 +1,244 @@
-﻿
-<div class="row" style="margin-bottom:0;">
-
-    <div class="col s12 m12 l12">
-        <div class="card-panel">
-            <div class="row" style="margin-bottom:0;">
-                <form class="right-alert validar">
-                    <div class="input-field col s11">
-                        <input type="hidden" id="txtPersonaId" name="pPersonaId" value="0" />
-                        <i class="mdi-action-search prefix"></i>
-                        <input id="autocompletar" type="text" placeholder="DNI/Apellidos" required
-                               data-url='@Url.Action("ListarPersonas","Comun")'
-                               data-seleccion="txtPersonaId">
-                        <label for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Persona</label>
-                    </div>
-                    <div class="input-field col s1 ">
-                        <a class="btn btn-floating tooltipped" data-tooltip="Crear Persona" data-position="left" href='@Url.Action("Mantener","Persona",new { id=0,href=Url.Action("Index","Home") })'>
-                            <i class="mdi-social-person-add"></i>
-                        </a>
-                    </div>
-                    @*<div class="input-field col s6 valign-wrapper">
-                        <input type="submit" class="btn" value="enviar" />
-                    </div>*@
-                </form>
+﻿@{
+    var med = BL.ComunBL.GetMedico();
+}
+@if (med == null)
+{
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <div id="card-alert" class="card orange">
+                <div class="card-content white-text center">
+                    <span class="card-title white-text darken-1"><i class="mdi-social-notifications"></i>  Modulo de atención no asignada</span>
+                    <p> TU USUARIO ACTUAL NO ES MEDICO.</p>
+                </div>
             </div>
-
         </div>
     </div>
-</div>
+}
+else
+{
+    <div class="container">
+
+        <div id="profile-page" class="section">
+
+            <!-- profile-page-content -->
+            <div id="profile-page-content" class="row">
+                <!-- profile-page-sidebar-->
+                <div id="profile-page-sidebar" class="col s12 m4">
+                    <!-- Profile About  -->
+                    <div class="card light-blue">
+                        <div class="card-content white-text">
+                            <p>Hola Dr. @med.persona.NombreCompleto</p>
+                            <p>@med.TituloProfesional</p>
+                        </div>
+                    </div>
+
+                    <ul id="profile-page-about-details" class="collection z-depth-1">
+                        <li class="collection-item">
+                            <div class="row">
+                                <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i> Fecha</div>
+                                <div class="col s7 grey-text text-darken-4 right-align">10/12/2018</div>
+                            </div>
+                        </li>
+                        <li class="collection-item">
+                            <div class="row">
+                                <div class="col s5 grey-text darken-1"><i class="mdi-social-poll"></i> Consultorio</div>
+                                <div class="col s7 grey-text text-darken-4 right-align">2 externo</div>
+                            </div>
+                        </li>
+                        <li class="collection-item">
+                            <div class="row">
+                                <div class="col s5 grey-text darken-1"><i class="mdi-social-domain"></i> Turno</div>
+                                <div class="col s7 grey-text text-darken-4 right-align">8:00-12:00</div>
+                            </div>
+                        </li>
+                        <li class="collection-item">
+                            <div class="row">
+                                <div class="col s5 grey-text darken-1"><i class="mdi-social-cake"></i> Tipo Atencion</div>
+                                <div class="col s7 grey-text text-darken-4 right-align">PEDIATRIA</div>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- Profile About  -->
+                    <div class="card amber darken-2">
+                        <div class="card-content white-text center-align">
+                            <p class="card-title"><i class="mdi-social-group-add"></i> 15 Pacientes</p>
+
+                        </div>
+                    </div>
+                    <!-- Profile About  -->
+                    <!-- Profile feed  -->
+                    <ul id="profile-page-about-feed" class="collection z-depth-1">
+                        <li class="collection-item avatar">
+                            <i class="mdi-action-accessibility circle green"></i>
+                            <span class="title">41901791 Yanide Galindo Bautista</span>
+                            <p>
+                                <span class="ultra-small">Orden: 1 - Hora : 11.15 </span>
+                            </p>
+                            <a href="#!" class="secondary-content"><i class="mdi-action-track-changes"></i></a>
+                        </li>
+                        <li class="collection-item avatar">
+                            <i class="mdi-action-accessibility circle green"></i>
+                            <span class="title">41901791 Yanide Galindo Bautista</span>
+                            <p>
+                                <span class="ultra-small">Orden: 1 - Hora : 11.15 </span>
+                            </p>
+                            <a href="#!" class="secondary-content"><i class="mdi-action-track-changes"></i></a>
+                        </li>
+                        <li class="collection-item avatar">
+                            <i class="mdi-action-accessibility circle green"></i>
+                            <span class="title">41901791 Yanide Galindo Bautista</span>
+                            <p>
+                                <span class="ultra-small">Orden: 1 - Hora : 11.15 </span>
+                            </p>
+                            <a href="#!" class="secondary-content"><i class="mdi-action-track-changes"></i></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- profile-page-wall -->
+                <div id="profile-page-wall" class="col s12 m8">                    
+                    <!-- profile-page-wall-posts -->
+                    <div id="profile-page-wall-posts" class="row">
+                        <div class="col s12">
+                            <!-- medium -->
+                            <div id="profile-page-wall-post" class="card">
+                                <div class="card-profile-title">
+                                    <div class="row">
+                                        <div class="col s1">
+                                            <img src="images/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
+                                        </div>
+                                        <div class="col s10">
+                                            <p class="grey-text text-darken-4 margin">PACIENTE: Yanide Galindo Bautista 2745896321</p>
+                                            <span class="grey-text text-darken-1 ultra-small">Orden 21  -  26 Junio 2015</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12">
+                                            <p>Resumen de atencion del paciente.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-action row">
+                                    <div class="col s4 card-action-share">
+                                        <a href="#">Historia</a>
+                                    </div>
+
+                                    <div class="input-field col s8 margin">
+                                        <input id="profile-comments" type="text" class="validate margin">
+                                        <label for="profile-comments" class="">Buscar Paciente</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- profile-page-wall-share -->
+                    <div id="profile-page-wall-share" class="row">
+                        <div class="col s12">
+                            <ul class="tabs tab-profile z-depth-1 light-blue">
+                                <li class="tab col s3">
+                                    <a class="white-text waves-effect waves-light active" href="#UpdateStatus"><i class="mdi-editor-border-color"></i> Topico</a>
+                                </li>
+                                <li class="tab col s3">
+                                    <a class="white-text waves-effect waves-light" href="#AddPhotos"><i class="mdi-image-camera-alt"></i> Atencion</a>
+                                </li>
+                                <li class="tab col s3">
+                                    <a class="white-text waves-effect waves-light" href="#CreateAlbum"><i class="mdi-image-photo-album"></i> Examenes</a>
+                                </li>
+                            </ul>
+                            <!-- UpdateStatus-->
+                            <div id="UpdateStatus" class="tab-content col s12  grey lighten-4">
+                                <div class="row">                                   
+                                    <div class="input-field col s12">
+                                        <textarea id="textarea" row="2" class="materialize-textarea"></textarea>
+                                        <label for="textarea" class="">Topico</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m6 share-icons">
+                                        <a href="#"><i class="mdi-image-camera-alt"></i></a>
+                                        <a href="#"><i class="mdi-action-account-circle"></i></a>
+                                    </div>
+                                    <div class="col s12 m6 right-align">
+                                        <a class="waves-effect waves-light btn"><i class="mdi-maps-rate-review left"></i>Guardar</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- AddPhotos -->
+                            <div id="AddPhotos" class="tab-content col s12  grey lighten-4">
+                                <div class="row">
+                                    <div class="col s2">
+                                        <img src="images/avatar.jpg" alt="" class="circle responsive-img valign profile-image-post">
+                                    </div>
+                                    <div class="input-field col s10">
+                                        <textarea id="textarea" row="2" class="materialize-textarea"></textarea>
+                                        <label for="textarea" class="">Share your favorites photos!</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m6 share-icons">
+                                        <a href="#"><i class="mdi-image-camera-alt"></i></a>
+                                        <a href="#"><i class="mdi-action-account-circle"></i></a>
+                                        <a href="#"><i class="mdi-hardware-keyboard-alt"></i></a>
+                                        <a href="#"><i class="mdi-communication-location-on"></i></a>
+                                    </div>
+                                    <div class="col s12 m6 right-align">
+                                        <!-- Dropdown Trigger -->
+                                        <a class='dropdown-button btn' href='#' data-activates='profliePost2'><i class="mdi-action-language"></i> Public</a>
+
+                                        <!-- Dropdown Structure -->
+                                        <ul id='profliePost2' class='dropdown-content'>
+                                            <li><a href="#!"><i class="mdi-action-language"></i> Public</a></li>
+                                            <li><a href="#!"><i class="mdi-action-face-unlock"></i> Friends</a></li>
+                                            <li><a href="#!"><i class="mdi-action-lock-outline"></i> Only Me</a></li>
+                                        </ul>
+
+                                        <a class="waves-effect waves-light btn"><i class="mdi-maps-rate-review left"></i>Post</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- CreateAlbum -->
+                            <div id="CreateAlbum" class="tab-content col s12  grey lighten-4">
+                                <div class="row">
+                                    <div class="col s2">
+                                        <img src="images/avatar.jpg" alt="" class="circle responsive-img valign profile-image-post">
+                                    </div>
+                                    <div class="input-field col s10">
+                                        <textarea id="textarea" row="2" class="materialize-textarea"></textarea>
+                                        <label for="textarea" class="">Create awesome album.</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 m6 share-icons">
+                                        <a href="#"><i class="mdi-image-camera-alt"></i></a>
+                                        <a href="#"><i class="mdi-action-account-circle"></i></a>
+                                        <a href="#"><i class="mdi-hardware-keyboard-alt"></i></a>
+                                        <a href="#"><i class="mdi-communication-location-on"></i></a>
+                                    </div>
+                                    <div class="col s12 m6 right-align">
+                                        <!-- Dropdown Trigger -->
+                                        <a class='dropdown-button btn' href='#' data-activates='profliePost3'><i class="mdi-action-language"></i> Public</a>
+
+                                        <!-- Dropdown Structure -->
+                                        <ul id='profliePost3' class='dropdown-content'>
+                                            <li><a href="#!"><i class="mdi-action-language"></i> Public</a></li>
+                                            <li><a href="#!"><i class="mdi-action-face-unlock"></i> Friends</a></li>
+                                            <li><a href="#!"><i class="mdi-action-lock-outline"></i> Only Me</a></li>
+                                        </ul>
+
+                                        <a class="waves-effect waves-light btn"><i class="mdi-maps-rate-review left"></i>Post</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+
+                </div>
+                <!--/ profile-page-wall -->
+
+            </div>
+        </div>
+    </div>
+}
