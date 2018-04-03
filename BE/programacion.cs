@@ -14,9 +14,15 @@ namespace BE
     
     public partial class programacion
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public programacion()
+        {
+            this.cita = new HashSet<cita>();
+        }
+    
         public int ProgramacionId { get; set; }
-        public int PersonaId { get; set; }
-        public System.DateTime FechaInicio { get; set; }
+        public int MedicoId { get; set; }
+        public Nullable<System.DateTime> FechaInicio { get; set; }
         public Nullable<System.DateTime> FechaLimite { get; set; }
         public System.TimeSpan HoraInicio { get; set; }
         public System.TimeSpan HoraFin { get; set; }
@@ -24,6 +30,8 @@ namespace BE
         public Nullable<bool> Repite { get; set; }
         public Nullable<bool> Semanal { get; set; }
     
-        public virtual persona persona { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<cita> cita { get; set; }
+        public virtual medico medico { get; set; }
     }
 }

@@ -48,11 +48,11 @@
                             <div class="row">
 
                                 <div class="input-field col s11  m5 l5">
-                                    <input type="hidden" id="PersonaId" name="PersonaId" value="@Model.PersonaId" />
+                                    <input type="hidden" id="MedicoId" name="MedicoId" value="@Model.MedicoId" />
                                     <i class="mdi-action-search prefix"></i>
                                     <input id="autocompletar" type="text" placeholder="DNI/Apellidos"
-                                           data-url='@Url.Action("ListarPersonas","Comun")'
-                                           data-seleccion="PersonaId" value="@(Model.persona==null?"": Model.persona.NombreCompleto)"
+                                           data-url='@Url.Action("ListarMedicos","Comun")'
+                                           data-seleccion="MedicoId" value="@(Model.medico==null?"": Model.medico.persona.NombreCompleto)"
                                            @if (Model.ProgramacionId == 0) { <text> autofocus </text>                   }>
                                     <label class="right" for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Medico</label>
 
@@ -67,37 +67,44 @@
 
                                 </div>
                                 <div v-show="repite" class="input-field col s6 m3 l3">
-                                    @*<i class="mdi-notification-event-note prefix"></i>*@
                                     <label class="active" for="FechaLimite">Fecha Limite</label>
                                     <input id="FechaLimite" name="FechaLimite" type="text" class="datepicker" />
                                 </div>
                                 <div class="row"></div>
-                                <div class="input-field col s12 m4 l3">
-                                    <select name="HoraInicio">
+                                <div class="input-field col s12 m6 l3">
+                                    @Html.DropDownListFor(x => x.HoraInicio, (IEnumerable<SelectListItem>)ViewBag.cboHoras)
+                                    <label for="HoraInicio">Hora Inicio</label>
+                                </div>
+                                <div class="input-field col s12 m6 l3">
+                                    @Html.DropDownListFor(x => x.HoraFin, (IEnumerable<SelectListItem>)ViewBag.cboHoras)
+                                    <label for="HoraFin">Hora Fin</label>
+                                </div>
+                                @*<div class="input-field col s12 m4 l3">
+                                    <select name="HoraInicio" id="HoraInicio">
                                         <option v-for="option in options" v-bind:value="option.value">
                                             {{ option.text }}
                                         </option>
                                     </select>
                                     <label>Hora Inicio</label>
-                                </div>
-                                <div class="input-field col s12 m4 l3">
-                                    <select name="HoraFin">
+                                </div>*@
+                                @*<div class="input-field col s12 m4 l3">
+                                    <select name="HoraFin" id="HoraFin">
                                         <option v-for="option in options" v-bind:value="option.value">
                                             {{ option.text }}
                                         </option>
                                     </select>
                                     <label>Hora Final</label>
-                                </div>
+                                </div>*@
                                 <div class="input-field col s3 m3 l2">
                                     <input type="checkbox" name="pEstado" class="filled-in" id="chkActivo" checked />
                                     <label for="chkActivo">Activo</label>
                                 </div>
                                 <div class="input-field col s3 m3 l2">
-                                    <input type="checkbox" v-model="repite" name="pRepite" class="filled-in" id="chkRepite" />
-                                    <label for="chkRepite">Se repite?</label>
+                                    <input type="checkbox" v-model="repite" name="pRepite"  id="pRepite" class="filled-in"/>
+                                    <label for="pRepite">Repite?</label>
                                 </div>
                                 <div v-show="repite" class="input-field col s3 m3 l2">
-                                    <input type="checkbox" name="pRepiteSemana" class="filled-in" id="pRepiteSemana" />
+                                    <input type="checkbox" name="pRepiteSemana" id="pRepiteSemana" class="filled-in" />
                                     <label for="pRepiteSemana">Semanal?</label>
                                 </div>
                                 <div class="input-field col s12">
@@ -117,7 +124,7 @@
         <!-- Modal Structure -->
         <div id="modalMantener" class="modal modal-fixed-footer">
             <div class="modal-content">
-                <h4>modal matener</h4> 
+                <div class="col s12" id="mantenerProgramacion"></div>
             </div>
         </div>
     </div>
@@ -128,8 +135,6 @@
             $("#calendar").fullCalendar("refetchEvents");
             var f = new Date();
             var fecha = f.getFullYear() + "-" + (f.getMonth() + 1) + "-" + f.getDate()
-            /* initialize the external events
-            -----------------------------------------------------------------*/
             $('#external-events .fc-event').each(function () {
                 $(this).data('event', {
                     title: $.trim($(this).text()), // use the element's text as the event title
@@ -149,11 +154,7 @@
                     $('#modalP').openModal();
                 },
                 eventClick: function (calEvent, jsEvent, view) {
-
-                    $('#modalMantener').openModal();
-                    //alert('Event: ' + calEvent.title);
-                    //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-                    //alert('View: ' + view.name);
+                    window.location = '@Url.Action("Mantener", "Programacion")' + '/' + calEvent.id;
                 },
                 header: {
                     left: 'prev,next today',
@@ -168,32 +169,12 @@
 
             });
         });
+
         var vprogramacion = new Vue({
             el: 'main',
             data: {
                 repite: true,
                 programacion: {},
-                options: [
-                  { text: '6:00 A.M.', value: '6:00:00' },
-                  { text: '7:00 A.M.', value: '7:00:00' },
-                  { text: '8:00 A.M.', value: '8:00:00' },
-                  { text: '9:00 A.M.', value: '9:00:00' },
-                  { text: '10:00 A.M.', value: '10:00:00' },
-                  { text: '11:00 A.M.', value: '11:00:00' },
-                  { text: '12:00 A.M.', value: '12:00:00' },
-                  { text: '1:00 P.M.', value: '13:00:00' },
-                  { text: '2:00 P.M.', value: '14:00:00' },
-                  { text: '3:00 P.M.', value: '15:00:00' },
-                  { text: '4:00 P.M.', value: '16:00:00' },
-                  { text: '5:00 P.M.', value: '17:00:00' },
-                  { text: '6:00 P.M.', value: '18:00:00' },
-                  { text: '7:00 P.M.', value: '19:00:00' },
-                  { text: '8:00 P.M.', value: '20:00:00' },
-                  { text: '9:00 P.M.', value: '21:00:00' },
-                  { text: '10:00 P.M.', value: '22:00:00' },
-                  { text: '11:00 P.M.', value: '23:00:00' },
-                  { text: '12:00 P.M.', value: '24:00:00' },
-                ]
             },
         })
 

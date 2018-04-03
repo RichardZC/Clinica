@@ -1,1 +1,55 @@
-﻿
+﻿<div class="card-panel">
+    <div class="row">
+        <div id="full-calendar">
+            <div class="row">
+                <div class="col s12 m8 l10 offset-l1">
+                    <div id='calendar'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="fixed-action-btn" style="bottom: 50px; right: 19px;">
+        <a class="btn btn-floating btn-large red" href='@Url.Action("Mantener","Cita",new { id=0 })'>
+            <i class="mdi-social-person-add"></i>
+        </a>
+    </div>
+    <!-- Modal Structure -->
+    <div id="modalMantener" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <div class="col s12" id="mantenerProgramacion"></div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#calendar").fullCalendar("refetchEvents");
+            var f = new Date();
+            var fecha = f.getFullYear() + "-" + (f.getMonth() + 1) + "-" + f.getDate();
+            $('#calendar').fullCalendar({
+                //height: 500,
+                eventClick: function (calEvent, jsEvent, view) {
+                    cargar(calEvent.id);
+                    $('#modalMantener').openModal();
+                },
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,basicDay'
+                },
+                defaultDate: fecha,
+                editable: true,
+                droppable: false,
+                eventLimit: true,
+                events: "@Url.Action("GetEvents", "Programacion")",
+            });
+        });
+        function cargar(id) {
+            var url = "@Url.Action("Cita", "Cita")" + "?id="+id;
+            $.get('@Url.Action("ObtenerUsuarioSesion", "Comun")', function (d) {
+                if (d == 0) location.reload();
+                $("#mantenerProgramacion").load(url);
+            });
+        };
+    </script>
+}

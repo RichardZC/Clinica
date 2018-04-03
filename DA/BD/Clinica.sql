@@ -63,8 +63,8 @@ CREATE TABLE atencion (
   DROP TABLE IF EXISTS programacion;
   CREATE TABLE programacion (
   ProgramacionId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  PersonaId int(11) NOT NULL,
-  FOREIGN KEY(PersonaId) REFERENCES persona(PersonaId) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  MedicoId int(11) NOT NULL,
+  FOREIGN KEY(MedicoId) REFERENCES Medico(MedicoId) ON DELETE NO ACTION ON UPDATE NO ACTION,
   FechaInicio date NOT NULL,
   FechaLimite date DEFAULT NULL,
   HoraInicio time NOT NULL,
@@ -73,3 +73,19 @@ CREATE TABLE atencion (
   Repite bit(1) DEFAULT NULL,
   Semanal bit(1) DEFAULT NULL
 );
+
+ DROP TABLE IF EXISTS Cita;
+  CREATE TABLE Cita (
+  CitaId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  PacienteId int(11) NOT NULL,
+  FOREIGN KEY(PacienteId) REFERENCES Paciente(PacienteId) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ProgramacionId int(11) NOT NULL,
+  FOREIGN KEY(ProgramacionId) REFERENCES Programacion(ProgramacionId) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ConceptoPagoId int(11) NOT NULL,
+  FOREIGN KEY(ConceptoPagoId) REFERENCES ConceptoPago(ConceptoPagoId) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  Estado bit(1) DEFAULT NULL,
+  NumeroAtencion int(11) NOT NULL,
+  HoraProbable time NOT NULL,
+  FechaAtencion DATE NOT NULL
+);
+

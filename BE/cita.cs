@@ -12,17 +12,19 @@ namespace BE
     using System;
     using System.Collections.Generic;
     
-    public partial class atencion
+    public partial class cita
     {
-        public int AtencionId { get; set; }
+        public int CitaId { get; set; }
         public int PacienteId { get; set; }
-        public int MedicoId { get; set; }
-        public System.DateTime FechaColegiacion { get; set; }
-        public string TituloProfesional { get; set; }
-        public string Universidad { get; set; }
-        public bool Estado { get; set; }
+        public int ProgramacionId { get; set; }
+        public int ConceptoPagoId { get; set; }
+        public Nullable<bool> Estado { get; set; }
+        public int NumeroAtencion { get; set; }
+        public System.TimeSpan HoraProbable { get; set; }
+        public Nullable<System.DateTime> FechaAtencion { get; set; }
     
         public virtual paciente paciente { get; set; }
-        public virtual medico medico { get; set; }
+        public virtual programacion programacion { get; set; }
+        public virtual conceptopago conceptopago { get; set; }
     }
 }

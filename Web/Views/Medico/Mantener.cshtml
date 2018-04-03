@@ -35,10 +35,10 @@
                             <div class="input-field col s11  m5 l5">
                                 <input type="hidden" id="PersonaId" name="PersonaId" value="@Model.PersonaId" />
                                 <i class="mdi-action-search prefix"></i>
-                                <input id="autocompletar" type="text" placeholder="DNI/Apellidos"
+                                <input id="autocompletar" type="text" 
                                        data-url='@Url.Action("ListarPersonas","Comun")'
-                                       data-seleccion="PersonaId" value="@(Model.persona==null?"": Model.persona.NombreCompleto)"
-                                       @if (Model.MedicoId == 0) { <text> autofocus </text> }>
+                                       data-seleccion="PersonaId" value="@(Model.persona == null ? "" : Model.persona.NombreCompleto)"
+                                 />
                                 <label class="right" for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Persona</label>
 
                             </div>

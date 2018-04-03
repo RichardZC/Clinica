@@ -150,7 +150,6 @@ $(document).ready(function () {
         });
     }
 
-
     $("body").on('click', 'button', function () {
 
         // Si el boton no tiene el atributo ajax no hacemos nada

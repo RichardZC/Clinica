@@ -18,6 +18,7 @@ namespace BE
         public conceptopago()
         {
             this.cajamovdetalle = new HashSet<cajamovdetalle>();
+            this.cita = new HashSet<cita>();
         }
     
         public int ConceptoPagoId { get; set; }
@@ -28,6 +29,8 @@ namespace BE
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<cajamovdetalle> cajamovdetalle { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<cita> cita { get; set; }
         public virtual oficina oficina { get; set; }
     }
 }
