@@ -1,0 +1,70 @@
+﻿@model BE.topico
+<!--breadcrumbs start-->
+<div id="breadcrumbs-wrapper">
+    <!-- Search for small screen -->
+    <div class="header-search-wrapper grey hide-on-large-only">
+        <i class="mdi-action-search active"></i>
+        <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize">
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <h5 class="breadcrumbs-title">GESTIÓN DE ATENCIÓN</h5>
+                <ol class="breadcrumbs">
+                    <li><a href='@Url.Action("Index", "Home")'>Inicio</a></li>
+                    <li><a href="@Url.Action("Index", "Atencion")">Atencion</a></li>
+                    <li class="active">Mantenimiento</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs end-->
+<div id="default-validation" class="section">
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <div class="card-panel">
+                @*<h4 class="header2">Datos personales</h4>*@
+                <div class="row">
+                    <form id="formValidate" class="validar right-alert" method="post" action='@Url.Action("Guardar", "Topico")'>
+                        <div class="row">
+                            @{ int i = 0;}
+                            @foreach (var item in ViewBag.listaRevision)
+                            {
+                                <input type="hidden" name="lista[@i].TopicoId" value="@(Model.TopicoId>0 ? ViewBag.listaTopico[i].TopicoId : Model.TopicoId)" />
+                                <input type="hidden" name="lista[@i].AtencionId" value="@Model.AtencionId" />
+                                <input type="hidden" name="lista[@i].Item" value="@item.Item" />
+                                <input type="hidden" name="lista[@i].Denominacion" value="@item.Denominacion" />
+                                <div class="input-field col s12 m3 l3">
+                                    <i class="mdi-av-my-library-add prefix"></i>
+                                    <label for="Correo">@item.Denominacion</label>
+                                    <input type="text" name="lista[@i].Valor" @if(Model.TopicoId>0) { <text>value="@ViewBag.listaTopico[i].Valor"</text>}>
+                                </div>
+                                { i++; }
+                            }
+                            
+                            <div class="input-field col s12">
+                                <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
+                                    Atender
+                                    <i class="mdi-action-done right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $(".datepicker").pickadate({ selectMonths: !0, selectYears: 50, format: 'dd/mm/yyyy' })
+        });
+    </script>
+}
+
+
+
+
+

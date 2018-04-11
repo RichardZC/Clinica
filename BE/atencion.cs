@@ -14,15 +14,21 @@ namespace BE
     
     public partial class atencion
     {
-        public int AtencionId { get; set; }
-        public int PacienteId { get; set; }
-        public int MedicoId { get; set; }
-        public System.DateTime FechaColegiacion { get; set; }
-        public string TituloProfesional { get; set; }
-        public string Universidad { get; set; }
-        public bool Estado { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public atencion()
+        {
+            this.topico = new HashSet<topico>();
+            this.atencionespecialidad = new HashSet<atencionespecialidad>();
+        }
     
-        public virtual paciente paciente { get; set; }
-        public virtual medico medico { get; set; }
+        public int AtencionId { get; set; }
+        public int CitaId { get; set; }
+        public Nullable<bool> Estado { get; set; }
+    
+        public virtual cita cita { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<topico> topico { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<atencionespecialidad> atencionespecialidad { get; set; }
     }
 }

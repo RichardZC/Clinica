@@ -94,11 +94,11 @@
 }
 
 #modalP,#modalMantener { 
-   
-    /*width: 80%;*/
     height:63%;
     
-}  
-
+}
+#modalMantener2{
+     width: 80%;
+}
 
 

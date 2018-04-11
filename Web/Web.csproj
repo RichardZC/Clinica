@@ -16,7 +16,7 @@
     <RootNamespace>Web</RootNamespace>
     <AssemblyName>Web</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -35,6 +35,8 @@
     <WarningLevel>4</WarningLevel>
     <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
     <IncludeIisSettings>false</IncludeIisSettings>
+    <IncludeAppPool>true</IncludeAppPool>
+    <PublishDatabases>true</PublishDatabases>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -280,11 +282,13 @@
     <Compile Include="Controllers\ArticuloController.cs" />
     <Compile Include="Controllers\BandejaController.cs" />
     <Compile Include="Controllers\Caja\CajadiarioController.cs" />
+    <Compile Include="Controllers\Clinica\AtencionEspecialidadController.cs" />
     <Compile Include="Controllers\Clinica\CitaController.cs" />
     <Compile Include="Controllers\Clinica\AtencionController.cs" />
     <Compile Include="Controllers\Clinica\ConfigController.cs" />
     <Compile Include="Controllers\Clinica\PacienteController.cs" />
     <Compile Include="Controllers\Clinica\ProgramacionController.cs" />
+    <Compile Include="Controllers\Clinica\TopicoController.cs" />
     <Compile Include="Controllers\ComunController.cs" />
     <Compile Include="Controllers\Caja\DiarioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -407,6 +411,11 @@
     <Content Include="Views\Persona\Mantener.cshtml" />
     <Content Include="Views\Cita\Mantener.cshtml" />
     <Content Include="Views\Cita\Cita.cshtml" />
+    <Content Include="Views\Topico\Mantener.cshtml" />
+    <Content Include="Views\Topico\Cita.cshtml" />
+    <Content Include="Views\Topico\Index.cshtml" />
+    <Content Include="Views\Topico\Atencion.cshtml" />
+    <Content Include="Views\Atencion\Mantener.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -416,6 +425,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\AtencionEspecialidad\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BE\BE.csproj">
@@ -462,6 +472,8 @@
           <DevelopmentServerPort>26071</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost/clinica</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost/clinica</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

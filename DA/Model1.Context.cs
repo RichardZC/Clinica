@@ -26,7 +26,6 @@ namespace BE
         }
     
         public virtual DbSet<articulo> articulo { get; set; }
-        public virtual DbSet<atencion> atencion { get; set; }
         public virtual DbSet<caja> caja { get; set; }
         public virtual DbSet<cajadiario> cajadiario { get; set; }
         public virtual DbSet<cajamov> cajamov { get; set; }
@@ -49,5 +48,9 @@ namespace BE
         public virtual DbSet<tipoarticulo> tipoarticulo { get; set; }
         public virtual DbSet<usuario> usuario { get; set; }
         public virtual DbSet<usuario_rol> usuario_rol { get; set; }
+        public virtual DbSet<tablaconfiguracion> tablaconfiguracion { get; set; }
+        public virtual DbSet<topico> topico { get; set; }
+        public virtual DbSet<atencion> atencion { get; set; }
+        public virtual DbSet<atencionespecialidad> atencionespecialidad { get; set; }
     }
 }

@@ -1,0 +1,72 @@
+﻿@model BE.atencion
+<div id="default-validation" class="section">
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <h4 style="text-align:center;">ATENCIÓN TOPICO - DETALLE PACIENTE</h4>
+            <div class="card-panel">
+                @*<h4 class="header2">Datos personales</h4>*@
+                <div class="row">
+                    <form id="formValidate" class="validar right-alert" method="post" action='@Url.Action("Guardar","Atencion")'>
+                        <div class="row">
+                            <input type="hidden" name="AtencionId" value="@Model.AtencionId" />
+                            <input type="hidden" name="CitaId" value="@Model.CitaId" />
+                            <input type="hidden" name="Estado" value="false" />
+                            <div class="input-field col s11  m5 l4">
+                                <i class="mdi-action-search prefix"></i>
+                                <input type="text" value="@Model.cita.paciente.persona.NombreCompleto" />
+                                <label class="right active">Paciente</label>
+                            </div>
+
+                            <div class="input-field col s12 m3 l2">
+                                <i class="mdi-communication-email prefix"></i>
+                                <label class="active" for="Correo">DNI</label>
+                                <input type="text" value="@Model.cita.paciente.persona.DNI">
+                            </div>
+                            <div class="input-field col s12 m6 l4">
+                                <i class="mdi-maps-pin-drop prefix"></i>
+                                <label class="active" for="Universidad">Direccion</label>
+                                <input type="text" value="@Model.cita.paciente.persona.Direccion">
+                            </div>
+                            <div class="input-field col s6 m3 l2">
+                                <i class="mdi-notification-event-note prefix"></i>
+                                <label class="active" for="FechaColegiacion">Fecha Atencion</label>
+                                <input type="text" class="datepicker" value="@Model.cita.FechaAtencion.Value.ToShortDateString()">
+                            </div>
+                            <div class="input-field col s12 m3 l4">
+                                <i class="mdi-action-settings-cell prefix"></i>
+                                <label class="active" for="NumeroColegio">Alergia</label>
+                                <input type="text" value="@Model.cita.paciente.Alergia">
+                            </div>
+                            <div class="input-field col s12 m3 l4">
+                                <i class="mdi-action-settings-cell prefix"></i>
+                                <label class="active" for="NumeroColegio">Antecedente Personal</label>
+                                <input type="text" value="@Model.cita.paciente.AntecedentePersonal">
+                            </div>
+                            <div class="input-field col s12 m3 l4">
+                                <i class="mdi-action-settings-cell prefix"></i>
+                                <label class="active" for="NumeroColegio">Antecedente Familiar</label>
+                                <input type="text" value="@Model.cita.paciente.AntecedenteFamiliar">
+                            </div>
+
+                            <div class="input-field col s12">
+                                <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
+                                    Atender
+                                    <i class="mdi-action-done right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $(".datepicker").pickadate({ selectMonths: !0, selectYears: 50, format: 'dd/mm/yyyy' })
+        });
+        
+    </script>
+}

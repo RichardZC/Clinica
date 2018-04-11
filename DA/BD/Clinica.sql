@@ -47,19 +47,6 @@ INSERT INTO `consultorio` (`ConsultorioId`, `denominacion`) VALUES ('0', 'Consul
 );
 
 
-DROP TABLE IF EXISTS atencion;
-CREATE TABLE atencion (
-  AtencionId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  PacienteId INT(11) NOT NULL,
-  FOREIGN KEY(PacienteId) REFERENCES Paciente(PacienteId) on DELETE no action on UPDATE CASCADE,  
-  MedicoId INT(11) NOT NULL,
-  FOREIGN KEY(MedicoId) REFERENCES Medico(MedicoId) on DELETE no action on UPDATE CASCADE,
-  FechaColegiacion DATE NOT NULL,
-  TituloProfesional VARCHAR(120),
-  Universidad VARCHAR(120) ,
-  Estado bit(1) NOT NULL
-  );
-
   DROP TABLE IF EXISTS programacion;
   CREATE TABLE programacion (
   ProgramacionId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -87,5 +74,42 @@ CREATE TABLE atencion (
   NumeroAtencion int(11) NOT NULL,
   HoraProbable time NOT NULL,
   FechaAtencion DATE NOT NULL
+);
+
+ DROP TABLE IF EXISTS tablaconfiguracion;
+  CREATE TABLE tablaconfiguracion (
+  TablaconfiguracionId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	TablaId int(11) NOT NULL,
+	Item int(11) NOT NULL,
+	Denominacion VARCHAR(255) NOT NULL
+);
+
+
+ DROP TABLE IF EXISTS ATENCION;
+  CREATE TABLE ATENCION (
+  AtencionId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  CitaId int(11) NOT NULL,
+  FOREIGN KEY(CitaId) REFERENCES Cita(CitaId) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  Estado bit(1) DEFAULT NULL
+);
+
+ DROP TABLE IF EXISTS topico;
+  CREATE TABLE topico (
+  TopicoId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	AtencionId int(11) NOT NULL,
+  FOREIGN KEY(AtencionId) REFERENCES Atencion(AtencionId) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	Item int(11) NOT NULL,
+	Denominacion VARCHAR(255) NOT NULL,
+	Valor VARCHAR(255) NOT NULL
+);
+
+DROP TABLE IF EXISTS ATENCIONESPECIALIDAD;
+  CREATE TABLE atencionespecialidad (
+  AtencionespecialidadId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	AtencionId int(11) NOT NULL,
+  FOREIGN KEY(AtencionId) REFERENCES Atencion(AtencionId) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	Item int(11) NOT NULL,
+	Denominacion VARCHAR(255) NOT NULL,
+	Valor VARCHAR(255) NOT NULL
 );
 

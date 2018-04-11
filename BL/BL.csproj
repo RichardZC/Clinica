@@ -58,12 +58,16 @@
     <Compile Include="Caja\CajaBL.cs" />
     <Compile Include="Caja\CajadiarioBL.cs" />
     <Compile Include="Caja\CajaMovBL.cs" />
+    <Compile Include="Clinica\AtencionBL.cs" />
+    <Compile Include="Clinica\AtencionEspecialidadBL.cs" />
     <Compile Include="Clinica\CitaBL.cs" />
     <Compile Include="Clinica\ConsultorioBL.cs" />
     <Compile Include="Clinica\EspecialidadBL.cs" />
     <Compile Include="Clinica\MedicoBL.cs" />
     <Compile Include="Clinica\PacienteBL.cs" />
     <Compile Include="Clinica\ProgramacionBL.cs" />
+    <Compile Include="Clinica\TablaConfiguracionBL.cs" />
+    <Compile Include="Clinica\TopicoBL.cs" />
     <Compile Include="ConceptopagoBL.cs" />
     <Compile Include="Maestro\CargoBL.cs" />
     <Compile Include="ComunBL.cs" />

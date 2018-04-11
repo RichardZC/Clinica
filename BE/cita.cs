@@ -14,6 +14,12 @@ namespace BE
     
     public partial class cita
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public cita()
+        {
+            this.atencion = new HashSet<atencion>();
+        }
+    
         public int CitaId { get; set; }
         public int PacienteId { get; set; }
         public int ProgramacionId { get; set; }
@@ -26,5 +32,7 @@ namespace BE
         public virtual paciente paciente { get; set; }
         public virtual programacion programacion { get; set; }
         public virtual conceptopago conceptopago { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<atencion> atencion { get; set; }
     }
 }
