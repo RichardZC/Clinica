@@ -123,3 +123,7 @@ INSERT INTO rol_menu(MenuId,RolId) VALUES (32, 1);
 
 INSERT INTO rol_menu(MenuId,RolId) VALUES (40, 1);
 INSERT INTO rol_menu(MenuId,RolId) VALUES (41, 1);
+
+-- rol medico
+INSERT INTO rol_menu(MenuId,RolId) VALUES (20, 3);
+INSERT INTO rol_menu(MenuId,RolId) VALUES (22, 3);

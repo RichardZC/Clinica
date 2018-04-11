@@ -95,7 +95,15 @@ namespace BL
 
         }
 
-
+        public static medico GetMedico()
+        {
+            var usuarioid = Comun.SessionHelper.GetUser();
+            using (var bd = new clinicaEntities())
+            {
+                var med = bd.medico.Include(t => t.persona).FirstOrDefault(x => x.PersonaId == usuarioid);
+                return med;
+            }
+        }
         //public static List<ItemCombo> BuscarPersonaAutoComplete(string pClave)
         //{
         //    using (var db = new clinicaEntities())
