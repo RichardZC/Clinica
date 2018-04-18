@@ -47,7 +47,7 @@
                                         <div class="input-field col s11  m5 l3">
                                             <i class="mdi-maps-pin-drop prefix"></i>
                                             <label for="FechaAtencion">Fecha</label>
-                                            <input class="datepicker" id="FechaAtencion" name="FechaAtencion" type="text" value="@(Model.FechaAtencion.HasValue ?Model.FechaAtencion.Value.ToShortDateString():"")">
+                                            <input class="datepicker" id="FechaAtencion" name="FechaAtencion" type="text" value="@(Model.FechaAtencion != null ? Model.FechaAtencion.ToShortDateString():"")">
                                         </div>
                                         <div class="input-field col s11  m5 l6">
                                             <select id="pEspecialidad" name="pEspecialidad">
@@ -70,8 +70,7 @@
                                             <input id="HoraProbable" name="HoraProbable" type="text" value="@Model.HoraProbable">
                                         </div>
                                         <div class="input-field col s11  m5 l4 ">
-                                            <input type="checkbox" name="pEstado" class="filled-in" id="chkActivo" @if (Model.Estado.Value) { <text> checked</text>} />
-                                            <label for="chkActivo">Activo</label>
+                                            <label>@if (@Model.IndPago) { <text>Pagado</text>} else { <text>No Pagado</text>}</label>
                                         </div>
 
                                         <div class="input-field col s12">

@@ -30,7 +30,7 @@ namespace Web.Controllers.Clinica
                     id = e.ProgramacionId,
                     title = BL.PersonaBL.Obtener(e.medico.PersonaId).NombreCompleto + "\n" + BL.EspecialidadBL.Obtener(e.medico.EspecialidadId).Denominacion
                     + "\n" + e.HoraInicio + " - " + e.HoraFin,
-                    start = e.FechaInicio.Value.ToString("yyyy-MM-dd") + "T" + e.HoraInicio,
+                    start = e.FechaInicio.ToString("yyyy-MM-dd") + "T" + e.HoraInicio,
                     end = e.FechaLimite.Value.ToString("yyyy-MM-dd") + "T" + e.HoraFin
                 });
             }
@@ -55,7 +55,7 @@ namespace Web.Controllers.Clinica
 
                 if (progr.Repite.Value)
                 {
-                    DateTime Fecini = progr.FechaInicio.Value;
+                    DateTime Fecini = progr.FechaInicio;
                     DateTime FecFinal = progr.FechaLimite.Value;
                     System.TimeSpan dif = FecFinal - Fecini;
                     DateTime FecSec;
@@ -77,7 +77,7 @@ namespace Web.Controllers.Clinica
                         for (int n = 0; n <= dif.Days; n++)
                         {
                             FecSec = Fecini.AddDays(n);
-                            if (progr.FechaInicio.Value.DayOfWeek == FecSec.DayOfWeek)
+                            if (progr.FechaInicio.DayOfWeek == FecSec.DayOfWeek)
                             {
                                 progr.FechaInicio = FecSec;
                                 progr.FechaLimite = FecSec;

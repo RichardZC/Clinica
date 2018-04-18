@@ -20,6 +20,8 @@ namespace BE
             this.cajamov = new HashSet<cajamov>();
             this.cajamov1 = new HashSet<cajamov>();
             this.usuario_rol = new HashSet<usuario_rol>();
+            this.atencion = new HashSet<atencion>();
+            this.atencion1 = new HashSet<atencion>();
         }
     
         public int UsuarioId { get; set; }
@@ -40,5 +42,9 @@ namespace BE
         public virtual persona persona { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<usuario_rol> usuario_rol { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<atencion> atencion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<atencion> atencion1 { get; set; }
     }
 }

@@ -24,15 +24,16 @@ namespace BE
         public int PacienteId { get; set; }
         public int ProgramacionId { get; set; }
         public int ConceptoPagoId { get; set; }
-        public Nullable<bool> Estado { get; set; }
+        public string Estado { get; set; }
+        public bool IndPago { get; set; }
         public int NumeroAtencion { get; set; }
         public System.TimeSpan HoraProbable { get; set; }
-        public Nullable<System.DateTime> FechaAtencion { get; set; }
+        public System.DateTime FechaAtencion { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<atencion> atencion { get; set; }
         public virtual paciente paciente { get; set; }
         public virtual programacion programacion { get; set; }
         public virtual conceptopago conceptopago { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<atencion> atencion { get; set; }
     }
 }

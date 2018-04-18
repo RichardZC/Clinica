@@ -53,7 +53,7 @@ INSERT INTO `consultorio` (`ConsultorioId`, `denominacion`) VALUES ('0', 'Consul
   MedicoId int(11) NOT NULL,
   FOREIGN KEY(MedicoId) REFERENCES Medico(MedicoId) ON DELETE NO ACTION ON UPDATE NO ACTION,
   FechaInicio date NOT NULL,
-  FechaLimite date DEFAULT NULL,
+  FechaLimite date NULL,
   HoraInicio time NOT NULL,
   HoraFin time NOT NULL,
   Estado bit(1) DEFAULT NULL,
@@ -84,14 +84,28 @@ INSERT INTO `consultorio` (`ConsultorioId`, `denominacion`) VALUES ('0', 'Consul
 	Denominacion VARCHAR(255) NOT NULL
 );
 
-
  DROP TABLE IF EXISTS ATENCION;
   CREATE TABLE ATENCION (
   AtencionId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  CitaId int(11) NOT NULL,
+  CitaId int(11) ,
   FOREIGN KEY(CitaId) REFERENCES Cita(CitaId) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  Estado bit(1) DEFAULT NULL
+  Estado char(1) DEFAULT NULL,
+  PerPacienteId  int (11) not null,
+  FOREIGN KEY(PerPacienteId) REFERENCES Persona(PersonaId) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  PerMedicoId  int (11) not null,
+  FOREIGN KEY(PerMedicoId) REFERENCES Persona(PersonaId) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  Fecha date not null,
+  EspecialidadId int(11) not null,
+  FOREIGN KEY(EspecialidadId) REFERENCES Especialidad(EspecialidadId) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  FechaCreacion datetime not null,
+  FechaModificacion Datetime,
+  UsuarioCId int(11) not null,
+  FOREIGN KEY(UsuarioCId) REFERENCES Usuario(UsuarioId) ON DELETE NO ACTION ON UPDATE NO ACTION,
+   UsuarioMId int(11) not null,
+  FOREIGN KEY(UsuarioMId) REFERENCES Usuario(UsuarioId) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  IndPago bit(1) not null
 );
+
 
  DROP TABLE IF EXISTS topico;
   CREATE TABLE topico (

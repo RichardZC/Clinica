@@ -39,7 +39,7 @@
                             <div class="input-field col s12 m3 l3">
                                 <i class="mdi-av-my-library-add prefix"></i>
                                 <label for="Correo">@item.Denominacion</label>
-                                <input type="text" name="lista[@i].Valor" @if(Model.AtencionespecialidadId > 0) { <text> value="@ViewBag.listaTopico[i].Valor" </text>  }>
+                                <input type="text" name="lista[@i].Valor" @if(Model.AtencionespecialidadId > 0) { <text> value="@ViewBag.listaTopico[i].Valor" </text>    }>
                             </div>
                                 { i++; }
                             }
@@ -53,56 +53,58 @@
                         </div>
                     </form>
                 </div>
-                <div id="work-collections" class="seaction">
 
-                    <div class="row">
+                <div class="row">
+                    <div id="work-collections" class="seaction">
 
-                        <div class="col s12 m4 l4">
-                            <ul id="task-card" class="collection with-header">
-                                <li class="collection-header cyan">
-                                    <h4 class="task-card-title">EXÁMENES AUX.</h4>
-                                    @*<p class="task-card-date">March 26, 2015</p>*@
-                                </li>
-                                <li class="collection-item dismissable">
-                                    <input type="checkbox" id="task1" />
-                                    <label for="task1">
-                                        Informe Citólogico. <a href="#" class="secondary-content"><span class="ultra-small">Ver</span></a>
-                                    </label>
-                                    <span class="task-cat teal">Lab. Clínico</span>
-                                </li>
-                                <li class="collection-item dismissable">
-                                    <input type="checkbox" id="task2" />
-                                    <label for="task2">
-                                        Examen de Orina Completa. <a href="#" class="secondary-content"><span class="ultra-small">Ver</span></a>
-                                    </label>
-                                    <span class="task-cat purple">Lab. Clínico</span>
-                                </li>
+                        <div class="row">
 
-                                <li class="collection-item dismissable">
-                                    <input type="checkbox" id="task3" />
-                                    <label for="task3">
-                                        Hemograma Completo. <a href="#" class="secondary-content"><span class="ultra-small">Ver</span></a>
-                                    </label>
-                                    <span class="task-cat teal">Lab. Clínico</span>
-                                </li>
-                                <li class="collection-item dismissable">
-                                    <input type="checkbox" id="task4" />
-                                    <label for="task4">
-                                        Resultado secreción Vaginal. <a href="#" class="secondary-content"><span class="ultra-small">Ver</span></a>
-                                    </label>
-                                    <span class="task-cat purple">Lab. Clínico</span>
-                                </li>
-                            </ul>
-                            <div class="input-field col s12">
-                                <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
-                                    GUARDAR
-                                    <i class="mdi-action-done right"></i>
-                                </button>
+                            <div class="col s12 m4 l4">
+                                <ul id="task-card" class="collection with-header">
+                                    <li class="collection-header cyan">
+                                        <h4 class="task-card-title">EXÁMENES AUX.</h4>
+                                        @*<p class="task-card-date">March 26, 2015</p>*@
+                                    </li>
+                                    <li class="collection-item dismissable">
+                                        <input type="checkbox" id="task1" />
+                                        <label for="task1">
+                                            Informe Citólogico. <a href="#" class="secondary-content"><span class="ultra-small">Ver</span></a>
+                                        </label>
+                                        <span class="task-cat teal">Lab. Clínico</span>
+                                    </li>
+                                    <li class="collection-item dismissable">
+                                        <input type="checkbox" id="task2" />
+                                        <label for="task2">
+                                            Examen de Orina Completa. <a href="#" class="secondary-content"><span class="ultra-small">Ver</span></a>
+                                        </label>
+                                        <span class="task-cat purple">Lab. Clínico</span>
+                                    </li>
+
+                                    <li class="collection-item dismissable">
+                                        <input type="checkbox" id="task3" />
+                                        <label for="task3">
+                                            Hemograma Completo. <a href="#" class="secondary-content"><span class="ultra-small">Ver</span></a>
+                                        </label>
+                                        <span class="task-cat teal">Lab. Clínico</span>
+                                    </li>
+                                    <li class="collection-item dismissable">
+                                        <input type="checkbox" id="task4" />
+                                        <label for="task4">
+                                            Resultado secreción Vaginal. <a href="#" class="secondary-content"><span class="ultra-small">Ver</span></a>
+                                        </label>
+                                        <span class="task-cat purple">Lab. Clínico</span>
+                                    </li>
+                                </ul>
+                                <div class="input-field col s12">
+                                    <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
+                                        GUARDAR
+                                        <i class="mdi-action-done right"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
 
-                        @if (true)
-                        {
+                            @if (false)
+                            {
                             <div class="col s12 m4 l8">
                                 <ul id="task-card" class="collection with-header">
                                     <li class="collection-header cyan">
@@ -165,9 +167,9 @@
                                     </button>
                                 </div>
                             </div>
-                        }
-                        else
-                        {
+                            }
+                            else
+                            {
                             <div class="col s12 m4 l8">
                                 <ul id="task-card" class="collection with-header">
                                     <li class="collection-header cyan">
@@ -223,16 +225,209 @@
                                         <i class="mdi-action-done right"></i>
                                     </button>
                                 </div>
+
+
                             </div>
-                        }
 
 
-                       
-
+                            }
+                        </div>
                     </div>
                 </div>
+
+
+               <div class="row">
+                   <div class="card-panel">
+                       @*<h4 class="header2">Enfermedad Actual</h4>*@
+                      <div class="row">
+                          <div class="col s3 m3 l13">
+                              <ul id="task-card" class="collection with-header">
+                                  <li class="collection-header cyan">
+                                      <h4 class="task-card-title">Vulva</h4>
+                                      @*<p class="task-card-date">March 26, 2015</p>*@
+                                  </li>
+                              </ul>
+                              <div class="card-panel">
+
+                                  <form id="formValidate" class="validar right-alert" method="post" action='@Url.Action("Guardar","Medico")'>
+
+                                      <input type="hidden" name="MedicoId" />
+                                      <div class="row">
+                                          <div class="input-field col s6 m3 l12">
+                                              <select>
+                                                  <option value="1">Normal</option>
+                                                  <option value="3">Agrandado</option>
+                                              </select>
+                                              <label>Clítoris</label>
+                                          </div>
+                                          <div class="input-field col s6 m3 l12">
+                                              <select>
+                                                  <option value="1">I</option>
+                                                  <option value="3">II</option>
+                                                  <option value="3">III</option>
+                                              </select>
+                                              <label>Desgarro</label>
+                                          </div>
+                                          <div class="input-field col s6 m3 l12">
+                                              <select>
+                                                  <option value="1">SI</option>
+                                                  <option value="3">NO</option>
+                                              </select>
+                                              <label>Edema</label>
+                                          </div>
+                                          <div class="input-field col s6 m3 l12">
+                                              <input type="checkbox" name="pEstado" class="filled-in" id="chkActivo" />
+                                              <label for="chkActivo">Prolapso Vagninal</label>
+                                          </div>
+                                          <div class="input-field col s6 m3 l12">
+                                              <input type="checkbox" name="pEstado" class="filled-in" id="chkActivo2" />
+                                              <label for="chkActivo2">Vagina Leucorrea</label>
+                                          </div>
+                                         <div class="row"></div>
+                                           <div class="input-field col s12">
+                                              <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
+                                                  Guardar
+                                                  <i class="mdi-action-done right"></i>
+                                              </button>
+                                          </div>
+                                      </div>
+                                  </form>
+
+
+                              </div>
+                          </div>
+
+                          <div class="col s3 m3 l13">
+                              <ul id="task-card" class="collection with-header">
+                                  <li class="collection-header cyan">
+                                      <h4 class="task-card-title">Cuello Uterino</h4>
+                                      @*<p class="task-card-date">March 26, 2015</p>*@
+                                  </li>
+                              </ul>
+                              <div class="card-panel">
+
+                                  <form id="formValidate" class="validar right-alert" method="post" action='@Url.Action("Guardar","Medico")'>
+
+                                      <input type="hidden" name="MedicoId" />
+                                      <div class="row">
+                                          <div class="input-field col s6 m3 l12">
+                                              <select>
+                                                  <option value="1">Anterior</option>
+                                                  <option value="3">Medio</option>
+                                                  <option value="1">Posterior</option>
+                                              </select>
+                                              <label>Psosicion</label>
+                                          </div>
+                                          <div class="input-field col s6 m3 l12">
+                                              <input type="checkbox" name="pEstado" class="filled-in" id="chkActivo" />
+                                              <label for="chkActivo">Ectopropión</label>
+                                          </div>
+                                          <div class="input-field col s6 m3 l12">
+                                              <input type="checkbox" name="pEstado" class="filled-in" id="chkActivo" />
+                                              <label for="chkActivo">Ulceración</label>
+                                          </div>
+                                          <div class="input-field col s6 m3 l12">
+                                              <input type="checkbox" name="pEstado" class="filled-in" id="chkActivo" />
+                                              <label for="chkActivo">Proolapso</label>
+                                          </div>
+                                          <div class="input-field col s6 m3 l12">
+                                              <input type="checkbox" name="pEstado" class="filled-in" id="chkActivo" />
+                                              <label for="chkActivo">Polipo</label>
+                                          </div>
+                                          <div class="row"></div>
+                                          <div class="input-field col s6 m3 l12">
+                                              <select>
+                                                  <option value="1">L</option>
+                                                  <option value="3">M</option>
+                                                  <option value="1">S</option>
+                                              </select>
+                                              <label>Cervicitis</label>
+                                          </div>
+                                          <div class="input-field col s12">
+                                              <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
+                                                  Guardar
+                                                  <i class="mdi-action-done right"></i>
+                                              </button>
+                                          </div>
+                                      </div>
+                                  </form>
+
+
+                              </div>
+                          </div>
+
+                          <div class="col s3 m3 l13">
+                              <ul id="task-card" class="collection with-header">
+                                  <li class="collection-header cyan">
+                                      <h4 class="task-card-title">Cuerpo Uter.</h4>
+                                      @*<p class="task-card-date">March 26, 2015</p>*@
+                                  </li>
+                              </ul>
+                              <div class="card-panel">
+
+                                  <form id="formValidate" class="validar right-alert" method="post" action='@Url.Action("Guardar","Medico")'>
+
+                                      <input type="hidden" name="MedicoId" />
+                                      <div class="row">
+                                          <div class="input-field col s6 m3 l12">
+                                              <i class="mdi-notification-event-note prefix"></i>
+                                              <label for="FechaColegiacion">Fecha</label>
+                                              <input id="FechaColegiacion" name="FechaColegiacion" type="text" class="datepicker">
+                                          </div>
+
+                                          <div class="input-field col s12">
+                                              <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
+                                                  Guardar
+                                                  <i class="mdi-action-done right"></i>
+                                              </button>
+                                          </div>
+                                      </div>
+                                  </form>
+
+
+                              </div>
+                          </div>
+
+                          <div class="col s3 m3 l13">
+                              <ul id="task-card" class="collection with-header">
+                                  <li class="collection-header cyan">
+                                      <h4 class="task-card-title">Anexos (D-I)</h4>
+                                      @*<p class="task-card-date">March 26, 2015</p>*@
+                                  </li>
+                              </ul>
+                              <div class="card-panel">
+
+                                  <form id="formValidate" class="validar right-alert" method="post" action='@Url.Action("Guardar","Medico")'>
+
+                                      <input type="hidden" name="MedicoId" />
+                                      <div class="row">
+                                          <div class="input-field col s6 m3 l12">
+                                              <i class="mdi-notification-event-note prefix"></i>
+                                              <label for="FechaColegiacion">Fecha</label>
+                                              <input id="FechaColegiacion" name="FechaColegiacion" type="text" class="datepicker">
+                                          </div>
+
+                                          <div class="input-field col s12">
+                                              <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
+                                                  Guardar
+                                                  <i class="mdi-action-done right"></i>
+                                              </button>
+                                          </div>
+                                      </div>
+                                  </form>
+
+
+                              </div>
+                          </div>
+
+                      </div>
+                   </div>
+                   
+
+               </div>
             </div>
         </div>
+
     </div>
 </div>
 @section scripts{

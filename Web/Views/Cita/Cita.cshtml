@@ -5,7 +5,7 @@
         @{ int i = 0;}
         @foreach (var item in ViewBag.listaCitas)
         {
-            if (item.Estado)
+            if (item.IndPago)
             {
                 i++;
                 <li class="collection-item avatar @if (i == 1) {<text>selected</text>}"

@@ -18,6 +18,7 @@ namespace BE
         public especialidad()
         {
             this.medico = new HashSet<medico>();
+            this.atencion = new HashSet<atencion>();
         }
     
         public int EspecialidadId { get; set; }
@@ -25,5 +26,7 @@ namespace BE
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<medico> medico { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<atencion> atencion { get; set; }
     }
 }

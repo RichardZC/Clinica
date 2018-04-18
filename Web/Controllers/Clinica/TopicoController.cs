@@ -68,7 +68,7 @@ namespace Web.Controllers.Clinica
                 atencion atencion = new atencion();
                 atencion.AtencionId = 0;
                 atencion.CitaId = id;
-                atencion.Estado = false;
+                atencion.Estado = "c";
                 atencion.cita = c;
                 return PartialView(atencion);
             }

@@ -15,7 +15,7 @@
                                 <i class="mdi-action-search prefix"></i>
                                 <input type="text" value="@Model.cita.paciente.persona.NombreCompleto" />
                                 <label class="right active">Paciente</label>
-                            </div>
+                            </div>x
 
                             <div class="input-field col s12 m3 l2">
                                 <i class="mdi-communication-email prefix"></i>
@@ -30,7 +30,7 @@
                             <div class="input-field col s6 m3 l2">
                                 <i class="mdi-notification-event-note prefix"></i>
                                 <label class="active" for="FechaColegiacion">Fecha Atencion</label>
-                                <input type="text" class="datepicker" value="@Model.cita.FechaAtencion.Value.ToShortDateString()">
+                                <input type="text" class="datepicker" value="@Model.cita.FechaAtencion.ToShortDateString()">
                             </div>
                             <div class="input-field col s12 m3 l4">
                                 <i class="mdi-action-settings-cell prefix"></i>

@@ -17,18 +17,32 @@ namespace BE
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public atencion()
         {
-            this.topico = new HashSet<topico>();
             this.atencionespecialidad = new HashSet<atencionespecialidad>();
+            this.topico = new HashSet<topico>();
         }
     
         public int AtencionId { get; set; }
-        public int CitaId { get; set; }
-        public Nullable<bool> Estado { get; set; }
+        public Nullable<int> CitaId { get; set; }
+        public string Estado { get; set; }
+        public int PerPacienteId { get; set; }
+        public int PerMedicoId { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public int EspecialidadId { get; set; }
+        public System.DateTime FechaCreacion { get; set; }
+        public Nullable<System.DateTime> FechaModificacion { get; set; }
+        public int UsuarioCId { get; set; }
+        public int UsuarioMId { get; set; }
+        public bool IndPago { get; set; }
     
-        public virtual cita cita { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<topico> topico { get; set; }
+        public virtual persona persona { get; set; }
+        public virtual persona persona1 { get; set; }
+        public virtual especialidad especialidad { get; set; }
+        public virtual usuario usuario { get; set; }
+        public virtual usuario usuario1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<atencionespecialidad> atencionespecialidad { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<topico> topico { get; set; }
+        public virtual cita cita { get; set; }
     }
 }

@@ -27,8 +27,8 @@ namespace BE
         public string AntecedentePersonal { get; set; }
         public string AntecedenteFamiliar { get; set; }
     
+        public virtual persona persona { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<cita> cita { get; set; }
-        public virtual persona persona { get; set; }
     }
 }

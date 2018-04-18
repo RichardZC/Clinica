@@ -31,7 +31,6 @@ namespace BE
         public virtual DbSet<cajamov> cajamov { get; set; }
         public virtual DbSet<cajamovdetalle> cajamovdetalle { get; set; }
         public virtual DbSet<cargo> cargo { get; set; }
-        public virtual DbSet<cita> cita { get; set; }
         public virtual DbSet<conceptopago> conceptopago { get; set; }
         public virtual DbSet<consultorio> consultorio { get; set; }
         public virtual DbSet<especialidad> especialidad { get; set; }
@@ -42,7 +41,6 @@ namespace BE
         public virtual DbSet<oficina> oficina { get; set; }
         public virtual DbSet<paciente> paciente { get; set; }
         public virtual DbSet<persona> persona { get; set; }
-        public virtual DbSet<programacion> programacion { get; set; }
         public virtual DbSet<rol> rol { get; set; }
         public virtual DbSet<rol_menu> rol_menu { get; set; }
         public virtual DbSet<tipoarticulo> tipoarticulo { get; set; }
@@ -50,7 +48,9 @@ namespace BE
         public virtual DbSet<usuario_rol> usuario_rol { get; set; }
         public virtual DbSet<tablaconfiguracion> tablaconfiguracion { get; set; }
         public virtual DbSet<topico> topico { get; set; }
-        public virtual DbSet<atencion> atencion { get; set; }
         public virtual DbSet<atencionespecialidad> atencionespecialidad { get; set; }
+        public virtual DbSet<atencion> atencion { get; set; }
+        public virtual DbSet<programacion> programacion { get; set; }
+        public virtual DbSet<cita> cita { get; set; }
     }
 }

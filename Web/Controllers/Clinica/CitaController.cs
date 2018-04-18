@@ -22,7 +22,7 @@ namespace Web.Controllers
         public ActionResult Mantener(int id)
         {
             var cita = new cita();
-            cita.Estado = false;
+            cita.IndPago = false;
             if (id > 0)
             {
                 cita = CitaBL.Obtener(x => x.CitaId == id, includeProperties: "Paciente");
@@ -77,13 +77,14 @@ namespace Web.Controllers
 
 
         [HttpPost]
-        public JsonResult Guardar(cita cita, string pEstado, int pEspecialidad)
+        public JsonResult Guardar(cita cita, int pEspecialidad)
         {
             var rm = new ResponseModel();
 
             try
             {
-                if (!string.IsNullOrEmpty(pEstado)) { cita.Estado = true; } 
+                cita.IndPago = false;
+                cita.Estado = Comun.Constante.CITA.Pendiente;
                 cita.ProgramacionId = ProgramacionBL.Obtener(x => x.medico.especialidad.EspecialidadId== pEspecialidad && x.FechaInicio == cita.FechaAtencion).ProgramacionId;
                 CitaBL.Guardar(cita);
                 rm.SetResponse(true);

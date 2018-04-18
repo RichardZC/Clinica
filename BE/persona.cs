@@ -22,6 +22,8 @@ namespace BE
             this.medico = new HashSet<medico>();
             this.paciente = new HashSet<paciente>();
             this.usuario = new HashSet<usuario>();
+            this.atencion = new HashSet<atencion>();
+            this.atencion1 = new HashSet<atencion>();
         }
     
         public int PersonaId { get; set; }
@@ -47,5 +49,9 @@ namespace BE
         public virtual ICollection<paciente> paciente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<usuario> usuario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<atencion> atencion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<atencion> atencion1 { get; set; }
     }
 }

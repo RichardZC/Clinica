@@ -32,5 +32,11 @@ namespace Comun
             public static string Terminado = "T";
             public static string Anulado = "X";
         }
+        public static class CITA
+        {
+            public static string Pendiente = "P";
+            public static string Terminado = "T";
+            public static string Anulado = "X";
+        }
     }
 }
