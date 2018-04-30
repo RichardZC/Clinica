@@ -18,35 +18,13 @@ namespace Web.Controllers.Clinica
         {
             int user_ID = Comun.SessionHelper.GetUser();
             ViewBag.usuario = BL.UsuarioBL.Obtener(x => x.UsuarioId == user_ID, includeProperties: "Persona");
+            //ViewBag.Pacientes = BL.PacienteBL.Listar(includeProperties:"Persona");
             return View();
         }
 
         public ActionResult Mantener(int id)
         {
-            int user_ID = Comun.SessionHelper.GetUser();
-            usuario user = BL.UsuarioBL.Obtener(x => x.UsuarioId == user_ID, includeProperties: "Persona");
-            medico med = MedicoBL.Obtener(x => x.PersonaId == user.PersonaId, includeProperties: "Persona,Especialidad");
-
-            atencionespecialidad atenc = new atencionespecialidad();
-            atenc.AtencionId = id;
-
-            if (med.EspecialidadId == 4)
-            {
-                ViewBag.listaRevision = BL.TablaConfiguracionBL.Listar(x => x.TablaId == 2);
-            }
-            if (med.EspecialidadId == 5)
-            {
-                ViewBag.listaRevision = BL.TablaConfiguracionBL.Listar(x => x.TablaId == 3);
-            }
-            
-            if (AtencionEspecialidadBL.Obtener(x => x.AtencionId == id) != null)
-            {
-                atenc.AtencionespecialidadId = 1;
-                ViewBag.listaTopico = AtencionEspecialidadBL.Listar(x => x.AtencionId == id);
-            }
-            else { atenc.AtencionespecialidadId = 0; }
-
-            
+            atencion atenc = new atencion();
             return View(atenc);
         }
 
@@ -69,6 +47,14 @@ namespace Web.Controllers.Clinica
             return Json(rm);
         }
 
+
+        public PartialViewResult HistoriaPaciente(int id)
+        {
+            int user_ID = Comun.SessionHelper.GetUser();
+            ViewBag.usuario = BL.UsuarioBL.Obtener(x => x.UsuarioId == user_ID, includeProperties: "Persona");
+            ViewBag.Pacientes = BL.PacienteBL.Listar( x=> x.PacienteId==id ,includeProperties: "Persona");
+            return PartialView();
+        }
 
     }
 }

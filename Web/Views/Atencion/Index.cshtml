@@ -3,57 +3,114 @@
 
     <div class="col s12 m12 l12">
         <div class="card-panel">
-            <div class="row" style="margin-bottom:0;">
+            <div class="card-panel">
+                <h5>CITAS</h5>
+                <div class="row" style="margin-bottom:0;">
 
-                <div class="input-field col s11  m5 l3">
-                    <i class="mdi-maps-pin-drop prefix"></i>
-                    <label for="FechaAtencion">Fecha</label>
-                    <input class="datepicker" id="FechaAtencion" name="FechaAtencion" type="text">
-                </div>
+                    <div class="input-field col s11  m5 l3">
+                        <i class="mdi-maps-pin-drop prefix"></i>
+                        <label for="FechaAtencion">Fecha</label>
+                        <input class="datepicker" id="FechaAtencion" name="FechaAtencion" type="text">
+                    </div>
 
 
-                <div class="modal-content">
-                    <div class="col s12" id="mantenerProgramacion"></div>
-                </div>
-                <!-- Modal Structure -->
-                <div id="modalMantener2" class="modal modal-fixed-footer">
-                    <div class="modal-content" style="height:auto;padding-bottom:0">
-                        <div class="col s12" id="mantenerProgramacion2"></div>
+                    <div class="modal-content">
+                        <div class="col s12" id="mantenerProgramacion"></div>
+                    </div>
+                    <!-- Modal Structure -->
+                    <div id="modalMantener2" class="modal modal-fixed-footer">
+                        <div class="modal-content" style="height:auto;padding-bottom:0">
+                            <div class="col s12" id="mantenerProgramacion2"></div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="card-panel">
+                <h5>PACIENTES</h5>
+                <div class="row">
+                    <form>
+                        <div class="row">
+                            <div class="input-field col s8">
+                                <input type="hidden" id="txtPacienteId" value="0" />
+                                <i class="mdi-action-search prefix"></i>
+                                <input id="autocompletar" type="text" placeholder="DNI/Apellidos" required
+                                       data-url='@Url.Action("ListarPacientes","Comun")'
+                                       data-seleccion="txtPacienteId">
+                                <label for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Persona</label>
+                            </div>
+                            <div class="input-field col s1 valign-wrapper">
+                                <a class="btn btn-floating tooltipped" data-tooltip="Crear Persona" data-position="left" href='@Url.Action("Mantener","Persona",new { id=0,href=Url.Action("Index","Home") })'>
+                                    <i class="mdi-social-person-add"></i>
+                                </a>
+                            </div>
+                            <div class="input-field col s3">
+                                <a class="btn waves-effect waves-light right" onclick="atencionNueva()">
+                                    ATENDER <i class="mdi-action-done right"></i>
+                                </a>
+                                
+                            </div>
+                        </div>
+                    </form>
 
+                    <div class="col s12 m12 l12">
+                        <div class="modal-content">
+                            <div class="col s12" id="historiaPaciente"></div>
+                        </div>
+                    </div>
+                </div>
 
+          
+
+            </div>
         </div>
-
     </div>
-</div>
+    
+    
+    </div>
 @section scripts{
-    <script type="text/javascript">
-        $(function () {
-            $(".datepicker").pickadate({ selectMonths: !0, selectYears: 50, format: 'dd/mm/yyyy' });
-            var f = new Date();
-            cargar(f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear());
-            $("#FechaAtencion").on("change", function () {
-                cargar($("#FechaAtencion").val());
-            });
-        });
-        function cargar(fecha) {
-            var url = "@Url.Action("Cita", "Topico")" + "?fecha=" + fecha;
-            $.get('@Url.Action("ObtenerUsuarioSesion", "Comun")', function (d) {
-                if (d == 0) location.reload();
-                $("#mantenerProgramacion").load(url);
-            });
-        };
-        function cargarDatos(id) {
-            var url = "@Url.Action("Atencion", "Topico")" + "?id="+id;
-            $.get('@Url.Action("ObtenerUsuarioSesion", "Comun")', function (d) {
-                if (d == 0) location.reload();
-                $("#mantenerProgramacion2").load(url);
-                $('#modalMantener2').openModal();
+        <script type="text/javascript">
 
+            $(function () {
+                cargarHistoria($("#txtPacienteId").val());
+                $(".datepicker").pickadate({ selectMonths: !0, selectYears: 50, format: 'dd/mm/yyyy' });
+                var f = new Date();
+                cargar(f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear());
+                $("#FechaAtencion").on("change", function () {
+                    cargar($("#FechaAtencion").val());
+                });
+                $("#autocompletar").keypress(function (event) {
+                    if (event.which == 13) {
+                        event.preventDefault();
+                        cargarHistoria($("#txtPacienteId").val());
+                    }
+                });
             });
-        };
+            function cargar(fecha) {
+                var url = "@Url.Action("Cita", "Topico")" + "?fecha=" + fecha;
+                $.get('@Url.Action("ObtenerUsuarioSesion", "Comun")', function (d) {
+                    if (d == 0) location.reload();
+                    $("#mantenerProgramacion").load(url);
+                });
+            };
+            function atencionNueva(id) {
+                location.href = "@Url.Action("Mantener", "Atencion")" + "/" + $("#txtPacienteId").val();
+            };
+            function cargarHistoria(idPaciente) {
+                var url = "@Url.Action("HistoriaPaciente", "Atencion")" + "?id=" + idPaciente;
+                $.get('@Url.Action("ObtenerUsuarioSesion", "Comun")', function (d) {
+                    if (d == 0) location.reload();
+                    $("#historiaPaciente").load(url);
+                });
+            };
+            function cargarDatos(id) {
+                var url = "@Url.Action("Atencion", "Topico")" + "?id=" + id;
+                $.get('@Url.Action("ObtenerUsuarioSesion", "Comun")', function (d) {
+                    if (d == 0) location.reload();
+                    $("#mantenerProgramacion2").load(url);
+                    $('#modalMantener2').openModal();
 
-    </script>
-}
+                });
+            };
+
+        </script>
+    }

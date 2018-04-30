@@ -5,27 +5,27 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="f2b09fddecf847b8aef296f667cabead" Name="Diagram1">
-        <EntityTypeShape EntityType="clinicaModel.articulo" Width="1.5" PointX="10.25" PointY="4.25" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.caja" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.cajadiario" Width="1.5" PointX="3" PointY="1.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.cajamov" Width="1.5" PointX="5.25" PointY="2.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.articulo" Width="1.5" PointX="12.25" PointY="4.25" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.caja" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.cajadiario" Width="1.5" PointX="3" PointY="6.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.cajamov" Width="1.5" PointX="4.5" PointY="5" IsExpanded="false" />
         <EntityTypeShape EntityType="clinicaModel.cajamovdetalle" Width="1.5" PointX="7.5" PointY="2.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.cargo" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.conceptopago" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.consultorio" Width="1.5" PointX="7.75" PointY="8.125" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.especialidad" Width="1.5" PointX="0.625" PointY="8.375" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.marca" Width="1.5" PointX="5.75" PointY="4.25" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.medico" Width="1.5" PointX="3" PointY="5.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.menu" Width="1.5" PointX="3" PointY="11.125" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.modelo" Width="1.5" PointX="8" PointY="4.25" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.oficina" Width="1.5" PointX="0.75" PointY="6.375" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.paciente" Width="1.5" PointX="2.875" PointY="7.625" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.persona" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.rol" Width="1.5" PointX="3" PointY="9.125" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.rol_menu" Width="1.5" PointX="5.25" PointY="10.125" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.tipoarticulo" Width="1.5" PointX="8" PointY="1.25" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.usuario" Width="1.5" PointX="3" PointY="3.75" IsExpanded="false" />
-        <EntityTypeShape EntityType="clinicaModel.usuario_rol" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.cargo" Width="1.5" PointX="2.5" PointY="3.375" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.conceptopago" Width="1.5" PointX="5.25" PointY="11.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.consultorio" Width="1.5" PointX="5.75" PointY="6.125" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.especialidad" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.marca" Width="1.5" PointX="7.75" PointY="4.25" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.medico" Width="1.5" PointX="3" PointY="8.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.menu" Width="1.5" PointX="3" PointY="15" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.modelo" Width="1.5" PointX="10" PointY="4.25" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.oficina" Width="1.5" PointX="2.25" PointY="4.25" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.paciente" Width="1.5" PointX="3" PointY="12.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.persona" Width="1.5" PointX="0.5" PointY="4.625" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.rol" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.rol_menu" Width="1.5" PointX="8" PointY="0.625" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.tipoarticulo" Width="1.5" PointX="10" PointY="2.25" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.usuario" Width="1.5" PointX="0.5" PointY="3" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.usuario_rol" Width="1.5" PointX="2" PointY="1.25" IsExpanded="false" />
         <AssociationConnector Association="clinicaModel.articulo_ibfk_1" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.articulo_ibfk_2" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.cajadiario_ibfk_1" ManuallyRouted="false" />
@@ -49,10 +49,10 @@
         <AssociationConnector Association="clinicaModel.rol_menu_ibfk_1" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.usuario_rol_ibfk_2" ManuallyRouted="false" />
         <AssociationConnector Association="clinicaModel.usuario_rol_ibfk_1" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="clinicaModel.tablaconfiguracion" Width="1.5" PointX="7.375" PointY="9.75" />
-        <EntityTypeShape EntityType="clinicaModel.topico" Width="1.5" PointX="13" PointY="6.625" />
-        <EntityTypeShape EntityType="clinicaModel.atencionespecialidad" Width="1.5" PointX="12.125" PointY="10.125" />
-        <EntityTypeShape EntityType="clinicaModel.atencion" Width="1.5" PointX="12.75" PointY="0.875" />
+        <EntityTypeShape EntityType="clinicaModel.tablaconfiguracion" Width="1.5" PointX="9.75" PointY="12.125" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.topico" Width="1.5" PointX="12" PointY="5.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.atencionespecialidad" Width="1.5" PointX="12" PointY="8.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="clinicaModel.atencion" Width="1.5" PointX="9.75" PointY="6" IsExpanded="false" />
         <AssociationConnector Association="clinicaModel.atencion_ibfk_2" />
         <AssociationConnector Association="clinicaModel.atencion_ibfk_3" />
         <AssociationConnector Association="clinicaModel.atencion_ibfk_4" />
@@ -60,9 +60,9 @@
         <AssociationConnector Association="clinicaModel.atencion_ibfk_6" />
         <AssociationConnector Association="clinicaModel.atencionespecialidad_ibfk_1" />
         <AssociationConnector Association="clinicaModel.topico_ibfk_1" />
-        <EntityTypeShape EntityType="clinicaModel.programacion" Width="1.5" PointX="5.25" PointY="12.375" />
+        <EntityTypeShape EntityType="clinicaModel.programacion" Width="1.5" PointX="5.25" PointY="7.375" IsExpanded="false" />
         <AssociationConnector Association="clinicaModel.programacion_ibfk_1" />
-        <EntityTypeShape EntityType="clinicaModel.cita" Width="1.5" PointX="7.5" PointY="12.75" />
+        <EntityTypeShape EntityType="clinicaModel.cita" Width="1.5" PointX="7.5" PointY="8.625" IsExpanded="false" />
         <AssociationConnector Association="clinicaModel.atencion_ibfk_1" />
         <AssociationConnector Association="clinicaModel.cita_ibfk_1" />
         <AssociationConnector Association="clinicaModel.cita_ibfk_2" />
