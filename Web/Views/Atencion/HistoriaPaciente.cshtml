@@ -34,10 +34,11 @@
                         <tr>
                             <td>@item.persona.NombreCompleto</td>
                             <td>@item.persona.DNI</td>
-                            <td>@item.NumeroHistoria</td>
-                            <td>@item.persona.Celular</td>
+                            <td>@*@item.persona.paciente.NumeroHistoria*@Historia clinica</td>
+                            <td>@item.Fecha</td>
                             <td>
-                                <a class="btn waves-effect waves-light blue right"  data-ajax="true" href='@Url.Action("Mantener","Atencion",new { id=@item.PacienteId})'>
+                                <a class="btn waves-effect waves-light blue right"  data-ajax="true" 
+                                   href='@Url.Action("Mantener","Atencion",new { id = @item.AtencionId})'>
                                     VER <i class="mdi-action-visibility right"></i>
                                 </a>
                             </td>

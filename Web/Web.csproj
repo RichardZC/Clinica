@@ -423,6 +423,11 @@
     <Content Include="Views\Topico\Atencion.cshtml" />
     <Content Include="Views\Atencion\Mantener.cshtml" />
     <Content Include="Views\Atencion\HistoriaPaciente.cshtml" />
+    <Content Include="Views\Atencion\VistaResumen.cshtml" />
+    <Content Include="Views\Atencion\VistaExamen.cshtml" />
+    <Content Include="Views\Atencion\VistaProcedimiento.cshtml" />
+    <Content Include="Views\Atencion\VistaAtencion.cshtml" />
+    <Content Include="Views\Atencion\VistaRecetas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

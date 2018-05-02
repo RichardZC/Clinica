@@ -33,6 +33,14 @@ namespace Web.Controllers
             }), JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult ListarPacientesAtendidos()
+        {
+            return Json(BL.PacienteBL.Listar(includeProperties: "Persona").Select(x => new
+            {
+                value = x.persona.DNI + " - " + x.persona.NombreCompleto,
+                data = x.persona.PersonaId
+            }), JsonRequestBehavior.AllowGet);
+        }
         public JsonResult ListarMedicos()
         {
             return Json(BL.MedicoBL.Listar(includeProperties: "Persona").Select(x => new

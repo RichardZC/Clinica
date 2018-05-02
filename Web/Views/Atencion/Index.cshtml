@@ -31,11 +31,11 @@
                     <form>
                         <div class="row">
                             <div class="input-field col s8">
-                                <input type="hidden" id="txtPacienteId" value="0" />
+                                <input type="hidden" id="txtAtencionId" value="0" />
                                 <i class="mdi-action-search prefix"></i>
                                 <input id="autocompletar" type="text" placeholder="DNI/Apellidos" required
-                                       data-url='@Url.Action("ListarPacientes","Comun")'
-                                       data-seleccion="txtPacienteId">
+                                       data-url='@Url.Action("ListarPacientesAtendidos","Comun")'
+                                       data-seleccion="txtAtencionId">
                                 <label for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Persona</label>
                             </div>
                             <div class="input-field col s1 valign-wrapper">
@@ -71,7 +71,7 @@
         <script type="text/javascript">
 
             $(function () {
-                cargarHistoria($("#txtPacienteId").val());
+                cargarHistoria($("#txtAtencionId").val());
                 $(".datepicker").pickadate({ selectMonths: !0, selectYears: 50, format: 'dd/mm/yyyy' });
                 var f = new Date();
                 cargar(f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear());
@@ -81,7 +81,7 @@
                 $("#autocompletar").keypress(function (event) {
                     if (event.which == 13) {
                         event.preventDefault();
-                        cargarHistoria($("#txtPacienteId").val());
+                        cargarHistoria($("#txtAtencionId").val());
                     }
                 });
             });
@@ -92,8 +92,8 @@
                     $("#mantenerProgramacion").load(url);
                 });
             };
-            function atencionNueva(id) {
-                location.href = "@Url.Action("Mantener", "Atencion")" + "/" + $("#txtPacienteId").val();
+            function atencionNueva() {
+                location.href = "@Url.Action("Mantener", "Atencion")" + "/" + 0;
             };
             function cargarHistoria(idPaciente) {
                 var url = "@Url.Action("HistoriaPaciente", "Atencion")" + "?id=" + idPaciente;

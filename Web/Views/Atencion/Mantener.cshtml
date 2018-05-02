@@ -1,28 +1,41 @@
-﻿<div class="row">
+﻿@model BE.atencion
+<div class="row">
     <div class="col s12">
         <ul class="tabs">
-            <li class="tab col s3"><a class="active" href="#test1">Resumen</a></li>
-            <li class="tab col s3"><a  href="#test2">Examenes</a></li>
-            <li class="tab col s3 "><a href="#test3">Procedimientos</a></li>
-            <li class="tab col s3"><a href="#test4">Atencion</a></li>
-            <li class="tab col s3"><a href="#test5">Recetas</a></li>
+            <li class="tab col s3"><a class="active" href="#Resumen">Resumen</a></li>
+            <li class="tab col s3"><a href="#Atencion">Atencion</a></li>
+            <li class="tab col s3"><a  href="#Examenes">Examenes</a></li>
+            <li class="tab col s3 "><a href="#Procedimientos">Procedimientos</a></li>
+            <li class="tab col s3"><a href="#Recetas">Recetas</a></li>
         </ul>
     </div>
-    <div id="test1" class="col s12">RESUMEN</div>
-    <div id="test2" class="col s12">EXAMENEs</div>
-    <div id="test3" class="col s12">PROCEDIMIENTOS</div>
-    <div id="test4" class="col s12">ATENCION</div>
-    <div id="test5" class="col s12">RECETAS</div>
+    <div id="Resumen" class="col s12"></div>
+    <div id="Atencion" class="col s12"></div>
+    <div id="Examenes" class="col s12"></div>
+    <div id="Procedimientos" class="col s12"></div>
+    <div id="Recetas" class="col s12"></div>
 </div>
 @section scripts{
     <script type="text/javascript">
-        var instance = M.Tabs.init(el, options);
-
-        // Or with jQuery
-
-        $(document).ready(function () {
+        $(function () {
             $('.tabs').tabs();
+            cargarTabs();
         });
-
+        function cargarTabs() {
+            var url1 = "@Url.Action("VistaResumen", "Atencion")" + "?id=" + @Model.AtencionId.ToString();
+            var url2= "@Url.Action("VistaExamen", "Atencion")" + "?id=" + @Model.AtencionId.ToString();
+            var url3 = "@Url.Action("VistaProcedimiento", "Atencion")" + "?id=" + @Model.AtencionId.ToString();
+            var url4 = "@Url.Action("VistaAtencion", "Atencion")" + "?id=" + @Model.AtencionId.ToString();
+            var url5 = "@Url.Action("VistaRecetas", "Atencion")" + "?id=" + @Model.AtencionId.ToString();
+            $.get('@Url.Action("ObtenerUsuarioSesion", "Comun")', function (d) {
+                if (d == 0) location.reload();
+                $("#Resumen").load(url1);
+                $("#Atencion").load(url2);
+                $("#Examenes").load(url3);
+                $("#Procedimientos").load(url4);
+                $("#Recetas").load(url5);
+            });
+           
+        };
     </script>
 }

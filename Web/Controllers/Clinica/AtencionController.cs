@@ -25,6 +25,10 @@ namespace Web.Controllers.Clinica
         public ActionResult Mantener(int id)
         {
             atencion atenc = new atencion();
+            if (id > 0)
+            {
+                atenc = AtencionBL.Obtener(id);
+            }
             return View(atenc);
         }
 
@@ -52,8 +56,35 @@ namespace Web.Controllers.Clinica
         {
             int user_ID = Comun.SessionHelper.GetUser();
             ViewBag.usuario = BL.UsuarioBL.Obtener(x => x.UsuarioId == user_ID, includeProperties: "Persona");
-            ViewBag.Pacientes = BL.PacienteBL.Listar( x=> x.PacienteId==id ,includeProperties: "Persona");
+            ViewBag.Pacientes = BL.AtencionBL.Listar( x=> x.PerPacienteId==id ,includeProperties: "Persona,Persona.Paciente");
             return PartialView();
+        }
+
+
+        public PartialViewResult VistaResumen(int id)
+        {
+            return PartialView();
+
+        }
+        public PartialViewResult VistaExamen(int id)
+        {
+            return PartialView();
+
+        }
+        public PartialViewResult VistaProcedimiento(int id)
+        {
+            return PartialView();
+
+        }
+        public PartialViewResult VistaAtencion(int id)
+        {
+            return PartialView();
+
+        }
+        public PartialViewResult VistaRecetas(int id)
+        {
+            return PartialView();
+
         }
 
     }
