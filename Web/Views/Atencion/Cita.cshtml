@@ -1,0 +1,29 @@
+﻿<div id="email-list" class="col s12 m12 l12 card-panel z-depth-1">
+    <ul class="collection">
+        @{ int i = 0;}
+        @foreach (var item in ViewBag.listaCitas)
+        {
+            if (item.IndPago)
+            {
+                i++;
+                    ondblclick='cargarDatos(@item.CitaId)'
+                    onclick="$(this).addClass('selected').siblings().removeClass('selected');">
+                    <span class="circle light-blue">@item.paciente.persona.NombreCompleto.Substring(0, 1)</span>
+                    <span class="email-title">@item.paciente.persona.NombreCompleto</span>
+                    <p class="truncate grey-text ultra-small">Historia Clinica: @item.paciente.NumeroHistoria</p>
+                    <a class="secondary-content email-time"><span class="blue-text ultra-small">N°: @item.NumeroAtencion Hora: @item.HoraProbable</span></a>
+                </li>
+            }
+        }
+    </ul>
+
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $(".datepicker").pickadate({ selectMonths: !0, selectYears: 50, format: 'dd/mm/yyyy' })
+        });
+        
+    </script>
+}

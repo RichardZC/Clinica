@@ -428,6 +428,7 @@
     <Content Include="Views\Atencion\VistaProcedimiento.cshtml" />
     <Content Include="Views\Atencion\VistaAtencion.cshtml" />
     <Content Include="Views\Atencion\VistaRecetas.cshtml" />
+    <Content Include="Views\Atencion\Cita.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

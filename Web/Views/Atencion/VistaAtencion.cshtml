@@ -1,1 +1,50 @@
-﻿Atencion
+﻿@model BE.atencionespecialidad
+<!--breadcrumbs start-->
+<div id="breadcrumbs-wrapper">
+    <!-- Search for small screen -->
+    <div class="header-search-wrapper grey hide-on-large-only">
+        <i class="mdi-action-search active"></i>
+        <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize">
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <h5 class="breadcrumbs-title">GESTIÓN DE ATENCIÓN</h5>
+                <ol class="breadcrumbs">
+                    <li><a href='@Url.Action("Index", "Home")'>Inicio</a></li>
+                    <li><a href="@Url.Action("Index", "Atencion")">Atencion</a></li>
+                    <li class="active">Mantenimiento</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs end-->
+<div id="default-validation" class="section">
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <div class="card-panel">
+
+                <h4 class="header2">Datos personales</h4>
+                <form>
+                   <div class="row">
+                       
+                       <div class="input-field col s1 ">
+                           <a class="btn btn-floating tooltipped" data-tooltip="Crear Persona" data-position="left" href='@Url.Action("Mantener","Persona",new { id=0,href = Request.Url.AbsoluteUri })'>
+                               <i class="mdi-social-person-add"></i>
+                           </a>
+                       </div>
+                       <div class="input-field col s12 m6 l6">
+                           @Html.DropDownListFor(x => x.Item, new SelectList(ViewBag.cboExamenesAtencion, "TablaConfiguracionId", "Denominacion"))
+                           <label for="Item">Item</label>
+                       </div>
+                   </div>
+                </form>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

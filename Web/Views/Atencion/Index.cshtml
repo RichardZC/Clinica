@@ -86,7 +86,7 @@
                 });
             });
             function cargar(fecha) {
-                var url = "@Url.Action("Cita", "Topico")" + "?fecha=" + fecha;
+                var url = "@Url.Action("Cita", "Atencion")" + "?fecha=" + fecha;
                 $.get('@Url.Action("ObtenerUsuarioSesion", "Comun")', function (d) {
                     if (d == 0) location.reload();
                     $("#mantenerProgramacion").load(url);

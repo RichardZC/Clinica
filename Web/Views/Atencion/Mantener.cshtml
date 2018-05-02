@@ -23,9 +23,9 @@
         });
         function cargarTabs() {
             var url1 = "@Url.Action("VistaResumen", "Atencion")" + "?id=" + @Model.AtencionId.ToString();
-            var url2= "@Url.Action("VistaExamen", "Atencion")" + "?id=" + @Model.AtencionId.ToString();
-            var url3 = "@Url.Action("VistaProcedimiento", "Atencion")" + "?id=" + @Model.AtencionId.ToString();
-            var url4 = "@Url.Action("VistaAtencion", "Atencion")" + "?id=" + @Model.AtencionId.ToString();
+            var url2= "@Url.Action("VistaAtencion", "Atencion")" + "?id=" + @Model.AtencionId.ToString();
+            var url3 = "@Url.Action("VistaExamen", "Atencion")" + "?id=" + @Model.AtencionId.ToString();
+            var url4 = "@Url.Action("VistaProcedimiento", "Atencion")" + "?id=" + @Model.AtencionId.ToString();
             var url5 = "@Url.Action("VistaRecetas", "Atencion")" + "?id=" + @Model.AtencionId.ToString();
             $.get('@Url.Action("ObtenerUsuarioSesion", "Comun")', function (d) {
                 if (d == 0) location.reload();

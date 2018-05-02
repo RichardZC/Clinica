@@ -63,6 +63,7 @@ namespace Web.Controllers.Clinica
 
         public PartialViewResult VistaResumen(int id)
         {
+
             return PartialView();
 
         }
@@ -78,8 +79,10 @@ namespace Web.Controllers.Clinica
         }
         public PartialViewResult VistaAtencion(int id)
         {
-            return PartialView();
-
+            atencionespecialidad atencionEspecial = new atencionespecialidad();
+            atencionEspecial.Item = 2;
+            ViewBag.cboExamenesAtencion = TablaConfiguracionBL.Listar();
+            return PartialView(atencionEspecial);
         }
         public PartialViewResult VistaRecetas(int id)
         {

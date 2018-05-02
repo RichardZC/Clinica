@@ -130,3 +130,19 @@ DROP TABLE IF EXISTS ATENCIONESPECIALIDAD;
 INSERT INTO atencion VALUES (1, NULL, 1, 1,1,'2018-05-02',2,'2018-05-02','2018-05-02',5,5,'p');
 INSERT INTO atencion VALUES (2, NULL, 1, 1,1,'2018-05-02',2,'2018-05-02','2018-05-02',5,5,'p');
 INSERT INTO atencion VALUES (3, NULL, 1, 1,1,'2018-05-02',2,'2018-05-02','2018-05-02',5,5,'p');
+
+
+INSERT INTO tablaconfiguracion VALUES (1, 1,1,'P.A.');
+INSERT INTO tablaconfiguracion VALUES (2, 1,2,'Temperatura');
+INSERT INTO tablaconfiguracion VALUES (3, 1,3,'Pulso');
+INSERT INTO tablaconfiguracion VALUES (4, 1,4,'Peso');
+INSERT INTO tablaconfiguracion VALUES (5, 1,5,'Respiración');
+
+INSERT INTO tablaconfiguracion VALUES (6, 2,1,'Menarquia');
+INSERT INTO tablaconfiguracion VALUES (7, 2,2,'Inicio Relacion Sexuales');
+INSERT INTO tablaconfiguracion VALUES (8, 2,3,'FUM');
+INSERT INTO tablaconfiguracion VALUES (9, 2,4,'Gestante');
+INSERT INTO tablaconfiguracion VALUES (10, 2,5,'FUP');
+INSERT INTO tablaconfiguracion VALUES (11, 2,6,'G');
+INSERT INTO tablaconfiguracion VALUES (12, 2,7,'P');
+
