@@ -1,4 +1,12 @@
 ﻿@model BE.atencionespecialidad
+<script src="~/js/plugins/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="~/js/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="~/js/jquery.autocomplete.min.js"></script>
+<script src="~/js/ini.js"></script>
+<script src="~/js/materialize.min.js"></script>
+ <!-- data-tables -->
+<script type="text/javascript" src="~/js/mindmup-editabletable.js"></script>
+<script type="text/javascript" src="~/js/numeric-input-example.js"></script>
 <!--breadcrumbs start-->
 <div id="breadcrumbs-wrapper">
     <!-- Search for small screen -->
@@ -23,28 +31,82 @@
 <div id="default-validation" class="section">
     <div class="row">
         <div class="col s12 m12 l12">
-            <div class="card-panel">
 
-                <h4 class="header2">Datos personales</h4>
-                <form>
-                   <div class="row">
-                       
-                       <div class="input-field col s1 ">
-                           <a class="btn btn-floating tooltipped" data-tooltip="Crear Persona" data-position="left" href='@Url.Action("Mantener","Persona",new { id=0,href = Request.Url.AbsoluteUri })'>
-                               <i class="mdi-social-person-add"></i>
-                           </a>
-                       </div>
-                       <div class="input-field col s12 m6 l6">
-                           @Html.DropDownListFor(x => x.Item, new SelectList(ViewBag.cboExamenesAtencion, "TablaConfiguracionId", "Denominacion"))
-                           <label for="Item">Item</label>
-                       </div>
-                   </div>
-                </form>
+                <div class="row">
+                    <div class="card-panel">
+                        <!--start container-->
+                        <div class="container">
+                            <!--editableTable-->
+                            <div id="editableTable" class="section">
+                                <div class="row">
+                                    <div class="col s12 m4 l3">
+                                        <h4 class="header">editableTable</h4>
+                                    </div>
+                                    <div class="col s12 m8 l12">
+                                        <table id="mainTable" class="table table-striped">
+                                            <thead><tr><th>Name</th><th>Cost</th><th>Profit</th><th>Fun</th></tr></thead>
+                                            <tbody>
+                                                <tr><td>Car</td><td>100</td><td>200</td><td>0</td></tr>
+                                            </tbody>
+                                            <tfoot><tr><th><strong>TOTAL</strong></th><th></th><th></th><th></th></tr></tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                                
+
+                            </div>
+                        </div>
+                        <!--end container-->
+                    </div>
+                </div>
+
+                <!-- Modal Structure -->
+                <div id="modalAtencion" class="modal modal-fixed-footer">
+                    <div class="modal-content">
+                        <h4>AGREGAR ATENCION Header</h4>
+                        <form id="formValidate" class="validar" method="post" action='@Url.Action("Guardar","Cita")'>
+                            <div class="row">
+
+                                <div class="input-field col s11  m5 l9">
+                                    <select id="pEspecialidad" name="pEspecialidad">
+                                        <option value="" disabled selected>Choose your option</option>
+                                    </select>
+                                    <label>Atencion</label>
+                                </div>
+                                <div class="input-field col s11  m5 l3">
+                                    <button class="btn waves-effect waves-light right" type="submit" data-ajax="true">
+                                        AGREGAR
+                                        <i class="mdi-action-done right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
 
 
-
-
-            </div>
+                <div class="fixed-action-btn" style="bottom: 50px; right: 19px;">
+                    <a class="btn btn-floating btn-large red modal-trigger" onclick="abrirModal()">
+                        <i class="mdi-social-person-add"></i>
+                    </a>
+                </div>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        combo();
+        $('#mainTable').editableTableWidget();
+    });
+
+    function combo() {
+        fn.CargarCombo("@Url.Action("ComboAtencion", "Atencion")", "pEspecialidad");
+    };
+    function abrirModal() {
+        $('#modalAtencion').openModal();
+    };
+
+</script>
+
