@@ -19,19 +19,21 @@ namespace Web.Controllers
             return View();
         }
 
-        public JsonResult Listar()
+        public JsonResult Listar(string clave = "")
         {
-            return Json(BL.MedicoBL.Listar(includeProperties: "Persona").Select(x => new
-            {
-                PersonaId = x.PersonaId,
-                MedicoId = x.MedicoId,
-                Titulo = x.TituloProfesional,
-                Nombres = x.persona.NombreCompleto,
-                DNI = x.persona.DNI,
-                Celular = x.persona.Celular,
-                Correo = x.persona.Correo,
-                Estado = x.Estado
-            }), JsonRequestBehavior.AllowGet);
+            return Json(BL.MedicoBL.Listar(
+                x => x.persona.NombreCompleto.Contains(clave),
+                includeProperties: "Persona").Select(x => new
+                {
+                    PersonaId = x.PersonaId,
+                    MedicoId = x.MedicoId,
+                    Titulo = x.TituloProfesional,
+                    Nombres = x.persona.NombreCompleto,
+                    DNI = x.persona.DNI,
+                    Celular = x.persona.Celular,
+                    Correo = x.persona.Correo,
+                    Estado = x.Estado
+                }), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Mantener(int id)
@@ -80,7 +82,7 @@ namespace Web.Controllers
                         IndCambio = true,
                         usuario_rol = rol_medico
                     });
-                    
+
                 }
 
                 rm.SetResponse(true);

@@ -6,9 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Web.Filters;
 
 namespace Web.Controllers.Clinica
 {
+    [Autenticado]
     public class PacienteController : Controller
     {
         // GET: Paciente
@@ -18,19 +20,21 @@ namespace Web.Controllers.Clinica
         }
 
 
-        public JsonResult Listar()
+        public JsonResult Listar(string clave = "")
         {
-            return Json(BL.PacienteBL.Listar(includeProperties: "Persona").Select(x => new
-            {
-                PersonaId = x.PersonaId,
-                PacienteId = x.PacienteId,
-                //NumeroHistoria = x.NumeroHistoria,
-                Nombres = x.persona.NombreCompleto,
-                DNI = x.persona.DNI,
-                Celular = x.persona.Celular,
-                Correo = x.persona.Correo,
-                Alergia = x.Alergia
-            }), JsonRequestBehavior.AllowGet);
+            return Json(BL.PacienteBL.Listar(
+                x => x.persona.NombreCompleto.Contains(clave),
+                includeProperties: "Persona").Select(x => new
+                {
+                    PersonaId = x.PersonaId,
+                    PacienteId = x.PacienteId,
+                    NumeroHistoria = x.NumeroHistoria,
+                    Nombres = x.persona.NombreCompleto,
+                    DNI = x.persona.DNI,
+                    Celular = x.persona.Celular,
+                    Correo = x.persona.Correo,
+                    Alergia = x.Alergia
+                }), JsonRequestBehavior.AllowGet);
         }
 
 

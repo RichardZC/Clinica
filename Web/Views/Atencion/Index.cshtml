@@ -1,18 +1,15 @@
 
 <div class="row" style="margin-bottom:0;">
-
     <div class="col s12 m12 l12">
         <div class="card-panel">
             <div class="card-panel">
                 <h5>CITAS</h5>
                 <div class="row" style="margin-bottom:0;">
-
                     <div class="input-field col s11  m5 l3">
                         <i class="mdi-maps-pin-drop prefix"></i>
                         <label for="FechaAtencion">Fecha</label>
                         <input class="datepicker" id="FechaAtencion" name="FechaAtencion" type="text">
                     </div>
-
 
                     <div class="modal-content">
                         <div class="col s12" id="mantenerProgramacion"></div>
@@ -47,11 +44,10 @@
                                 <a class="btn waves-effect waves-light right" onclick="atencionNueva()">
                                     ATENDER <i class="mdi-action-done right"></i>
                                 </a>
-                                
+
                             </div>
                         </div>
                     </form>
-
                     <div class="col s12 m12 l12">
                         <div class="modal-content">
                             <div class="col s12" id="historiaPaciente"></div>
@@ -59,58 +55,60 @@
                     </div>
                 </div>
 
-          
-
             </div>
         </div>
     </div>
-    
-    
+
+    <div class="fixed-action-btn" style="bottom: 50px; right: 19px;">
+        <a class="btn btn-floating btn-large red" href='@Url.Action("Mantener","Atencion",new { id=0 })'>
+            <i class="mdi-social-person-add"></i>
+        </a>
     </div>
+</div>
 @section scripts{
-        <script type="text/javascript">
+    <script type="text/javascript">
 
-            $(function () {
-                cargarHistoria($("#txtAtencionId").val());
-                $(".datepicker").pickadate({ selectMonths: !0, selectYears: 50, format: 'dd/mm/yyyy' });
-                var f = new Date();
-                cargar(f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear());
-                $("#FechaAtencion").on("change", function () {
-                    cargar($("#FechaAtencion").val());
-                });
-                $("#autocompletar").keypress(function (event) {
-                    if (event.which == 13) {
-                        event.preventDefault();
-                        cargarHistoria($("#txtAtencionId").val());
-                    }
-                });
+        $(function () {
+            cargarHistoria($("#txtAtencionId").val());
+            $(".datepicker").pickadate({ selectMonths: !0, selectYears: 50, format: 'dd/mm/yyyy' });
+            var f = new Date();
+            cargar(f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear());
+            $("#FechaAtencion").on("change", function () {
+                cargar($("#FechaAtencion").val());
             });
-            function cargar(fecha) {
-                var url = "@Url.Action("Cita", "Atencion")" + "?fecha=" + fecha;
-                $.get('@Url.Action("ObtenerUsuarioSesion", "Comun")', function (d) {
-                    if (d == 0) location.reload();
-                    $("#mantenerProgramacion").load(url);
-                });
-            };
-            function atencionNueva() {
-                location.href = "@Url.Action("Mantener", "Atencion")" + "/" + 0;
-            };
-            function cargarHistoria(idPaciente) {
-                var url = "@Url.Action("HistoriaPaciente", "Atencion")" + "?id=" + idPaciente;
-                $.get('@Url.Action("ObtenerUsuarioSesion", "Comun")', function (d) {
-                    if (d == 0) location.reload();
-                    $("#historiaPaciente").load(url);
-                });
-            };
-            function cargarDatos(id) {
-                var url = "@Url.Action("Atencion", "Topico")" + "?id=" + id;
-                $.get('@Url.Action("ObtenerUsuarioSesion", "Comun")', function (d) {
-                    if (d == 0) location.reload();
-                    $("#mantenerProgramacion2").load(url);
-                    $('#modalMantener2').openModal();
+            $("#autocompletar").keypress(function (event) {
+                if (event.which == 13) {
+                    event.preventDefault();
+                    cargarHistoria($("#txtAtencionId").val());
+                }
+            });
+        });
+        function cargar(fecha) {
+            var url = "@Url.Action("Cita", "Atencion")" + "?fecha=" + fecha;
+            $.get('@Url.Action("ObtenerUsuarioSesion", "Comun")', function (d) {
+                if (d == 0) location.reload();
+                $("#mantenerProgramacion").load(url);
+            });
+        };
+        function atencionNueva() {
+            location.href = "@Url.Action("Mantener", "Atencion")" + "/" + 0;
+        };
+        function cargarHistoria(idPaciente) {
+            var url = "@Url.Action("HistoriaPaciente", "Atencion")" + "?id=" + idPaciente;
+            $.get('@Url.Action("ObtenerUsuarioSesion", "Comun")', function (d) {
+                if (d == 0) location.reload();
+                $("#historiaPaciente").load(url);
+            });
+        };
+        function cargarDatos(id) {
+            var url = "@Url.Action("Atencion", "Topico")" + "?id=" + id;
+            $.get('@Url.Action("ObtenerUsuarioSesion", "Comun")', function (d) {
+                if (d == 0) location.reload();
+                $("#mantenerProgramacion2").load(url);
+                $('#modalMantener2').openModal();
 
-                });
-            };
+            });
+        };
 
-        </script>
-    }
+    </script>
+}

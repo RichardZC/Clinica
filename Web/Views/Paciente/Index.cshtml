@@ -16,14 +16,14 @@
                                 </ul>
                             </div>
                             <div class="col s9 m9 l9 hide-on-med-and-down">
-                                <form class="row">
+                                <div class="row">
                                     <div class="input-field">
-                                        <input id="btnb" type="text" placeholder="Buscar Medico" autofocus>
+                                        <input id="btnb" v-model="txtBuscar" v-on:keyup.enter="Buscar()" type="text" placeholder="Buscar paciente" autofocus>
                                         <label for="btnb">
                                             <i class="mdi-action-search"></i>
                                         </label>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </nav>
@@ -58,17 +58,21 @@
         var vmedico = new Vue({
             el: 'main',
             data: {
-                items: {}
+                items: {},
+                txtBuscar:""
             },
             created: function () {
-                var self = this;
-                $.get('@Url.Action("Listar", "Paciente")', {}, function (d) {
-                    self.items = d;
-                });
+                this.Buscar();
             },
             methods: {
                 Editar:function(id){
                     window.location = '@Url.Action("Mantener", "Paciente")' + '/' + id;
+                },
+                Buscar: function () {
+                    var self = this;
+                    $.get('@Url.Action("Listar", "Paciente")', { clave: self.txtBuscar }, function (d) {
+                        self.items = d;
+                    });
                 }
             }
         })
