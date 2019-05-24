@@ -67,7 +67,8 @@
     <Compile Include="Clinica\PacienteBL.cs" />
     <Compile Include="Clinica\ProgramacionBL.cs" />
     <Compile Include="Clinica\TablaConfiguracionBL.cs" />
-    <Compile Include="Clinica\TopicoBL.cs" />
+    <Compile Include="Clinica\TablaExamenBL.cs" />
+    <Compile Include="Clinica\ExamenBL.cs" />
     <Compile Include="ConceptopagoBL.cs" />
     <Compile Include="Maestro\CargoBL.cs" />
     <Compile Include="ComunBL.cs" />

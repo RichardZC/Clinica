@@ -77,11 +77,12 @@ INSERT INTO menu VALUES (20, 'Clinica', 'Citas', 'mdi-action-book', 1, null);
 INSERT INTO menu VALUES (21, 'Cita', 'Cita', null, 0, 20);
 INSERT INTO menu VALUES (22, 'Atencion', 'Atencion', null, 0, 20);
 INSERT INTO menu VALUES (23, 'Topico', 'Topico', 	null, 0, 20);
-INSERT INTO menu VALUES (24, 'Reportes', 'Informe', 		null, 0, 20);
+INSERT INTO menu VALUES (24, 'Laboratorio', 'Laboratorio', 		null, 0, 20);
 INSERT INTO menu VALUES (25, 'Medico', 'Medico', 		null, 0, 20);
 INSERT INTO menu VALUES (26, 'Paciente', 'Paciente', 		null, 0, 20);
 INSERT INTO menu VALUES (27, 'Configuracion', 'Config', 		null, 0, 20);
 INSERT INTO menu VALUES (28, 'Programacion', 'Programacion', 		null, 0, 20);
+INSERT INTO menu VALUES (29, 'Consulta', 'Consulta', 		null, 0, 20);
 
 
 INSERT INTO menu VALUES (30, 'Caja', 		'Cajadiario', 	'mdi-action-book', 	1, null);
@@ -118,6 +119,7 @@ INSERT INTO rol_menu(MenuId,RolId) VALUES (25, 1);
 INSERT INTO rol_menu(MenuId,RolId) VALUES (26, 1);
 INSERT INTO rol_menu(MenuId,RolId) VALUES (27, 1);
 INSERT INTO rol_menu(MenuId,RolId) VALUES (28, 1);
+INSERT INTO rol_menu(MenuId,RolId) VALUES (29, 1);
 
 INSERT INTO rol_menu(MenuId,RolId) VALUES (30, 1);
 INSERT INTO rol_menu(MenuId,RolId) VALUES (31, 1);

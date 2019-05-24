@@ -16,10 +16,10 @@ namespace Web.Controllers
         
         public ActionResult Index()
         {
-            ViewBag.lstOficina = OficinaBL.Listar().Select(x => new BL.Modelo.Tabla { id = x.OficinaId, Denominacion = x.Denominacion }).ToList();
-            ViewBag.lstCargo = CargoBL.Listar().Select(x => new BL.Modelo.Tabla { id = x.CargoId, Denominacion = x.Denominacion }).ToList();
-            ViewBag.lstTipoArticulo = TipoArticuloBL.Listar().Select(x => new BL.Modelo.Tabla { id = x.TipoArticuloId, Denominacion = x.Denominacion }).ToList();
-            ViewBag.lstMarca = MarcaBL.Listar().Select(x => new BL.Modelo.Tabla { id = x.MarcaId, Denominacion = x.Denominacion }).ToList();
+            ViewBag.lstOficina = OficinaBL.Listar().Select(x => new BL.Modelo.Tabla { Id = x.OficinaId, Denominacion = x.Denominacion }).ToList();
+            ViewBag.lstCargo = CargoBL.Listar().Select(x => new BL.Modelo.Tabla { Id = x.CargoId, Denominacion = x.Denominacion }).ToList();
+            ViewBag.lstTipoArticulo = TipoArticuloBL.Listar().Select(x => new BL.Modelo.Tabla { Id = x.TipoArticuloId, Denominacion = x.Denominacion }).ToList();
+            ViewBag.lstMarca = MarcaBL.Listar().Select(x => new BL.Modelo.Tabla { Id = x.MarcaId, Denominacion = x.Denominacion }).ToList();
             return View();
         }
         

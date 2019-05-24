@@ -2,7 +2,6 @@
 
 <!--breadcrumbs start-->
 <div id="breadcrumbs-wrapper">
-    <!-- Search for small screen -->
     <div class="header-search-wrapper grey hide-on-large-only">
         <i class="mdi-action-search active"></i>
         <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize">
@@ -40,7 +39,7 @@
                                 <label class="right" for="autocompletar" data-error="No existe la persona." data-success="Excelente!!! Persona encontrada.">Buscar Persona</label>
                             </div>
                             <div class="input-field col s1 ">
-                                <a class="btn btn-floating tooltipped" data-tooltip="Crear Persona" data-position="left" href='@Url.Action("Mantener","Persona",new { id=0,href = Request.Url.AbsoluteUri })'>
+                                <a v-on:click="abrirModalPersona()" class="btn btn-floating tooltipped" data-tooltip="Crear Persona" data-position="left" >
                                     <i class="mdi-social-person-add"></i>
                                 </a>
                             </div>
@@ -48,6 +47,11 @@
                                 <i class="mdi-editor-format-list-numbered prefix"></i>
                                 <label for="NumeroHistoria">Historia Clinica</label>
                                 <input id="NumeroHistoria" name="NumeroHistoria" type="text" value="@Model.NumeroHistoria">
+                            </div>
+                            <div class="input-field col s12 m3 l3">
+                                <i class="mdi-editor-format-list-numbered prefix"></i>
+                                <label for="TipoSangre">Tipo de Sangre</label>
+                                <input id="TipoSangre" name="Sangre" type="text" value="@Model.Sangre">
                             </div>
                             <div class="input-field col s12">
                                 <i class="mdi-action-report-problem prefix"></i>
@@ -62,7 +66,7 @@
                             <div class="input-field col s12">
                                 <i class="mdi-notification-event-note prefix"></i>
                                 <label for="AntecedenteFamiliar">Antecedente  Familiar</label>
-                                <input id="AntecedenteFamiliar" name="AntecedenteFamiliar" type="text"  value="@Model.AntecedenteFamiliar">
+                                <input id="AntecedenteFamiliar" name="AntecedenteFamiliar" type="text" value="@Model.AntecedenteFamiliar">
                             </div>
 
                             <div class="input-field col s12">
@@ -78,6 +82,22 @@
         </div>
     </div>
 </div>
-@section scripts{
+<crear-persona v-on:respuesta="RespuestaModalPersona($event);"></crear-persona>
 
+
+@section scripts{
+    <script src="~/js/componentes/crearPersona.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#content',            
+            methods: {
+                abrirModalPersona : function () {
+                    $('.modalPersona').openModal();
+                },
+                RespuestaModalPersona : function (res) {
+                    console.log(res);
+                }
+            }
+        });
+    </script>
 }

@@ -59,7 +59,7 @@ namespace Web.Controllers.Clinica
             var val = PacienteBL.Contar(x => x.PacienteId != pac.PacienteId && x.PersonaId == pac.PersonaId);
             if (val > 0)
             {
-                rm.SetResponse(false, "Ya existe el médico para esta persona, ingrese otro");
+                rm.SetResponse(false, "Este paciente ya existe, ingrese otro");
                 return Json(rm);
             }
             try

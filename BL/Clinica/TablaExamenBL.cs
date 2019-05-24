@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL
+namespace BL.Clinica
 {
-    public class TopicoBL:Repositorio<topico>
+    public class TablaExamenBL:Repositorio<tablaexamen>
     {
     }
 }

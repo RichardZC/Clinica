@@ -26,31 +26,32 @@ namespace BE
         }
     
         public virtual DbSet<articulo> articulo { get; set; }
+        public virtual DbSet<atencionespecialidad> atencionespecialidad { get; set; }
         public virtual DbSet<caja> caja { get; set; }
         public virtual DbSet<cajadiario> cajadiario { get; set; }
         public virtual DbSet<cajamov> cajamov { get; set; }
         public virtual DbSet<cajamovdetalle> cajamovdetalle { get; set; }
         public virtual DbSet<cargo> cargo { get; set; }
+        public virtual DbSet<cita> cita { get; set; }
         public virtual DbSet<conceptopago> conceptopago { get; set; }
         public virtual DbSet<consultorio> consultorio { get; set; }
         public virtual DbSet<especialidad> especialidad { get; set; }
+        public virtual DbSet<examen> examen { get; set; }
         public virtual DbSet<marca> marca { get; set; }
         public virtual DbSet<medico> medico { get; set; }
         public virtual DbSet<menu> menu { get; set; }
         public virtual DbSet<modelo> modelo { get; set; }
         public virtual DbSet<oficina> oficina { get; set; }
-        public virtual DbSet<paciente> paciente { get; set; }
         public virtual DbSet<persona> persona { get; set; }
+        public virtual DbSet<programacion> programacion { get; set; }
         public virtual DbSet<rol> rol { get; set; }
         public virtual DbSet<rol_menu> rol_menu { get; set; }
         public virtual DbSet<tipoarticulo> tipoarticulo { get; set; }
         public virtual DbSet<usuario> usuario { get; set; }
         public virtual DbSet<usuario_rol> usuario_rol { get; set; }
-        public virtual DbSet<tablaconfiguracion> tablaconfiguracion { get; set; }
-        public virtual DbSet<topico> topico { get; set; }
-        public virtual DbSet<atencionespecialidad> atencionespecialidad { get; set; }
+        public virtual DbSet<ordenlab> ordenlab { get; set; }
+        public virtual DbSet<tablaexamen> tablaexamen { get; set; }
         public virtual DbSet<atencion> atencion { get; set; }
-        public virtual DbSet<programacion> programacion { get; set; }
-        public virtual DbSet<cita> cita { get; set; }
+        public virtual DbSet<paciente> paciente { get; set; }
     }
 }

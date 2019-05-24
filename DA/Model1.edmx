@@ -33,8 +33,11 @@
           <Property Name="FechaCreacion" Type="datetime" Precision="0" Nullable="false" />
           <Property Name="FechaModificacion" Type="datetime" Precision="0" />
           <Property Name="UsuarioCId" Type="int" Nullable="false" />
-          <Property Name="UsuarioMId" Type="int" Nullable="false" />
+          <Property Name="UsuarioMId" Type="int" />
           <Property Name="IndPago" Type="bit" Nullable="false" />
+          <Property Name="Motivo" Type="text" />
+          <Property Name="Diagnostico" Type="text" />
+          <Property Name="Tratamiento" Type="text" />
         </EntityType>
         <EntityType Name="atencionespecialidad">
           <Key>
@@ -147,6 +150,18 @@
           <Property Name="EspecialidadId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Denominacion" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
+        <EntityType Name="examen">
+          <Key>
+            <PropertyRef Name="AtencionId" />
+            <PropertyRef Name="TablaId" />
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="AtencionId" Type="int" Nullable="false" />
+          <Property Name="TablaId" Type="int" Nullable="false" />
+          <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="Denominacion" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Valor" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
         <EntityType Name="marca">
           <Key>
             <PropertyRef Name="MarcaId" />
@@ -193,16 +208,27 @@
           <Property Name="OficinaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Denominacion" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
+        <EntityType Name="ordenlab">
+          <Key>
+            <PropertyRef Name="OrdenLabId" />
+          </Key>
+          <Property Name="OrdenLabId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AtencionId" Type="int" Nullable="false" />
+          <Property Name="TablaId" Type="int" Nullable="false" />
+          <Property Name="Denominacion" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Estado" Type="char" MaxLength="3" Nullable="false" />
+        </EntityType>
         <EntityType Name="paciente">
           <Key>
             <PropertyRef Name="PacienteId" />
           </Key>
           <Property Name="PacienteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PersonaId" Type="int" Nullable="false" />
-          <Property Name="NumeroHistoria" Type="varchar" MaxLength="45" Nullable="false" />
-          <Property Name="Alergia" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="AntecedentePersonal" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="AntecedenteFamiliar" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="NumeroHistoria" Type="varchar" MaxLength="45" />
+          <Property Name="Sangre" Type="varchar" MaxLength="50" />
+          <Property Name="Alergia" Type="varchar" MaxLength="255" />
+          <Property Name="AntecedentePersonal" Type="varchar" MaxLength="255" />
+          <Property Name="AntecedenteFamiliar" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="persona">
           <Key>
@@ -250,14 +276,17 @@
           <Property Name="RolId" Type="int" Nullable="false" />
           <Property Name="MenuId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="tablaconfiguracion">
+        <EntityType Name="tablaexamen">
           <Key>
-            <PropertyRef Name="TablaconfiguracionId" />
+            <PropertyRef Name="TablaId" />
+            <PropertyRef Name="ItemId" />
           </Key>
-          <Property Name="TablaconfiguracionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TablaId" Type="int" Nullable="false" />
-          <Property Name="Item" Type="int" Nullable="false" />
+          <Property Name="ItemId" Type="int" Nullable="false" />
           <Property Name="Denominacion" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Unidad" Type="varchar" MaxLength="50" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="IndLab" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tipoarticulo">
           <Key>
@@ -265,16 +294,6 @@
           </Key>
           <Property Name="TipoArticuloId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Denominacion" Type="varchar" MaxLength="100" Nullable="false" />
-        </EntityType>
-        <EntityType Name="topico">
-          <Key>
-            <PropertyRef Name="TopicoId" />
-          </Key>
-          <Property Name="TopicoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AtencionId" Type="int" Nullable="false" />
-          <Property Name="Item" Type="int" Nullable="false" />
-          <Property Name="Denominacion" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="Valor" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="usuario">
           <Key>
@@ -286,8 +305,8 @@
           <Property Name="Clave" Type="varchar" MaxLength="60" Nullable="false" />
           <Property Name="Activo" Type="bit" Nullable="false" />
           <Property Name="IndCambio" Type="bit" Nullable="false" />
-          <Property Name="CargoId" Type="int" Nullable="false" />
-          <Property Name="OficinaId" Type="int" Nullable="false" />
+          <Property Name="CargoId" Type="int" />
+          <Property Name="OficinaId" Type="int" />
         </EntityType>
         <EntityType Name="usuario_rol">
           <Key>
@@ -382,7 +401,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="atencion_ibfk_6">
-          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
           <End Role="atencion" Type="Self.atencion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="usuario">
@@ -561,6 +580,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="examen_ibfk_1">
+          <End Role="atencion" Type="Self.atencion" Multiplicity="1" />
+          <End Role="examen" Type="Self.examen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="atencion">
+              <PropertyRef Name="AtencionId" />
+            </Principal>
+            <Dependent Role="examen">
+              <PropertyRef Name="AtencionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="medico_ibfk_1">
           <End Role="persona" Type="Self.persona" Multiplicity="1" />
           <End Role="medico" Type="Self.medico" Multiplicity="*" />
@@ -594,6 +625,18 @@
             </Principal>
             <Dependent Role="modelo">
               <PropertyRef Name="MarcaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ordenlab_ibfk_1">
+          <End Role="atencion" Type="Self.atencion" Multiplicity="1" />
+          <End Role="ordenlab" Type="Self.ordenlab" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="atencion">
+              <PropertyRef Name="AtencionId" />
+            </Principal>
+            <Dependent Role="ordenlab">
+              <PropertyRef Name="AtencionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -645,18 +688,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="topico_ibfk_1">
-          <End Role="atencion" Type="Self.atencion" Multiplicity="1" />
-          <End Role="topico" Type="Self.topico" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="atencion">
-              <PropertyRef Name="AtencionId" />
-            </Principal>
-            <Dependent Role="topico">
-              <PropertyRef Name="AtencionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="usuario_ibfk_1">
           <End Role="persona" Type="Self.persona" Multiplicity="0..1" />
           <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
@@ -670,7 +701,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="usuario_ibfk_2">
-          <End Role="cargo" Type="Self.cargo" Multiplicity="1" />
+          <End Role="cargo" Type="Self.cargo" Multiplicity="0..1" />
           <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="cargo">
@@ -682,7 +713,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="usuario_ibfk_3">
-          <End Role="oficina" Type="Self.oficina" Multiplicity="1" />
+          <End Role="oficina" Type="Self.oficina" Multiplicity="0..1" />
           <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="oficina">
@@ -730,19 +761,20 @@
           <EntitySet Name="conceptopago" EntityType="Self.conceptopago" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="consultorio" EntityType="Self.consultorio" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="especialidad" EntityType="Self.especialidad" Schema="clinica" store:Type="Tables" />
+          <EntitySet Name="examen" EntityType="Self.examen" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="marca" EntityType="Self.marca" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="medico" EntityType="Self.medico" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="menu" EntityType="Self.menu" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="modelo" EntityType="Self.modelo" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="oficina" EntityType="Self.oficina" Schema="clinica" store:Type="Tables" />
+          <EntitySet Name="ordenlab" EntityType="Self.ordenlab" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="paciente" EntityType="Self.paciente" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="persona" EntityType="Self.persona" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="programacion" EntityType="Self.programacion" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="rol" EntityType="Self.rol" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="rol_menu" EntityType="Self.rol_menu" Schema="clinica" store:Type="Tables" />
-          <EntitySet Name="tablaconfiguracion" EntityType="Self.tablaconfiguracion" Schema="clinica" store:Type="Tables" />
+          <EntitySet Name="tablaexamen" EntityType="Self.tablaexamen" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="tipoarticulo" EntityType="Self.tipoarticulo" Schema="clinica" store:Type="Tables" />
-          <EntitySet Name="topico" EntityType="Self.topico" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="usuario" EntityType="Self.usuario" Schema="clinica" store:Type="Tables" />
           <EntitySet Name="usuario_rol" EntityType="Self.usuario_rol" Schema="clinica" store:Type="Tables" />
           <AssociationSet Name="articulo_ibfk_1" Association="Self.articulo_ibfk_1">
@@ -833,6 +865,10 @@
             <End Role="oficina" EntitySet="oficina" />
             <End Role="conceptopago" EntitySet="conceptopago" />
           </AssociationSet>
+          <AssociationSet Name="examen_ibfk_1" Association="Self.examen_ibfk_1">
+            <End Role="atencion" EntitySet="atencion" />
+            <End Role="examen" EntitySet="examen" />
+          </AssociationSet>
           <AssociationSet Name="medico_ibfk_1" Association="Self.medico_ibfk_1">
             <End Role="persona" EntitySet="persona" />
             <End Role="medico" EntitySet="medico" />
@@ -844,6 +880,10 @@
           <AssociationSet Name="modelo_ibfk_1" Association="Self.modelo_ibfk_1">
             <End Role="marca" EntitySet="marca" />
             <End Role="modelo" EntitySet="modelo" />
+          </AssociationSet>
+          <AssociationSet Name="ordenlab_ibfk_1" Association="Self.ordenlab_ibfk_1">
+            <End Role="atencion" EntitySet="atencion" />
+            <End Role="ordenlab" EntitySet="ordenlab" />
           </AssociationSet>
           <AssociationSet Name="PersonaId" Association="Self.PersonaId">
             <End Role="persona" EntitySet="persona" />
@@ -860,10 +900,6 @@
           <AssociationSet Name="rol_menu_ibfk_2" Association="Self.rol_menu_ibfk_2">
             <End Role="menu" EntitySet="menu" />
             <End Role="rol_menu" EntitySet="rol_menu" />
-          </AssociationSet>
-          <AssociationSet Name="topico_ibfk_1" Association="Self.topico_ibfk_1">
-            <End Role="atencion" EntitySet="atencion" />
-            <End Role="topico" EntitySet="topico" />
           </AssociationSet>
           <AssociationSet Name="usuario_ibfk_1" Association="Self.usuario_ibfk_1">
             <End Role="persona" EntitySet="persona" />
@@ -890,672 +926,138 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="clinicaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="articulo">
-          <Key>
-            <PropertyRef Name="ArticuloId" />
-          </Key>
-          <Property Name="ArticuloId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TipoArticuloId" Type="Int32" Nullable="false" />
-          <Property Name="ModeloId" Type="Int32" Nullable="false" />
-          <Property Name="Codigo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Denominacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Precio" Type="Decimal" Nullable="false" />
-          <Property Name="Stock" Type="Int32" Nullable="false" />
-          <Property Name="IndServicio" Type="Boolean" Nullable="false" />
-          <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="tipoarticulo" Relationship="Self.articulo_ibfk_1" FromRole="articulo" ToRole="tipoarticulo" />
-          <NavigationProperty Name="modelo" Relationship="Self.articulo_ibfk_2" FromRole="articulo" ToRole="modelo" />
-        </EntityType>
-        <EntityType Name="caja">
-          <Key>
-            <PropertyRef Name="CajaId" />
-          </Key>
-          <Property Name="CajaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Denominacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="IndAbierto" Type="Boolean" Nullable="false" />
-          <Property Name="IndBoveda" Type="Boolean" Nullable="false" />
-          <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="cajadiario" Relationship="Self.cajadiario_ibfk_1" FromRole="caja" ToRole="cajadiario" />
-        </EntityType>
-        <EntityType Name="cajadiario">
-          <Key>
-            <PropertyRef Name="CajaDiarioId" />
-          </Key>
-          <Property Name="CajaDiarioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CajaId" Type="Int32" Nullable="false" />
-          <Property Name="PersonaId" Type="Int32" />
-          <Property Name="SaldoInicial" Type="Decimal" Nullable="false" />
-          <Property Name="Entradas" Type="Decimal" Nullable="false" />
-          <Property Name="Salidas" Type="Decimal" Nullable="false" />
-          <Property Name="SaldoFinal" Type="Decimal" Nullable="false" />
-          <Property Name="FechaInicio" Type="DateTime" Nullable="false" />
-          <Property Name="FechaFin" Type="DateTime" />
-          <Property Name="IndAbierto" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="caja" Relationship="Self.cajadiario_ibfk_1" FromRole="cajadiario" ToRole="caja" />
-          <NavigationProperty Name="persona" Relationship="Self.cajadiario_ibfk_2" FromRole="cajadiario" ToRole="persona" />
-          <NavigationProperty Name="cajamov" Relationship="Self.cajamov_ibfk_1" FromRole="cajadiario" ToRole="cajamov" />
-          <NavigationProperty Name="cajamov1" Relationship="Self.cajamov_ibfk_5" FromRole="cajadiario" ToRole="cajamov" />
-        </EntityType>
-        <EntityType Name="cajamov">
-          <Key>
-            <PropertyRef Name="CajaMovId" />
-          </Key>
-          <Property Name="CajaMovId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CajaDiarioId" Type="Int32" />
-          <Property Name="PersonaId" Type="Int32" Nullable="false" />
-          <Property Name="Operacion" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Monto" Type="Decimal" Nullable="false" />
-          <Property Name="Glosa" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="IndEntrada" Type="Boolean" Nullable="false" />
-          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="UsuarioRegId" Type="Int32" Nullable="false" />
-          <Property Name="FechaReg" Type="DateTime" Nullable="false" />
-          <Property Name="FechaCobro" Type="DateTime" />
-          <Property Name="FechaAnulacion" Type="DateTime" />
-          <Property Name="UsuarioDespachoId" Type="Int32" />
-          <Property Name="FechaDespacho" Type="DateTime" />
-          <Property Name="CajaDiarioTransId" Type="Int32" />
-          <NavigationProperty Name="cajadiario" Relationship="Self.cajamov_ibfk_1" FromRole="cajamov" ToRole="cajadiario" />
-          <NavigationProperty Name="cajadiario1" Relationship="Self.cajamov_ibfk_5" FromRole="cajamov" ToRole="cajadiario" />
-          <NavigationProperty Name="persona" Relationship="Self.cajamov_ibfk_2" FromRole="cajamov" ToRole="persona" />
-          <NavigationProperty Name="usuario" Relationship="Self.cajamov_ibfk_3" FromRole="cajamov" ToRole="usuario" />
-          <NavigationProperty Name="usuario1" Relationship="Self.cajamov_ibfk_4" FromRole="cajamov" ToRole="usuario" />
-          <NavigationProperty Name="cajamovdetalle" Relationship="Self.cajamovdetalle_ibfk_1" FromRole="cajamov" ToRole="cajamovdetalle" />
-        </EntityType>
-        <EntityType Name="cajamovdetalle">
-          <Key>
-            <PropertyRef Name="CajaMovDetalleId" />
-          </Key>
-          <Property Name="CajaMovDetalleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CajaMovId" Type="Int32" Nullable="false" />
-          <Property Name="Cantidad" Type="Int32" Nullable="false" />
-          <Property Name="ConceptoPagoId" Type="Int32" Nullable="false" />
-          <Property Name="PU" Type="Decimal" Nullable="false" />
-          <Property Name="Monto" Type="Decimal" Nullable="false" />
-          <NavigationProperty Name="cajamov" Relationship="Self.cajamovdetalle_ibfk_1" FromRole="cajamovdetalle" ToRole="cajamov" />
-          <NavigationProperty Name="conceptopago" Relationship="Self.cajamovdetalle_ibfk_2" FromRole="cajamovdetalle" ToRole="conceptopago" />
-        </EntityType>
-        <EntityType Name="cargo">
-          <Key>
-            <PropertyRef Name="CargoId" />
-          </Key>
-          <Property Name="CargoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Denominacion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="usuario" Relationship="Self.usuario_ibfk_2" FromRole="cargo" ToRole="usuario" />
-        </EntityType>
-        <EntityType Name="conceptopago">
-          <Key>
-            <PropertyRef Name="ConceptoPagoId" />
-          </Key>
-          <Property Name="ConceptoPagoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Denominacion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Importe" Type="Decimal" Nullable="false" />
-          <Property Name="OficinaId" Type="Int32" />
-          <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="cajamovdetalle" Relationship="Self.cajamovdetalle_ibfk_2" FromRole="conceptopago" ToRole="cajamovdetalle" />
-          <NavigationProperty Name="oficina" Relationship="Self.conceptopago_ibfk_1" FromRole="conceptopago" ToRole="oficina" />
-          <NavigationProperty Name="cita" Relationship="clinicaModel.cita_ibfk_3" FromRole="conceptopago" ToRole="cita" />
-        </EntityType>
-        <EntityType Name="consultorio">
-          <Key>
-            <PropertyRef Name="ConsultorioId" />
-          </Key>
-          <Property Name="ConsultorioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Denominacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-        </EntityType>
-        <EntityType Name="especialidad">
-          <Key>
-            <PropertyRef Name="EspecialidadId" />
-          </Key>
-          <Property Name="EspecialidadId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Denominacion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="medico" Relationship="Self.medico_ibfk_2" FromRole="especialidad" ToRole="medico" />
-          <NavigationProperty Name="atencion" Relationship="clinicaModel.atencion_ibfk_4" FromRole="especialidad" ToRole="atencion" />
-        </EntityType>
-        <EntityType Name="marca">
-          <Key>
-            <PropertyRef Name="MarcaId" />
-          </Key>
-          <Property Name="MarcaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Denominacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="modelo" Relationship="Self.modelo_ibfk_1" FromRole="marca" ToRole="modelo" />
-        </EntityType>
-        <EntityType Name="medico">
-          <Key>
-            <PropertyRef Name="MedicoId" />
-          </Key>
-          <Property Name="MedicoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PersonaId" Type="Int32" Nullable="false" />
-          <Property Name="EspecialidadId" Type="Int32" Nullable="false" />
-          <Property Name="NumeroColegio" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="FechaColegiacion" Type="DateTime" />
-          <Property Name="TituloProfesional" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
-          <Property Name="Universidad" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
-          <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="especialidad" Relationship="Self.medico_ibfk_2" FromRole="medico" ToRole="especialidad" />
-          <NavigationProperty Name="persona" Relationship="Self.medico_ibfk_1" FromRole="medico" ToRole="persona" />
-          <NavigationProperty Name="programacion" Relationship="clinicaModel.programacion_ibfk_1" FromRole="medico" ToRole="programacion" />
-        </EntityType>
-        <EntityType Name="menu">
-          <Key>
-            <PropertyRef Name="MenuId" />
-          </Key>
-          <Property Name="MenuId" Type="Int32" Nullable="false" />
-          <Property Name="Denominacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Modulo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Icono" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="IndPadre" Type="Boolean" />
-          <Property Name="Referencia" Type="Int32" />
-          <NavigationProperty Name="rol_menu" Relationship="Self.rol_menu_ibfk_2" FromRole="menu" ToRole="rol_menu" />
-        </EntityType>
-        <EntityType Name="modelo">
-          <Key>
-            <PropertyRef Name="ModeloId" />
-          </Key>
-          <Property Name="ModeloId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MarcaId" Type="Int32" Nullable="false" />
-          <Property Name="Denominacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="articulo" Relationship="Self.articulo_ibfk_2" FromRole="modelo" ToRole="articulo" />
-          <NavigationProperty Name="marca" Relationship="Self.modelo_ibfk_1" FromRole="modelo" ToRole="marca" />
-        </EntityType>
-        <EntityType Name="oficina">
-          <Key>
-            <PropertyRef Name="OficinaId" />
-          </Key>
-          <Property Name="OficinaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Denominacion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="conceptopago" Relationship="Self.conceptopago_ibfk_1" FromRole="oficina" ToRole="conceptopago" />
-          <NavigationProperty Name="usuario" Relationship="Self.usuario_ibfk_3" FromRole="oficina" ToRole="usuario" />
-        </EntityType>
-        <EntityType Name="paciente">
-          <Key>
-            <PropertyRef Name="PacienteId" />
-          </Key>
-          <Property Name="PacienteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PersonaId" Type="Int32" Nullable="false" />
-          <Property Name="NumeroHistoria" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Alergia" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="AntecedentePersonal" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="AntecedenteFamiliar" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="persona" Relationship="Self.PersonaId" FromRole="paciente" ToRole="persona" />
-          <NavigationProperty Name="cita" Relationship="clinicaModel.cita_ibfk_1" FromRole="paciente" ToRole="cita" />
-        </EntityType>
-        <EntityType Name="persona">
-          <Key>
-            <PropertyRef Name="PersonaId" />
-          </Key>
-          <Property Name="PersonaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombres" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Paterno" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="Materno" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="NombreCompleto" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DNI" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Celular" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Sexo" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
-          <Property Name="FechaNacimiento" Type="DateTime" />
-          <Property Name="Direccion" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
-          <Property Name="Referencia" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="cajadiario" Relationship="Self.cajadiario_ibfk_2" FromRole="persona" ToRole="cajadiario" />
-          <NavigationProperty Name="cajamov" Relationship="Self.cajamov_ibfk_2" FromRole="persona" ToRole="cajamov" />
-          <NavigationProperty Name="medico" Relationship="Self.medico_ibfk_1" FromRole="persona" ToRole="medico" />
-          <NavigationProperty Name="paciente" Relationship="Self.PersonaId" FromRole="persona" ToRole="paciente" />
-          <NavigationProperty Name="usuario" Relationship="Self.usuario_ibfk_1" FromRole="persona" ToRole="usuario" />
-          <NavigationProperty Name="atencion" Relationship="clinicaModel.atencion_ibfk_2" FromRole="persona" ToRole="atencion" />
-          <NavigationProperty Name="atencion1" Relationship="clinicaModel.atencion_ibfk_3" FromRole="persona" ToRole="atencion" />
-        </EntityType>
-        <EntityType Name="rol">
-          <Key>
-            <PropertyRef Name="RolId" />
-          </Key>
-          <Property Name="RolId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Denominacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="rol_menu" Relationship="Self.rol_menu_ibfk_1" FromRole="rol" ToRole="rol_menu" />
-          <NavigationProperty Name="usuario_rol" Relationship="Self.usuario_rol_ibfk_2" FromRole="rol" ToRole="usuario_rol" />
-        </EntityType>
-        <EntityType Name="rol_menu">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RolId" Type="Int32" Nullable="false" />
-          <Property Name="MenuId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="menu" Relationship="Self.rol_menu_ibfk_2" FromRole="rol_menu" ToRole="menu" />
-          <NavigationProperty Name="rol" Relationship="Self.rol_menu_ibfk_1" FromRole="rol_menu" ToRole="rol" />
-        </EntityType>
-        <EntityType Name="tipoarticulo">
-          <Key>
-            <PropertyRef Name="TipoArticuloId" />
-          </Key>
-          <Property Name="TipoArticuloId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Denominacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="articulo" Relationship="Self.articulo_ibfk_1" FromRole="tipoarticulo" ToRole="articulo" />
-        </EntityType>
-        <EntityType Name="usuario">
-          <Key>
-            <PropertyRef Name="UsuarioId" />
-          </Key>
-          <Property Name="UsuarioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PersonaId" Type="Int32" />
-          <Property Name="Nombre" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Clave" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Activo" Type="Boolean" Nullable="false" />
-          <Property Name="IndCambio" Type="Boolean" Nullable="false" />
-          <Property Name="CargoId" Type="Int32" Nullable="false" />
-          <Property Name="OficinaId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="cajamov" Relationship="Self.cajamov_ibfk_3" FromRole="usuario" ToRole="cajamov" />
-          <NavigationProperty Name="cajamov1" Relationship="Self.cajamov_ibfk_4" FromRole="usuario" ToRole="cajamov" />
-          <NavigationProperty Name="cargo" Relationship="Self.usuario_ibfk_2" FromRole="usuario" ToRole="cargo" />
-          <NavigationProperty Name="oficina" Relationship="Self.usuario_ibfk_3" FromRole="usuario" ToRole="oficina" />
-          <NavigationProperty Name="persona" Relationship="Self.usuario_ibfk_1" FromRole="usuario" ToRole="persona" />
-          <NavigationProperty Name="usuario_rol" Relationship="Self.usuario_rol_ibfk_1" FromRole="usuario" ToRole="usuario_rol" />
-          <NavigationProperty Name="atencion" Relationship="clinicaModel.atencion_ibfk_5" FromRole="usuario" ToRole="atencion" />
-          <NavigationProperty Name="atencion1" Relationship="clinicaModel.atencion_ibfk_6" FromRole="usuario" ToRole="atencion" />
-        </EntityType>
-        <EntityType Name="usuario_rol">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UsuarioId" Type="Int32" Nullable="false" />
-          <Property Name="RolId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="rol" Relationship="Self.usuario_rol_ibfk_2" FromRole="usuario_rol" ToRole="rol" />
-          <NavigationProperty Name="usuario" Relationship="Self.usuario_rol_ibfk_1" FromRole="usuario_rol" ToRole="usuario" />
-        </EntityType>
-        <Association Name="articulo_ibfk_1">
-          <End Role="tipoarticulo" Type="Self.tipoarticulo" Multiplicity="1" />
-          <End Role="articulo" Type="Self.articulo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tipoarticulo">
-              <PropertyRef Name="TipoArticuloId" />
-            </Principal>
-            <Dependent Role="articulo">
-              <PropertyRef Name="TipoArticuloId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="articulo_ibfk_2">
-          <End Role="modelo" Type="Self.modelo" Multiplicity="1" />
-          <End Role="articulo" Type="Self.articulo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="modelo">
-              <PropertyRef Name="ModeloId" />
-            </Principal>
-            <Dependent Role="articulo">
-              <PropertyRef Name="ModeloId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="cajadiario_ibfk_1">
-          <End Role="caja" Type="Self.caja" Multiplicity="1" />
-          <End Role="cajadiario" Type="Self.cajadiario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="caja">
-              <PropertyRef Name="CajaId" />
-            </Principal>
-            <Dependent Role="cajadiario">
-              <PropertyRef Name="CajaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="cajadiario_ibfk_2">
-          <End Role="persona" Type="Self.persona" Multiplicity="0..1" />
-          <End Role="cajadiario" Type="Self.cajadiario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="persona">
-              <PropertyRef Name="PersonaId" />
-            </Principal>
-            <Dependent Role="cajadiario">
-              <PropertyRef Name="PersonaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="cajamov_ibfk_1">
-          <End Role="cajadiario" Type="Self.cajadiario" Multiplicity="0..1" />
-          <End Role="cajamov" Type="Self.cajamov" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="cajadiario">
-              <PropertyRef Name="CajaDiarioId" />
-            </Principal>
-            <Dependent Role="cajamov">
-              <PropertyRef Name="CajaDiarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="cajamov_ibfk_5">
-          <End Role="cajadiario" Type="Self.cajadiario" Multiplicity="0..1" />
-          <End Role="cajamov" Type="Self.cajamov" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="cajadiario">
-              <PropertyRef Name="CajaDiarioId" />
-            </Principal>
-            <Dependent Role="cajamov">
-              <PropertyRef Name="CajaDiarioTransId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="cajamov_ibfk_2">
-          <End Role="persona" Type="Self.persona" Multiplicity="1" />
-          <End Role="cajamov" Type="Self.cajamov" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="persona">
-              <PropertyRef Name="PersonaId" />
-            </Principal>
-            <Dependent Role="cajamov">
-              <PropertyRef Name="PersonaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="cajamov_ibfk_3">
-          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
-          <End Role="cajamov" Type="Self.cajamov" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="usuario">
-              <PropertyRef Name="UsuarioId" />
-            </Principal>
-            <Dependent Role="cajamov">
-              <PropertyRef Name="UsuarioRegId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="cajamov_ibfk_4">
-          <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
-          <End Role="cajamov" Type="Self.cajamov" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="usuario">
-              <PropertyRef Name="UsuarioId" />
-            </Principal>
-            <Dependent Role="cajamov">
-              <PropertyRef Name="UsuarioDespachoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="cajamovdetalle_ibfk_1">
-          <End Role="cajamov" Type="Self.cajamov" Multiplicity="1" />
-          <End Role="cajamovdetalle" Type="Self.cajamovdetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="cajamov">
-              <PropertyRef Name="CajaMovId" />
-            </Principal>
-            <Dependent Role="cajamovdetalle">
-              <PropertyRef Name="CajaMovId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="cajamovdetalle_ibfk_2">
-          <End Role="conceptopago" Type="Self.conceptopago" Multiplicity="1" />
-          <End Role="cajamovdetalle" Type="Self.cajamovdetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="conceptopago">
-              <PropertyRef Name="ConceptoPagoId" />
-            </Principal>
-            <Dependent Role="cajamovdetalle">
-              <PropertyRef Name="ConceptoPagoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="usuario_ibfk_2">
-          <End Role="cargo" Type="Self.cargo" Multiplicity="1" />
-          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="cargo">
-              <PropertyRef Name="CargoId" />
-            </Principal>
-            <Dependent Role="usuario">
-              <PropertyRef Name="CargoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="conceptopago_ibfk_1">
-          <End Role="oficina" Type="Self.oficina" Multiplicity="0..1" />
-          <End Role="conceptopago" Type="Self.conceptopago" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="oficina">
-              <PropertyRef Name="OficinaId" />
-            </Principal>
-            <Dependent Role="conceptopago">
-              <PropertyRef Name="OficinaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="medico_ibfk_2">
-          <End Role="especialidad" Type="Self.especialidad" Multiplicity="1" />
-          <End Role="medico" Type="Self.medico" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="especialidad">
-              <PropertyRef Name="EspecialidadId" />
-            </Principal>
-            <Dependent Role="medico">
-              <PropertyRef Name="EspecialidadId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="modelo_ibfk_1">
-          <End Role="marca" Type="Self.marca" Multiplicity="1" />
-          <End Role="modelo" Type="Self.modelo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="marca">
-              <PropertyRef Name="MarcaId" />
-            </Principal>
-            <Dependent Role="modelo">
-              <PropertyRef Name="MarcaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="medico_ibfk_1">
-          <End Role="persona" Type="Self.persona" Multiplicity="1" />
-          <End Role="medico" Type="Self.medico" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="persona">
-              <PropertyRef Name="PersonaId" />
-            </Principal>
-            <Dependent Role="medico">
-              <PropertyRef Name="PersonaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="rol_menu_ibfk_2">
-          <End Role="menu" Type="Self.menu" Multiplicity="1" />
-          <End Role="rol_menu" Type="Self.rol_menu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="menu">
-              <PropertyRef Name="MenuId" />
-            </Principal>
-            <Dependent Role="rol_menu">
-              <PropertyRef Name="MenuId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="usuario_ibfk_3">
-          <End Role="oficina" Type="Self.oficina" Multiplicity="1" />
-          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="oficina">
-              <PropertyRef Name="OficinaId" />
-            </Principal>
-            <Dependent Role="usuario">
-              <PropertyRef Name="OficinaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="PersonaId">
-          <End Role="persona" Type="Self.persona" Multiplicity="1" />
-          <End Role="paciente" Type="Self.paciente" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="persona">
-              <PropertyRef Name="PersonaId" />
-            </Principal>
-            <Dependent Role="paciente">
-              <PropertyRef Name="PersonaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="usuario_ibfk_1">
-          <End Role="persona" Type="Self.persona" Multiplicity="0..1" />
-          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="persona">
-              <PropertyRef Name="PersonaId" />
-            </Principal>
-            <Dependent Role="usuario">
-              <PropertyRef Name="PersonaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="rol_menu_ibfk_1">
-          <End Role="rol" Type="Self.rol" Multiplicity="1" />
-          <End Role="rol_menu" Type="Self.rol_menu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="rol">
-              <PropertyRef Name="RolId" />
-            </Principal>
-            <Dependent Role="rol_menu">
-              <PropertyRef Name="RolId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="usuario_rol_ibfk_2">
-          <End Role="rol" Type="Self.rol" Multiplicity="1" />
-          <End Role="usuario_rol" Type="Self.usuario_rol" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="rol">
-              <PropertyRef Name="RolId" />
-            </Principal>
-            <Dependent Role="usuario_rol">
-              <PropertyRef Name="RolId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="usuario_rol_ibfk_1">
-          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
-          <End Role="usuario_rol" Type="Self.usuario_rol" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="usuario">
-              <PropertyRef Name="UsuarioId" />
-            </Principal>
-            <Dependent Role="usuario_rol">
-              <PropertyRef Name="UsuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="clinicaEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="articulo" EntityType="Self.articulo" />
-          <EntitySet Name="caja" EntityType="Self.caja" />
-          <EntitySet Name="cajadiario" EntityType="Self.cajadiario" />
-          <EntitySet Name="cajamov" EntityType="Self.cajamov" />
-          <EntitySet Name="cajamovdetalle" EntityType="Self.cajamovdetalle" />
-          <EntitySet Name="cargo" EntityType="Self.cargo" />
-          <EntitySet Name="conceptopago" EntityType="Self.conceptopago" />
-          <EntitySet Name="consultorio" EntityType="Self.consultorio" />
-          <EntitySet Name="especialidad" EntityType="Self.especialidad" />
-          <EntitySet Name="marca" EntityType="Self.marca" />
-          <EntitySet Name="medico" EntityType="Self.medico" />
-          <EntitySet Name="menu" EntityType="Self.menu" />
-          <EntitySet Name="modelo" EntityType="Self.modelo" />
-          <EntitySet Name="oficina" EntityType="Self.oficina" />
-          <EntitySet Name="paciente" EntityType="Self.paciente" />
-          <EntitySet Name="persona" EntityType="Self.persona" />
-          <EntitySet Name="rol" EntityType="Self.rol" />
-          <EntitySet Name="rol_menu" EntityType="Self.rol_menu" />
-          <EntitySet Name="tipoarticulo" EntityType="Self.tipoarticulo" />
-          <EntitySet Name="usuario" EntityType="Self.usuario" />
-          <EntitySet Name="usuario_rol" EntityType="Self.usuario_rol" />
-          <AssociationSet Name="articulo_ibfk_1" Association="Self.articulo_ibfk_1">
+          <EntitySet Name="articulo" EntityType="clinicaModel.articulo" />
+          <EntitySet Name="atencionespecialidad" EntityType="clinicaModel.atencionespecialidad" />
+          <EntitySet Name="caja" EntityType="clinicaModel.caja" />
+          <EntitySet Name="cajadiario" EntityType="clinicaModel.cajadiario" />
+          <EntitySet Name="cajamov" EntityType="clinicaModel.cajamov" />
+          <EntitySet Name="cajamovdetalle" EntityType="clinicaModel.cajamovdetalle" />
+          <EntitySet Name="cargo" EntityType="clinicaModel.cargo" />
+          <EntitySet Name="cita" EntityType="clinicaModel.cita" />
+          <EntitySet Name="conceptopago" EntityType="clinicaModel.conceptopago" />
+          <EntitySet Name="consultorio" EntityType="clinicaModel.consultorio" />
+          <EntitySet Name="especialidad" EntityType="clinicaModel.especialidad" />
+          <EntitySet Name="examen" EntityType="clinicaModel.examen" />
+          <EntitySet Name="marca" EntityType="clinicaModel.marca" />
+          <EntitySet Name="medico" EntityType="clinicaModel.medico" />
+          <EntitySet Name="menu" EntityType="clinicaModel.menu" />
+          <EntitySet Name="modelo" EntityType="clinicaModel.modelo" />
+          <EntitySet Name="oficina" EntityType="clinicaModel.oficina" />
+          <EntitySet Name="persona" EntityType="clinicaModel.persona" />
+          <EntitySet Name="programacion" EntityType="clinicaModel.programacion" />
+          <EntitySet Name="rol" EntityType="clinicaModel.rol" />
+          <EntitySet Name="rol_menu" EntityType="clinicaModel.rol_menu" />
+          <EntitySet Name="tipoarticulo" EntityType="clinicaModel.tipoarticulo" />
+          <EntitySet Name="usuario" EntityType="clinicaModel.usuario" />
+          <EntitySet Name="usuario_rol" EntityType="clinicaModel.usuario_rol" />
+          <AssociationSet Name="articulo_ibfk_1" Association="clinicaModel.articulo_ibfk_1">
             <End Role="tipoarticulo" EntitySet="tipoarticulo" />
             <End Role="articulo" EntitySet="articulo" />
           </AssociationSet>
-          <AssociationSet Name="articulo_ibfk_2" Association="Self.articulo_ibfk_2">
+          <AssociationSet Name="articulo_ibfk_2" Association="clinicaModel.articulo_ibfk_2">
             <End Role="modelo" EntitySet="modelo" />
             <End Role="articulo" EntitySet="articulo" />
           </AssociationSet>
-          <AssociationSet Name="cajadiario_ibfk_1" Association="Self.cajadiario_ibfk_1">
+          <AssociationSet Name="cajadiario_ibfk_1" Association="clinicaModel.cajadiario_ibfk_1">
             <End Role="caja" EntitySet="caja" />
             <End Role="cajadiario" EntitySet="cajadiario" />
           </AssociationSet>
-          <AssociationSet Name="cajadiario_ibfk_2" Association="Self.cajadiario_ibfk_2">
+          <AssociationSet Name="cajadiario_ibfk_2" Association="clinicaModel.cajadiario_ibfk_2">
             <End Role="persona" EntitySet="persona" />
             <End Role="cajadiario" EntitySet="cajadiario" />
           </AssociationSet>
-          <AssociationSet Name="cajamov_ibfk_1" Association="Self.cajamov_ibfk_1">
+          <AssociationSet Name="cajamov_ibfk_1" Association="clinicaModel.cajamov_ibfk_1">
             <End Role="cajadiario" EntitySet="cajadiario" />
             <End Role="cajamov" EntitySet="cajamov" />
           </AssociationSet>
-          <AssociationSet Name="cajamov_ibfk_5" Association="Self.cajamov_ibfk_5">
+          <AssociationSet Name="cajamov_ibfk_5" Association="clinicaModel.cajamov_ibfk_5">
             <End Role="cajadiario" EntitySet="cajadiario" />
             <End Role="cajamov" EntitySet="cajamov" />
           </AssociationSet>
-          <AssociationSet Name="cajamov_ibfk_2" Association="Self.cajamov_ibfk_2">
+          <AssociationSet Name="cajamov_ibfk_2" Association="clinicaModel.cajamov_ibfk_2">
             <End Role="persona" EntitySet="persona" />
             <End Role="cajamov" EntitySet="cajamov" />
           </AssociationSet>
-          <AssociationSet Name="cajamov_ibfk_3" Association="Self.cajamov_ibfk_3">
+          <AssociationSet Name="cajamov_ibfk_3" Association="clinicaModel.cajamov_ibfk_3">
             <End Role="usuario" EntitySet="usuario" />
             <End Role="cajamov" EntitySet="cajamov" />
           </AssociationSet>
-          <AssociationSet Name="cajamov_ibfk_4" Association="Self.cajamov_ibfk_4">
+          <AssociationSet Name="cajamov_ibfk_4" Association="clinicaModel.cajamov_ibfk_4">
             <End Role="usuario" EntitySet="usuario" />
             <End Role="cajamov" EntitySet="cajamov" />
           </AssociationSet>
-          <AssociationSet Name="cajamovdetalle_ibfk_1" Association="Self.cajamovdetalle_ibfk_1">
+          <AssociationSet Name="cajamovdetalle_ibfk_1" Association="clinicaModel.cajamovdetalle_ibfk_1">
             <End Role="cajamov" EntitySet="cajamov" />
             <End Role="cajamovdetalle" EntitySet="cajamovdetalle" />
           </AssociationSet>
-          <AssociationSet Name="cajamovdetalle_ibfk_2" Association="Self.cajamovdetalle_ibfk_2">
+          <AssociationSet Name="cajamovdetalle_ibfk_2" Association="clinicaModel.cajamovdetalle_ibfk_2">
             <End Role="conceptopago" EntitySet="conceptopago" />
             <End Role="cajamovdetalle" EntitySet="cajamovdetalle" />
           </AssociationSet>
-          <AssociationSet Name="usuario_ibfk_2" Association="Self.usuario_ibfk_2">
+          <AssociationSet Name="usuario_ibfk_2" Association="clinicaModel.usuario_ibfk_2">
             <End Role="cargo" EntitySet="cargo" />
             <End Role="usuario" EntitySet="usuario" />
           </AssociationSet>
-          <AssociationSet Name="conceptopago_ibfk_1" Association="Self.conceptopago_ibfk_1">
+          <AssociationSet Name="cita_ibfk_2" Association="clinicaModel.cita_ibfk_2">
+            <End Role="programacion" EntitySet="programacion" />
+            <End Role="cita" EntitySet="cita" />
+          </AssociationSet>
+          <AssociationSet Name="cita_ibfk_3" Association="clinicaModel.cita_ibfk_3">
+            <End Role="conceptopago" EntitySet="conceptopago" />
+            <End Role="cita" EntitySet="cita" />
+          </AssociationSet>
+          <AssociationSet Name="conceptopago_ibfk_1" Association="clinicaModel.conceptopago_ibfk_1">
             <End Role="oficina" EntitySet="oficina" />
             <End Role="conceptopago" EntitySet="conceptopago" />
           </AssociationSet>
-          <AssociationSet Name="medico_ibfk_2" Association="Self.medico_ibfk_2">
+          <AssociationSet Name="medico_ibfk_2" Association="clinicaModel.medico_ibfk_2">
             <End Role="especialidad" EntitySet="especialidad" />
             <End Role="medico" EntitySet="medico" />
           </AssociationSet>
-          <AssociationSet Name="modelo_ibfk_1" Association="Self.modelo_ibfk_1">
+          <AssociationSet Name="modelo_ibfk_1" Association="clinicaModel.modelo_ibfk_1">
             <End Role="marca" EntitySet="marca" />
             <End Role="modelo" EntitySet="modelo" />
           </AssociationSet>
-          <AssociationSet Name="medico_ibfk_1" Association="Self.medico_ibfk_1">
+          <AssociationSet Name="medico_ibfk_1" Association="clinicaModel.medico_ibfk_1">
             <End Role="persona" EntitySet="persona" />
             <End Role="medico" EntitySet="medico" />
           </AssociationSet>
-          <AssociationSet Name="rol_menu_ibfk_2" Association="Self.rol_menu_ibfk_2">
+          <AssociationSet Name="programacion_ibfk_1" Association="clinicaModel.programacion_ibfk_1">
+            <End Role="medico" EntitySet="medico" />
+            <End Role="programacion" EntitySet="programacion" />
+          </AssociationSet>
+          <AssociationSet Name="rol_menu_ibfk_2" Association="clinicaModel.rol_menu_ibfk_2">
             <End Role="menu" EntitySet="menu" />
             <End Role="rol_menu" EntitySet="rol_menu" />
           </AssociationSet>
-          <AssociationSet Name="usuario_ibfk_3" Association="Self.usuario_ibfk_3">
+          <AssociationSet Name="usuario_ibfk_3" Association="clinicaModel.usuario_ibfk_3">
             <End Role="oficina" EntitySet="oficina" />
             <End Role="usuario" EntitySet="usuario" />
           </AssociationSet>
-          <AssociationSet Name="PersonaId" Association="Self.PersonaId">
-            <End Role="persona" EntitySet="persona" />
-            <End Role="paciente" EntitySet="paciente" />
-          </AssociationSet>
-          <AssociationSet Name="usuario_ibfk_1" Association="Self.usuario_ibfk_1">
+          <AssociationSet Name="usuario_ibfk_1" Association="clinicaModel.usuario_ibfk_1">
             <End Role="persona" EntitySet="persona" />
             <End Role="usuario" EntitySet="usuario" />
           </AssociationSet>
-          <AssociationSet Name="rol_menu_ibfk_1" Association="Self.rol_menu_ibfk_1">
+          <AssociationSet Name="rol_menu_ibfk_1" Association="clinicaModel.rol_menu_ibfk_1">
             <End Role="rol" EntitySet="rol" />
             <End Role="rol_menu" EntitySet="rol_menu" />
           </AssociationSet>
-          <AssociationSet Name="usuario_rol_ibfk_2" Association="Self.usuario_rol_ibfk_2">
+          <AssociationSet Name="usuario_rol_ibfk_2" Association="clinicaModel.usuario_rol_ibfk_2">
             <End Role="rol" EntitySet="rol" />
             <End Role="usuario_rol" EntitySet="usuario_rol" />
           </AssociationSet>
-          <AssociationSet Name="usuario_rol_ibfk_1" Association="Self.usuario_rol_ibfk_1">
+          <AssociationSet Name="usuario_rol_ibfk_1" Association="clinicaModel.usuario_rol_ibfk_1">
             <End Role="usuario" EntitySet="usuario" />
             <End Role="usuario_rol" EntitySet="usuario_rol" />
           </AssociationSet>
-          <EntitySet Name="tablaconfiguracion" EntityType="clinicaModel.tablaconfiguracion" />
-          <EntitySet Name="topico" EntityType="clinicaModel.topico" />
-          <EntitySet Name="atencionespecialidad" EntityType="clinicaModel.atencionespecialidad" />
+          <EntitySet Name="ordenlab" EntityType="clinicaModel.ordenlab" />
+          <EntitySet Name="tablaexamen" EntityType="clinicaModel.tablaexamen" />
           <EntitySet Name="atencion" EntityType="clinicaModel.atencion" />
+          <AssociationSet Name="atencion_ibfk_1" Association="clinicaModel.atencion_ibfk_1">
+            <End Role="cita" EntitySet="cita" />
+            <End Role="atencion" EntitySet="atencion" />
+          </AssociationSet>
           <AssociationSet Name="atencion_ibfk_2" Association="clinicaModel.atencion_ibfk_2">
             <End Role="persona" EntitySet="persona" />
             <End Role="atencion" EntitySet="atencion" />
@@ -1580,52 +1082,39 @@
             <End Role="atencion" EntitySet="atencion" />
             <End Role="atencionespecialidad" EntitySet="atencionespecialidad" />
           </AssociationSet>
-          <AssociationSet Name="topico_ibfk_1" Association="clinicaModel.topico_ibfk_1">
+          <AssociationSet Name="examen_ibfk_1" Association="clinicaModel.examen_ibfk_1">
             <End Role="atencion" EntitySet="atencion" />
-            <End Role="topico" EntitySet="topico" />
+            <End Role="examen" EntitySet="examen" />
           </AssociationSet>
-          <EntitySet Name="programacion" EntityType="clinicaModel.programacion" />
-          <AssociationSet Name="programacion_ibfk_1" Association="clinicaModel.programacion_ibfk_1">
-            <End Role="medico" EntitySet="medico" />
-            <End Role="programacion" EntitySet="programacion" />
-          </AssociationSet>
-          <EntitySet Name="cita" EntityType="clinicaModel.cita" />
-          <AssociationSet Name="atencion_ibfk_1" Association="clinicaModel.atencion_ibfk_1">
-            <End Role="cita" EntitySet="cita" />
+          <AssociationSet Name="ordenlab_ibfk_1" Association="clinicaModel.ordenlab_ibfk_1">
             <End Role="atencion" EntitySet="atencion" />
+            <End Role="ordenlab" EntitySet="ordenlab" />
           </AssociationSet>
+          <EntitySet Name="paciente" EntityType="clinicaModel.paciente" />
           <AssociationSet Name="cita_ibfk_1" Association="clinicaModel.cita_ibfk_1">
             <End Role="paciente" EntitySet="paciente" />
             <End Role="cita" EntitySet="cita" />
           </AssociationSet>
-          <AssociationSet Name="cita_ibfk_2" Association="clinicaModel.cita_ibfk_2">
-            <End Role="programacion" EntitySet="programacion" />
-            <End Role="cita" EntitySet="cita" />
+          <AssociationSet Name="PersonaId" Association="clinicaModel.PersonaId">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="paciente" EntitySet="paciente" />
           </AssociationSet>
-          <AssociationSet Name="cita_ibfk_3" Association="clinicaModel.cita_ibfk_3">
-            <End Role="conceptopago" EntitySet="conceptopago" />
-            <End Role="cita" EntitySet="cita" />
-          </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="tablaconfiguracion">
+          </EntityContainer>
+        <EntityType Name="articulo">
           <Key>
-            <PropertyRef Name="TablaconfiguracionId" />
+            <PropertyRef Name="ArticuloId" />
           </Key>
-          <Property Name="TablaconfiguracionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TablaId" Type="Int32" Nullable="false" />
-          <Property Name="Item" Type="Int32" Nullable="false" />
-          <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="topico">
-          <Key>
-            <PropertyRef Name="TopicoId" />
-          </Key>
-          <Property Name="TopicoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AtencionId" Type="Int32" Nullable="false" />
-          <Property Name="Item" Type="Int32" Nullable="false" />
-          <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Valor" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="atencion" Relationship="clinicaModel.topico_ibfk_1" FromRole="topico" ToRole="atencion" />
+          <Property Name="ArticuloId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TipoArticuloId" Type="Int32" Nullable="false" />
+          <Property Name="ModeloId" Type="Int32" Nullable="false" />
+          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Precio" Type="Decimal" Nullable="false" />
+          <Property Name="Stock" Type="Int32" Nullable="false" />
+          <Property Name="IndServicio" Type="Boolean" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tipoarticulo" Relationship="clinicaModel.articulo_ibfk_1" FromRole="articulo" ToRole="tipoarticulo" />
+          <NavigationProperty Name="modelo" Relationship="clinicaModel.articulo_ibfk_2" FromRole="articulo" ToRole="modelo" />
         </EntityType>
         <EntityType Name="atencionespecialidad">
           <Key>
@@ -1637,6 +1126,619 @@
           <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Valor" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="atencion" Relationship="clinicaModel.atencionespecialidad_ibfk_1" FromRole="atencionespecialidad" ToRole="atencion" />
+        </EntityType>
+        <EntityType Name="caja">
+          <Key>
+            <PropertyRef Name="CajaId" />
+          </Key>
+          <Property Name="CajaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IndAbierto" Type="Boolean" Nullable="false" />
+          <Property Name="IndBoveda" Type="Boolean" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="cajadiario" Relationship="clinicaModel.cajadiario_ibfk_1" FromRole="caja" ToRole="cajadiario" />
+        </EntityType>
+        <EntityType Name="cajadiario">
+          <Key>
+            <PropertyRef Name="CajaDiarioId" />
+          </Key>
+          <Property Name="CajaDiarioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CajaId" Type="Int32" Nullable="false" />
+          <Property Name="PersonaId" Type="Int32" />
+          <Property Name="SaldoInicial" Type="Decimal" Nullable="false" />
+          <Property Name="Entradas" Type="Decimal" Nullable="false" />
+          <Property Name="Salidas" Type="Decimal" Nullable="false" />
+          <Property Name="SaldoFinal" Type="Decimal" Nullable="false" />
+          <Property Name="FechaInicio" Type="DateTime" Nullable="false" />
+          <Property Name="FechaFin" Type="DateTime" />
+          <Property Name="IndAbierto" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="caja" Relationship="clinicaModel.cajadiario_ibfk_1" FromRole="cajadiario" ToRole="caja" />
+          <NavigationProperty Name="persona" Relationship="clinicaModel.cajadiario_ibfk_2" FromRole="cajadiario" ToRole="persona" />
+          <NavigationProperty Name="cajamov" Relationship="clinicaModel.cajamov_ibfk_1" FromRole="cajadiario" ToRole="cajamov" />
+          <NavigationProperty Name="cajamov1" Relationship="clinicaModel.cajamov_ibfk_5" FromRole="cajadiario" ToRole="cajamov" />
+        </EntityType>
+        <EntityType Name="cajamov">
+          <Key>
+            <PropertyRef Name="CajaMovId" />
+          </Key>
+          <Property Name="CajaMovId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CajaDiarioId" Type="Int32" />
+          <Property Name="PersonaId" Type="Int32" Nullable="false" />
+          <Property Name="Operacion" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Monto" Type="Decimal" Nullable="false" />
+          <Property Name="Glosa" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IndEntrada" Type="Boolean" Nullable="false" />
+          <Property Name="Estado" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="UsuarioRegId" Type="Int32" Nullable="false" />
+          <Property Name="FechaReg" Type="DateTime" Nullable="false" />
+          <Property Name="FechaCobro" Type="DateTime" />
+          <Property Name="FechaAnulacion" Type="DateTime" />
+          <Property Name="UsuarioDespachoId" Type="Int32" />
+          <Property Name="FechaDespacho" Type="DateTime" />
+          <Property Name="CajaDiarioTransId" Type="Int32" />
+          <NavigationProperty Name="cajadiario" Relationship="clinicaModel.cajamov_ibfk_1" FromRole="cajamov" ToRole="cajadiario" />
+          <NavigationProperty Name="cajadiario1" Relationship="clinicaModel.cajamov_ibfk_5" FromRole="cajamov" ToRole="cajadiario" />
+          <NavigationProperty Name="persona" Relationship="clinicaModel.cajamov_ibfk_2" FromRole="cajamov" ToRole="persona" />
+          <NavigationProperty Name="usuario" Relationship="clinicaModel.cajamov_ibfk_3" FromRole="cajamov" ToRole="usuario" />
+          <NavigationProperty Name="usuario1" Relationship="clinicaModel.cajamov_ibfk_4" FromRole="cajamov" ToRole="usuario" />
+          <NavigationProperty Name="cajamovdetalle" Relationship="clinicaModel.cajamovdetalle_ibfk_1" FromRole="cajamov" ToRole="cajamovdetalle" />
+        </EntityType>
+        <EntityType Name="cajamovdetalle">
+          <Key>
+            <PropertyRef Name="CajaMovDetalleId" />
+          </Key>
+          <Property Name="CajaMovDetalleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CajaMovId" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="ConceptoPagoId" Type="Int32" Nullable="false" />
+          <Property Name="PU" Type="Decimal" Nullable="false" />
+          <Property Name="Monto" Type="Decimal" Nullable="false" />
+          <NavigationProperty Name="cajamov" Relationship="clinicaModel.cajamovdetalle_ibfk_1" FromRole="cajamovdetalle" ToRole="cajamov" />
+          <NavigationProperty Name="conceptopago" Relationship="clinicaModel.cajamovdetalle_ibfk_2" FromRole="cajamovdetalle" ToRole="conceptopago" />
+        </EntityType>
+        <EntityType Name="cargo">
+          <Key>
+            <PropertyRef Name="CargoId" />
+          </Key>
+          <Property Name="CargoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="usuario" Relationship="clinicaModel.usuario_ibfk_2" FromRole="cargo" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="cita">
+          <Key>
+            <PropertyRef Name="CitaId" />
+          </Key>
+          <Property Name="CitaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PacienteId" Type="Int32" Nullable="false" />
+          <Property Name="ProgramacionId" Type="Int32" Nullable="false" />
+          <Property Name="ConceptoPagoId" Type="Int32" Nullable="false" />
+          <Property Name="Estado" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="IndPago" Type="Boolean" Nullable="false" />
+          <Property Name="NumeroAtencion" Type="Int32" Nullable="false" />
+          <Property Name="HoraProbable" Type="Time" Nullable="false" />
+          <Property Name="FechaAtencion" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="programacion" Relationship="clinicaModel.cita_ibfk_2" FromRole="cita" ToRole="programacion" />
+          <NavigationProperty Name="conceptopago" Relationship="clinicaModel.cita_ibfk_3" FromRole="cita" ToRole="conceptopago" />
+          <NavigationProperty Name="atencion" Relationship="clinicaModel.atencion_ibfk_1" FromRole="cita" ToRole="atencion" />
+          <NavigationProperty Name="paciente" Relationship="clinicaModel.cita_ibfk_1" FromRole="cita" ToRole="paciente" />
+        </EntityType>
+        <EntityType Name="conceptopago">
+          <Key>
+            <PropertyRef Name="ConceptoPagoId" />
+          </Key>
+          <Property Name="ConceptoPagoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Importe" Type="Decimal" Nullable="false" />
+          <Property Name="OficinaId" Type="Int32" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="cajamovdetalle" Relationship="clinicaModel.cajamovdetalle_ibfk_2" FromRole="conceptopago" ToRole="cajamovdetalle" />
+          <NavigationProperty Name="cita" Relationship="clinicaModel.cita_ibfk_3" FromRole="conceptopago" ToRole="cita" />
+          <NavigationProperty Name="oficina" Relationship="clinicaModel.conceptopago_ibfk_1" FromRole="conceptopago" ToRole="oficina" />
+        </EntityType>
+        <EntityType Name="consultorio">
+          <Key>
+            <PropertyRef Name="ConsultorioId" />
+          </Key>
+          <Property Name="ConsultorioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="especialidad">
+          <Key>
+            <PropertyRef Name="EspecialidadId" />
+          </Key>
+          <Property Name="EspecialidadId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="medico" Relationship="clinicaModel.medico_ibfk_2" FromRole="especialidad" ToRole="medico" />
+          <NavigationProperty Name="atencion" Relationship="clinicaModel.atencion_ibfk_4" FromRole="especialidad" ToRole="atencion" />
+        </EntityType>
+        <EntityType Name="examen">
+          <Key>
+            <PropertyRef Name="AtencionId" />
+            <PropertyRef Name="TablaId" />
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="AtencionId" Type="Int32" Nullable="false" />
+          <Property Name="TablaId" Type="Int32" Nullable="false" />
+          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Valor" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="atencion" Relationship="clinicaModel.examen_ibfk_1" FromRole="examen" ToRole="atencion" />
+        </EntityType>
+        <EntityType Name="marca">
+          <Key>
+            <PropertyRef Name="MarcaId" />
+          </Key>
+          <Property Name="MarcaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="modelo" Relationship="clinicaModel.modelo_ibfk_1" FromRole="marca" ToRole="modelo" />
+        </EntityType>
+        <EntityType Name="medico">
+          <Key>
+            <PropertyRef Name="MedicoId" />
+          </Key>
+          <Property Name="MedicoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonaId" Type="Int32" Nullable="false" />
+          <Property Name="EspecialidadId" Type="Int32" Nullable="false" />
+          <Property Name="NumeroColegio" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="FechaColegiacion" Type="DateTime" />
+          <Property Name="TituloProfesional" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="Universidad" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="especialidad" Relationship="clinicaModel.medico_ibfk_2" FromRole="medico" ToRole="especialidad" />
+          <NavigationProperty Name="persona" Relationship="clinicaModel.medico_ibfk_1" FromRole="medico" ToRole="persona" />
+          <NavigationProperty Name="programacion" Relationship="clinicaModel.programacion_ibfk_1" FromRole="medico" ToRole="programacion" />
+        </EntityType>
+        <EntityType Name="menu">
+          <Key>
+            <PropertyRef Name="MenuId" />
+          </Key>
+          <Property Name="MenuId" Type="Int32" Nullable="false" />
+          <Property Name="Denominacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Modulo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Icono" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IndPadre" Type="Boolean" />
+          <Property Name="Referencia" Type="Int32" />
+          <NavigationProperty Name="rol_menu" Relationship="clinicaModel.rol_menu_ibfk_2" FromRole="menu" ToRole="rol_menu" />
+        </EntityType>
+        <EntityType Name="modelo">
+          <Key>
+            <PropertyRef Name="ModeloId" />
+          </Key>
+          <Property Name="ModeloId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MarcaId" Type="Int32" Nullable="false" />
+          <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="articulo" Relationship="clinicaModel.articulo_ibfk_2" FromRole="modelo" ToRole="articulo" />
+          <NavigationProperty Name="marca" Relationship="clinicaModel.modelo_ibfk_1" FromRole="modelo" ToRole="marca" />
+        </EntityType>
+        <EntityType Name="oficina">
+          <Key>
+            <PropertyRef Name="OficinaId" />
+          </Key>
+          <Property Name="OficinaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="conceptopago" Relationship="clinicaModel.conceptopago_ibfk_1" FromRole="oficina" ToRole="conceptopago" />
+          <NavigationProperty Name="usuario" Relationship="clinicaModel.usuario_ibfk_3" FromRole="oficina" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="persona">
+          <Key>
+            <PropertyRef Name="PersonaId" />
+          </Key>
+          <Property Name="PersonaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombres" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Paterno" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Materno" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="NombreCompleto" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DNI" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="Celular" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Sexo" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" />
+          <Property Name="FechaNacimiento" Type="DateTime" />
+          <Property Name="Direccion" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Referencia" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="cajadiario" Relationship="clinicaModel.cajadiario_ibfk_2" FromRole="persona" ToRole="cajadiario" />
+          <NavigationProperty Name="cajamov" Relationship="clinicaModel.cajamov_ibfk_2" FromRole="persona" ToRole="cajamov" />
+          <NavigationProperty Name="medico" Relationship="clinicaModel.medico_ibfk_1" FromRole="persona" ToRole="medico" />
+          <NavigationProperty Name="usuario" Relationship="clinicaModel.usuario_ibfk_1" FromRole="persona" ToRole="usuario" />
+          <NavigationProperty Name="atencion" Relationship="clinicaModel.atencion_ibfk_2" FromRole="persona" ToRole="atencion" />
+          <NavigationProperty Name="atencion1" Relationship="clinicaModel.atencion_ibfk_3" FromRole="persona" ToRole="atencion" />
+          <NavigationProperty Name="paciente" Relationship="clinicaModel.PersonaId" FromRole="persona" ToRole="paciente" />
+        </EntityType>
+        <EntityType Name="programacion">
+          <Key>
+            <PropertyRef Name="ProgramacionId" />
+          </Key>
+          <Property Name="ProgramacionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MedicoId" Type="Int32" Nullable="false" />
+          <Property Name="FechaInicio" Type="DateTime" Nullable="false" />
+          <Property Name="FechaLimite" Type="DateTime" />
+          <Property Name="HoraInicio" Type="Time" Nullable="false" />
+          <Property Name="HoraFin" Type="Time" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" />
+          <Property Name="Repite" Type="Boolean" />
+          <Property Name="Semanal" Type="Boolean" />
+          <NavigationProperty Name="cita" Relationship="clinicaModel.cita_ibfk_2" FromRole="programacion" ToRole="cita" />
+          <NavigationProperty Name="medico" Relationship="clinicaModel.programacion_ibfk_1" FromRole="programacion" ToRole="medico" />
+        </EntityType>
+        <EntityType Name="rol">
+          <Key>
+            <PropertyRef Name="RolId" />
+          </Key>
+          <Property Name="RolId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="rol_menu" Relationship="clinicaModel.rol_menu_ibfk_1" FromRole="rol" ToRole="rol_menu" />
+          <NavigationProperty Name="usuario_rol" Relationship="clinicaModel.usuario_rol_ibfk_2" FromRole="rol" ToRole="usuario_rol" />
+        </EntityType>
+        <EntityType Name="rol_menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RolId" Type="Int32" Nullable="false" />
+          <Property Name="MenuId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="menu" Relationship="clinicaModel.rol_menu_ibfk_2" FromRole="rol_menu" ToRole="menu" />
+          <NavigationProperty Name="rol" Relationship="clinicaModel.rol_menu_ibfk_1" FromRole="rol_menu" ToRole="rol" />
+        </EntityType>
+        <EntityType Name="tipoarticulo">
+          <Key>
+            <PropertyRef Name="TipoArticuloId" />
+          </Key>
+          <Property Name="TipoArticuloId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="articulo" Relationship="clinicaModel.articulo_ibfk_1" FromRole="tipoarticulo" ToRole="articulo" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="UsuarioId" />
+          </Key>
+          <Property Name="UsuarioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonaId" Type="Int32" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Clave" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="IndCambio" Type="Boolean" Nullable="false" />
+          <Property Name="CargoId" Type="Int32" />
+          <Property Name="OficinaId" Type="Int32" />
+          <NavigationProperty Name="cajamov" Relationship="clinicaModel.cajamov_ibfk_3" FromRole="usuario" ToRole="cajamov" />
+          <NavigationProperty Name="cajamov1" Relationship="clinicaModel.cajamov_ibfk_4" FromRole="usuario" ToRole="cajamov" />
+          <NavigationProperty Name="cargo" Relationship="clinicaModel.usuario_ibfk_2" FromRole="usuario" ToRole="cargo" />
+          <NavigationProperty Name="oficina" Relationship="clinicaModel.usuario_ibfk_3" FromRole="usuario" ToRole="oficina" />
+          <NavigationProperty Name="persona" Relationship="clinicaModel.usuario_ibfk_1" FromRole="usuario" ToRole="persona" />
+          <NavigationProperty Name="usuario_rol" Relationship="clinicaModel.usuario_rol_ibfk_1" FromRole="usuario" ToRole="usuario_rol" />
+          <NavigationProperty Name="atencion" Relationship="clinicaModel.atencion_ibfk_5" FromRole="usuario" ToRole="atencion" />
+          <NavigationProperty Name="atencion1" Relationship="clinicaModel.atencion_ibfk_6" FromRole="usuario" ToRole="atencion" />
+          </EntityType>
+        <EntityType Name="usuario_rol">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UsuarioId" Type="Int32" Nullable="false" />
+          <Property Name="RolId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="rol" Relationship="clinicaModel.usuario_rol_ibfk_2" FromRole="usuario_rol" ToRole="rol" />
+          <NavigationProperty Name="usuario" Relationship="clinicaModel.usuario_rol_ibfk_1" FromRole="usuario_rol" ToRole="usuario" />
+        </EntityType>
+        <Association Name="articulo_ibfk_1">
+          <End Type="clinicaModel.tipoarticulo" Role="tipoarticulo" Multiplicity="1" />
+          <End Type="clinicaModel.articulo" Role="articulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipoarticulo">
+              <PropertyRef Name="TipoArticuloId" />
+            </Principal>
+            <Dependent Role="articulo">
+              <PropertyRef Name="TipoArticuloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="articulo_ibfk_2">
+          <End Type="clinicaModel.modelo" Role="modelo" Multiplicity="1" />
+          <End Type="clinicaModel.articulo" Role="articulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="modelo">
+              <PropertyRef Name="ModeloId" />
+            </Principal>
+            <Dependent Role="articulo">
+              <PropertyRef Name="ModeloId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cajadiario_ibfk_1">
+          <End Type="clinicaModel.caja" Role="caja" Multiplicity="1" />
+          <End Type="clinicaModel.cajadiario" Role="cajadiario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="caja">
+              <PropertyRef Name="CajaId" />
+            </Principal>
+            <Dependent Role="cajadiario">
+              <PropertyRef Name="CajaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cajadiario_ibfk_2">
+          <End Type="clinicaModel.persona" Role="persona" Multiplicity="0..1" />
+          <End Type="clinicaModel.cajadiario" Role="cajadiario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="PersonaId" />
+            </Principal>
+            <Dependent Role="cajadiario">
+              <PropertyRef Name="PersonaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cajamov_ibfk_1">
+          <End Type="clinicaModel.cajadiario" Role="cajadiario" Multiplicity="0..1" />
+          <End Type="clinicaModel.cajamov" Role="cajamov" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cajadiario">
+              <PropertyRef Name="CajaDiarioId" />
+            </Principal>
+            <Dependent Role="cajamov">
+              <PropertyRef Name="CajaDiarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cajamov_ibfk_5">
+          <End Type="clinicaModel.cajadiario" Role="cajadiario" Multiplicity="0..1" />
+          <End Type="clinicaModel.cajamov" Role="cajamov" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cajadiario">
+              <PropertyRef Name="CajaDiarioId" />
+            </Principal>
+            <Dependent Role="cajamov">
+              <PropertyRef Name="CajaDiarioTransId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cajamov_ibfk_2">
+          <End Type="clinicaModel.persona" Role="persona" Multiplicity="1" />
+          <End Type="clinicaModel.cajamov" Role="cajamov" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="PersonaId" />
+            </Principal>
+            <Dependent Role="cajamov">
+              <PropertyRef Name="PersonaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cajamov_ibfk_3">
+          <End Type="clinicaModel.usuario" Role="usuario" Multiplicity="1" />
+          <End Type="clinicaModel.cajamov" Role="cajamov" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="UsuarioId" />
+            </Principal>
+            <Dependent Role="cajamov">
+              <PropertyRef Name="UsuarioRegId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cajamov_ibfk_4">
+          <End Type="clinicaModel.usuario" Role="usuario" Multiplicity="0..1" />
+          <End Type="clinicaModel.cajamov" Role="cajamov" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="UsuarioId" />
+            </Principal>
+            <Dependent Role="cajamov">
+              <PropertyRef Name="UsuarioDespachoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cajamovdetalle_ibfk_1">
+          <End Type="clinicaModel.cajamov" Role="cajamov" Multiplicity="1" />
+          <End Type="clinicaModel.cajamovdetalle" Role="cajamovdetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cajamov">
+              <PropertyRef Name="CajaMovId" />
+            </Principal>
+            <Dependent Role="cajamovdetalle">
+              <PropertyRef Name="CajaMovId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cajamovdetalle_ibfk_2">
+          <End Type="clinicaModel.conceptopago" Role="conceptopago" Multiplicity="1" />
+          <End Type="clinicaModel.cajamovdetalle" Role="cajamovdetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="conceptopago">
+              <PropertyRef Name="ConceptoPagoId" />
+            </Principal>
+            <Dependent Role="cajamovdetalle">
+              <PropertyRef Name="ConceptoPagoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="usuario_ibfk_2">
+          <End Type="clinicaModel.cargo" Role="cargo" Multiplicity="0..1" />
+          <End Type="clinicaModel.usuario" Role="usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cargo">
+              <PropertyRef Name="CargoId" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="CargoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cita_ibfk_2">
+          <End Type="clinicaModel.programacion" Role="programacion" Multiplicity="1" />
+          <End Type="clinicaModel.cita" Role="cita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="programacion">
+              <PropertyRef Name="ProgramacionId" />
+            </Principal>
+            <Dependent Role="cita">
+              <PropertyRef Name="ProgramacionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cita_ibfk_3">
+          <End Type="clinicaModel.conceptopago" Role="conceptopago" Multiplicity="1" />
+          <End Type="clinicaModel.cita" Role="cita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="conceptopago">
+              <PropertyRef Name="ConceptoPagoId" />
+            </Principal>
+            <Dependent Role="cita">
+              <PropertyRef Name="ConceptoPagoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="conceptopago_ibfk_1">
+          <End Type="clinicaModel.oficina" Role="oficina" Multiplicity="0..1" />
+          <End Type="clinicaModel.conceptopago" Role="conceptopago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="oficina">
+              <PropertyRef Name="OficinaId" />
+            </Principal>
+            <Dependent Role="conceptopago">
+              <PropertyRef Name="OficinaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="medico_ibfk_2">
+          <End Type="clinicaModel.especialidad" Role="especialidad" Multiplicity="1" />
+          <End Type="clinicaModel.medico" Role="medico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="especialidad">
+              <PropertyRef Name="EspecialidadId" />
+            </Principal>
+            <Dependent Role="medico">
+              <PropertyRef Name="EspecialidadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="modelo_ibfk_1">
+          <End Type="clinicaModel.marca" Role="marca" Multiplicity="1" />
+          <End Type="clinicaModel.modelo" Role="modelo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="marca">
+              <PropertyRef Name="MarcaId" />
+            </Principal>
+            <Dependent Role="modelo">
+              <PropertyRef Name="MarcaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="medico_ibfk_1">
+          <End Type="clinicaModel.persona" Role="persona" Multiplicity="1" />
+          <End Type="clinicaModel.medico" Role="medico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="PersonaId" />
+            </Principal>
+            <Dependent Role="medico">
+              <PropertyRef Name="PersonaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="programacion_ibfk_1">
+          <End Type="clinicaModel.medico" Role="medico" Multiplicity="1" />
+          <End Type="clinicaModel.programacion" Role="programacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medico">
+              <PropertyRef Name="MedicoId" />
+            </Principal>
+            <Dependent Role="programacion">
+              <PropertyRef Name="MedicoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="rol_menu_ibfk_2">
+          <End Type="clinicaModel.menu" Role="menu" Multiplicity="1" />
+          <End Type="clinicaModel.rol_menu" Role="rol_menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="menu">
+              <PropertyRef Name="MenuId" />
+            </Principal>
+            <Dependent Role="rol_menu">
+              <PropertyRef Name="MenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="usuario_ibfk_3">
+          <End Type="clinicaModel.oficina" Role="oficina" Multiplicity="0..1" />
+          <End Type="clinicaModel.usuario" Role="usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="oficina">
+              <PropertyRef Name="OficinaId" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="OficinaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="usuario_ibfk_1">
+          <End Type="clinicaModel.persona" Role="persona" Multiplicity="0..1" />
+          <End Type="clinicaModel.usuario" Role="usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="PersonaId" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="PersonaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="rol_menu_ibfk_1">
+          <End Type="clinicaModel.rol" Role="rol" Multiplicity="1" />
+          <End Type="clinicaModel.rol_menu" Role="rol_menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rol">
+              <PropertyRef Name="RolId" />
+            </Principal>
+            <Dependent Role="rol_menu">
+              <PropertyRef Name="RolId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="usuario_rol_ibfk_2">
+          <End Type="clinicaModel.rol" Role="rol" Multiplicity="1" />
+          <End Type="clinicaModel.usuario_rol" Role="usuario_rol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rol">
+              <PropertyRef Name="RolId" />
+            </Principal>
+            <Dependent Role="usuario_rol">
+              <PropertyRef Name="RolId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="usuario_rol_ibfk_1">
+          <End Type="clinicaModel.usuario" Role="usuario" Multiplicity="1" />
+          <End Type="clinicaModel.usuario_rol" Role="usuario_rol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="UsuarioId" />
+            </Principal>
+            <Dependent Role="usuario_rol">
+              <PropertyRef Name="UsuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ordenlab">
+          <Key>
+            <PropertyRef Name="OrdenLabId" />
+          </Key>
+          <Property Name="OrdenLabId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AtencionId" Type="Int32" Nullable="false" />
+          <Property Name="TablaId" Type="Int32" Nullable="false" />
+          <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="atencion" Relationship="clinicaModel.ordenlab_ibfk_1" FromRole="ordenlab" ToRole="atencion" />
+        </EntityType>
+        <EntityType Name="tablaexamen">
+          <Key>
+            <PropertyRef Name="TablaId" />
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="TablaId" Type="Int32" Nullable="false" />
+          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="Denominacion" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Unidad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="IndLab" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="atencion">
           <Key>
@@ -1652,17 +1754,33 @@
           <Property Name="FechaCreacion" Type="DateTime" Nullable="false" />
           <Property Name="FechaModificacion" Type="DateTime" />
           <Property Name="UsuarioCId" Type="Int32" Nullable="false" />
-          <Property Name="UsuarioMId" Type="Int32" Nullable="false" />
+          <Property Name="UsuarioMId" Type="Int32" />
           <Property Name="IndPago" Type="Boolean" Nullable="false" />
+          <Property Name="Motivo" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Diagnostico" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Tratamiento" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="cita" Relationship="clinicaModel.atencion_ibfk_1" FromRole="atencion" ToRole="cita" />
           <NavigationProperty Name="persona" Relationship="clinicaModel.atencion_ibfk_2" FromRole="atencion" ToRole="persona" />
           <NavigationProperty Name="persona1" Relationship="clinicaModel.atencion_ibfk_3" FromRole="atencion" ToRole="persona" />
           <NavigationProperty Name="especialidad" Relationship="clinicaModel.atencion_ibfk_4" FromRole="atencion" ToRole="especialidad" />
           <NavigationProperty Name="usuario" Relationship="clinicaModel.atencion_ibfk_5" FromRole="atencion" ToRole="usuario" />
           <NavigationProperty Name="usuario1" Relationship="clinicaModel.atencion_ibfk_6" FromRole="atencion" ToRole="usuario" />
           <NavigationProperty Name="atencionespecialidad" Relationship="clinicaModel.atencionespecialidad_ibfk_1" FromRole="atencion" ToRole="atencionespecialidad" />
-          <NavigationProperty Name="topico" Relationship="clinicaModel.topico_ibfk_1" FromRole="atencion" ToRole="topico" />
-          <NavigationProperty Name="cita" Relationship="clinicaModel.atencion_ibfk_1" FromRole="atencion" ToRole="cita" />
+          <NavigationProperty Name="examen" Relationship="clinicaModel.examen_ibfk_1" FromRole="atencion" ToRole="examen" />
+          <NavigationProperty Name="ordenlab" Relationship="clinicaModel.ordenlab_ibfk_1" FromRole="atencion" ToRole="ordenlab" />
         </EntityType>
+        <Association Name="atencion_ibfk_1">
+          <End Type="clinicaModel.cita" Role="cita" Multiplicity="0..1" />
+          <End Type="clinicaModel.atencion" Role="atencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cita">
+              <PropertyRef Name="CitaId" />
+            </Principal>
+            <Dependent Role="atencion">
+              <PropertyRef Name="CitaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="atencion_ibfk_2">
           <End Type="clinicaModel.persona" Role="persona" Multiplicity="1" />
           <End Type="clinicaModel.atencion" Role="atencion" Multiplicity="*" />
@@ -1712,7 +1830,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="atencion_ibfk_6">
-          <End Type="clinicaModel.usuario" Role="usuario" Multiplicity="1" />
+          <End Type="clinicaModel.usuario" Role="usuario" Multiplicity="0..1" />
           <End Type="clinicaModel.atencion" Role="atencion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="usuario">
@@ -1735,76 +1853,44 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="topico_ibfk_1">
+        <Association Name="examen_ibfk_1">
           <End Type="clinicaModel.atencion" Role="atencion" Multiplicity="1" />
-          <End Type="clinicaModel.topico" Role="topico" Multiplicity="*" />
+          <End Type="clinicaModel.examen" Role="examen" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="atencion">
               <PropertyRef Name="AtencionId" />
             </Principal>
-            <Dependent Role="topico">
+            <Dependent Role="examen">
               <PropertyRef Name="AtencionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="programacion">
-          <Key>
-            <PropertyRef Name="ProgramacionId" />
-          </Key>
-          <Property Name="ProgramacionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MedicoId" Type="Int32" Nullable="false" />
-          <Property Name="FechaInicio" Type="DateTime" Nullable="false" />
-          <Property Name="FechaLimite" Type="DateTime" />
-          <Property Name="HoraInicio" Type="Time" Nullable="false" />
-          <Property Name="HoraFin" Type="Time" Nullable="false" />
-          <Property Name="Estado" Type="Boolean" />
-          <Property Name="Repite" Type="Boolean" />
-          <Property Name="Semanal" Type="Boolean" />
-          <NavigationProperty Name="medico" Relationship="clinicaModel.programacion_ibfk_1" FromRole="programacion" ToRole="medico" />
-          <NavigationProperty Name="cita" Relationship="clinicaModel.cita_ibfk_2" FromRole="programacion" ToRole="cita" />
-        </EntityType>
-        <Association Name="programacion_ibfk_1">
-          <End Type="clinicaModel.medico" Role="medico" Multiplicity="1" />
-          <End Type="clinicaModel.programacion" Role="programacion" Multiplicity="*" />
+        <Association Name="ordenlab_ibfk_1">
+          <End Type="clinicaModel.atencion" Role="atencion" Multiplicity="1" />
+          <End Type="clinicaModel.ordenlab" Role="ordenlab" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="medico">
-              <PropertyRef Name="MedicoId" />
+            <Principal Role="atencion">
+              <PropertyRef Name="AtencionId" />
             </Principal>
-            <Dependent Role="programacion">
-              <PropertyRef Name="MedicoId" />
+            <Dependent Role="ordenlab">
+              <PropertyRef Name="AtencionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="cita">
+        <EntityType Name="paciente">
           <Key>
-            <PropertyRef Name="CitaId" />
+            <PropertyRef Name="PacienteId" />
           </Key>
-          <Property Name="CitaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PacienteId" Type="Int32" Nullable="false" />
-          <Property Name="ProgramacionId" Type="Int32" Nullable="false" />
-          <Property Name="ConceptoPagoId" Type="Int32" Nullable="false" />
-          <Property Name="Estado" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="IndPago" Type="Boolean" Nullable="false" />
-          <Property Name="NumeroAtencion" Type="Int32" Nullable="false" />
-          <Property Name="HoraProbable" Type="Time" Nullable="false" />
-          <Property Name="FechaAtencion" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="atencion" Relationship="clinicaModel.atencion_ibfk_1" FromRole="cita" ToRole="atencion" />
-          <NavigationProperty Name="paciente" Relationship="clinicaModel.cita_ibfk_1" FromRole="cita" ToRole="paciente" />
-          <NavigationProperty Name="programacion" Relationship="clinicaModel.cita_ibfk_2" FromRole="cita" ToRole="programacion" />
-          <NavigationProperty Name="conceptopago" Relationship="clinicaModel.cita_ibfk_3" FromRole="cita" ToRole="conceptopago" />
+          <Property Name="PacienteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonaId" Type="Int32" Nullable="false" />
+          <Property Name="NumeroHistoria" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Sangre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Alergia" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AntecedentePersonal" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AntecedenteFamiliar" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="cita" Relationship="clinicaModel.cita_ibfk_1" FromRole="paciente" ToRole="cita" />
+          <NavigationProperty Name="persona" Relationship="clinicaModel.PersonaId" FromRole="paciente" ToRole="persona" />
         </EntityType>
-        <Association Name="atencion_ibfk_1">
-          <End Type="clinicaModel.cita" Role="cita" Multiplicity="0..1" />
-          <End Type="clinicaModel.atencion" Role="atencion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="cita">
-              <PropertyRef Name="CitaId" />
-            </Principal>
-            <Dependent Role="atencion">
-              <PropertyRef Name="CitaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="cita_ibfk_1">
           <End Type="clinicaModel.paciente" Role="paciente" Multiplicity="1" />
           <End Type="clinicaModel.cita" Role="cita" Multiplicity="*" />
@@ -1817,31 +1903,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="cita_ibfk_2">
-          <End Type="clinicaModel.programacion" Role="programacion" Multiplicity="1" />
-          <End Type="clinicaModel.cita" Role="cita" Multiplicity="*" />
+        <Association Name="PersonaId">
+          <End Type="clinicaModel.persona" Role="persona" Multiplicity="1" />
+          <End Type="clinicaModel.paciente" Role="paciente" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="programacion">
-              <PropertyRef Name="ProgramacionId" />
+            <Principal Role="persona">
+              <PropertyRef Name="PersonaId" />
             </Principal>
-            <Dependent Role="cita">
-              <PropertyRef Name="ProgramacionId" />
+            <Dependent Role="paciente">
+              <PropertyRef Name="PersonaId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="cita_ibfk_3">
-          <End Type="clinicaModel.conceptopago" Role="conceptopago" Multiplicity="1" />
-          <End Type="clinicaModel.cita" Role="cita" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="conceptopago">
-              <PropertyRef Name="ConceptoPagoId" />
-            </Principal>
-            <Dependent Role="cita">
-              <PropertyRef Name="ConceptoPagoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1850,260 +1924,15 @@
           <EntitySetMapping Name="articulo">
             <EntityTypeMapping TypeName="clinicaModel.articulo">
               <MappingFragment StoreEntitySet="articulo">
-                <ScalarProperty Name="ArticuloId" ColumnName="ArticuloId" />
-                <ScalarProperty Name="TipoArticuloId" ColumnName="TipoArticuloId" />
-                <ScalarProperty Name="ModeloId" ColumnName="ModeloId" />
-                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
-                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
-                <ScalarProperty Name="Precio" ColumnName="Precio" />
-                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="IndServicio" ColumnName="IndServicio" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="caja">
-            <EntityTypeMapping TypeName="clinicaModel.caja">
-              <MappingFragment StoreEntitySet="caja">
-                <ScalarProperty Name="CajaId" ColumnName="CajaId" />
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
                 <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
-                <ScalarProperty Name="IndAbierto" ColumnName="IndAbierto" />
-                <ScalarProperty Name="IndBoveda" ColumnName="IndBoveda" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="cajadiario">
-            <EntityTypeMapping TypeName="clinicaModel.cajadiario">
-              <MappingFragment StoreEntitySet="cajadiario">
-                <ScalarProperty Name="CajaDiarioId" ColumnName="CajaDiarioId" />
-                <ScalarProperty Name="CajaId" ColumnName="CajaId" />
-                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
-                <ScalarProperty Name="SaldoInicial" ColumnName="SaldoInicial" />
-                <ScalarProperty Name="Entradas" ColumnName="Entradas" />
-                <ScalarProperty Name="Salidas" ColumnName="Salidas" />
-                <ScalarProperty Name="SaldoFinal" ColumnName="SaldoFinal" />
-                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
-                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
-                <ScalarProperty Name="IndAbierto" ColumnName="IndAbierto" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="cajamov">
-            <EntityTypeMapping TypeName="clinicaModel.cajamov">
-              <MappingFragment StoreEntitySet="cajamov">
-                <ScalarProperty Name="CajaMovId" ColumnName="CajaMovId" />
-                <ScalarProperty Name="CajaDiarioId" ColumnName="CajaDiarioId" />
-                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
-                <ScalarProperty Name="Operacion" ColumnName="Operacion" />
-                <ScalarProperty Name="Monto" ColumnName="Monto" />
-                <ScalarProperty Name="Glosa" ColumnName="Glosa" />
-                <ScalarProperty Name="IndEntrada" ColumnName="IndEntrada" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="UsuarioRegId" ColumnName="UsuarioRegId" />
-                <ScalarProperty Name="FechaReg" ColumnName="FechaReg" />
-                <ScalarProperty Name="FechaCobro" ColumnName="FechaCobro" />
-                <ScalarProperty Name="FechaAnulacion" ColumnName="FechaAnulacion" />
-                <ScalarProperty Name="UsuarioDespachoId" ColumnName="UsuarioDespachoId" />
-                <ScalarProperty Name="FechaDespacho" ColumnName="FechaDespacho" />
-                <ScalarProperty Name="CajaDiarioTransId" ColumnName="CajaDiarioTransId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="cajamovdetalle">
-            <EntityTypeMapping TypeName="clinicaModel.cajamovdetalle">
-              <MappingFragment StoreEntitySet="cajamovdetalle">
-                <ScalarProperty Name="CajaMovDetalleId" ColumnName="CajaMovDetalleId" />
-                <ScalarProperty Name="CajaMovId" ColumnName="CajaMovId" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="ConceptoPagoId" ColumnName="ConceptoPagoId" />
-                <ScalarProperty Name="PU" ColumnName="PU" />
-                <ScalarProperty Name="Monto" ColumnName="Monto" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="cargo">
-            <EntityTypeMapping TypeName="clinicaModel.cargo">
-              <MappingFragment StoreEntitySet="cargo">
-                <ScalarProperty Name="CargoId" ColumnName="CargoId" />
-                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="conceptopago">
-            <EntityTypeMapping TypeName="clinicaModel.conceptopago">
-              <MappingFragment StoreEntitySet="conceptopago">
-                <ScalarProperty Name="ConceptoPagoId" ColumnName="ConceptoPagoId" />
-                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
-                <ScalarProperty Name="Importe" ColumnName="Importe" />
-                <ScalarProperty Name="OficinaId" ColumnName="OficinaId" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="consultorio">
-            <EntityTypeMapping TypeName="clinicaModel.consultorio">
-              <MappingFragment StoreEntitySet="consultorio">
-                <ScalarProperty Name="ConsultorioId" ColumnName="ConsultorioId" />
-                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="especialidad">
-            <EntityTypeMapping TypeName="clinicaModel.especialidad">
-              <MappingFragment StoreEntitySet="especialidad">
-                <ScalarProperty Name="EspecialidadId" ColumnName="EspecialidadId" />
-                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="marca">
-            <EntityTypeMapping TypeName="clinicaModel.marca">
-              <MappingFragment StoreEntitySet="marca">
-                <ScalarProperty Name="MarcaId" ColumnName="MarcaId" />
-                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="medico">
-            <EntityTypeMapping TypeName="clinicaModel.medico">
-              <MappingFragment StoreEntitySet="medico">
-                <ScalarProperty Name="MedicoId" ColumnName="MedicoId" />
-                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
-                <ScalarProperty Name="EspecialidadId" ColumnName="EspecialidadId" />
-                <ScalarProperty Name="NumeroColegio" ColumnName="NumeroColegio" />
-                <ScalarProperty Name="FechaColegiacion" ColumnName="FechaColegiacion" />
-                <ScalarProperty Name="TituloProfesional" ColumnName="TituloProfesional" />
-                <ScalarProperty Name="Universidad" ColumnName="Universidad" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="menu">
-            <EntityTypeMapping TypeName="clinicaModel.menu">
-              <MappingFragment StoreEntitySet="menu">
-                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
-                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
-                <ScalarProperty Name="Modulo" ColumnName="Modulo" />
-                <ScalarProperty Name="Icono" ColumnName="Icono" />
-                <ScalarProperty Name="IndPadre" ColumnName="IndPadre" />
-                <ScalarProperty Name="Referencia" ColumnName="Referencia" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="modelo">
-            <EntityTypeMapping TypeName="clinicaModel.modelo">
-              <MappingFragment StoreEntitySet="modelo">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
                 <ScalarProperty Name="ModeloId" ColumnName="ModeloId" />
-                <ScalarProperty Name="MarcaId" ColumnName="MarcaId" />
-                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="oficina">
-            <EntityTypeMapping TypeName="clinicaModel.oficina">
-              <MappingFragment StoreEntitySet="oficina">
-                <ScalarProperty Name="OficinaId" ColumnName="OficinaId" />
-                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="paciente">
-            <EntityTypeMapping TypeName="clinicaModel.paciente">
-              <MappingFragment StoreEntitySet="paciente">
-                <ScalarProperty Name="PacienteId" ColumnName="PacienteId" />
-                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
-                <ScalarProperty Name="NumeroHistoria" ColumnName="NumeroHistoria" />
-                <ScalarProperty Name="Alergia" ColumnName="Alergia" />
-                <ScalarProperty Name="AntecedentePersonal" ColumnName="AntecedentePersonal" />
-                <ScalarProperty Name="AntecedenteFamiliar" ColumnName="AntecedenteFamiliar" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="persona">
-            <EntityTypeMapping TypeName="clinicaModel.persona">
-              <MappingFragment StoreEntitySet="persona">
-                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
-                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
-                <ScalarProperty Name="Paterno" ColumnName="Paterno" />
-                <ScalarProperty Name="Materno" ColumnName="Materno" />
-                <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
-                <ScalarProperty Name="DNI" ColumnName="DNI" />
-                <ScalarProperty Name="Celular" ColumnName="Celular" />
-                <ScalarProperty Name="Correo" ColumnName="Correo" />
-                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
-                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
-                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
-                <ScalarProperty Name="Referencia" ColumnName="Referencia" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="rol">
-            <EntityTypeMapping TypeName="clinicaModel.rol">
-              <MappingFragment StoreEntitySet="rol">
-                <ScalarProperty Name="RolId" ColumnName="RolId" />
-                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="rol_menu">
-            <EntityTypeMapping TypeName="clinicaModel.rol_menu">
-              <MappingFragment StoreEntitySet="rol_menu">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="RolId" ColumnName="RolId" />
-                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tipoarticulo">
-            <EntityTypeMapping TypeName="clinicaModel.tipoarticulo">
-              <MappingFragment StoreEntitySet="tipoarticulo">
                 <ScalarProperty Name="TipoArticuloId" ColumnName="TipoArticuloId" />
-                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="usuario">
-            <EntityTypeMapping TypeName="clinicaModel.usuario">
-              <MappingFragment StoreEntitySet="usuario">
-                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
-                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Clave" ColumnName="Clave" />
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
-                <ScalarProperty Name="IndCambio" ColumnName="IndCambio" />
-                <ScalarProperty Name="CargoId" ColumnName="CargoId" />
-                <ScalarProperty Name="OficinaId" ColumnName="OficinaId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="usuario_rol">
-            <EntityTypeMapping TypeName="clinicaModel.usuario_rol">
-              <MappingFragment StoreEntitySet="usuario_rol">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
-                <ScalarProperty Name="RolId" ColumnName="RolId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tablaconfiguracion">
-            <EntityTypeMapping TypeName="clinicaModel.tablaconfiguracion">
-              <MappingFragment StoreEntitySet="tablaconfiguracion">
-                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
-                <ScalarProperty Name="Item" ColumnName="Item" />
-                <ScalarProperty Name="TablaId" ColumnName="TablaId" />
-                <ScalarProperty Name="TablaconfiguracionId" ColumnName="TablaconfiguracionId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="topico">
-            <EntityTypeMapping TypeName="clinicaModel.topico">
-              <MappingFragment StoreEntitySet="topico">
-                <ScalarProperty Name="Valor" ColumnName="Valor" />
-                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
-                <ScalarProperty Name="Item" ColumnName="Item" />
-                <ScalarProperty Name="AtencionId" ColumnName="AtencionId" />
-                <ScalarProperty Name="TopicoId" ColumnName="TopicoId" />
+                <ScalarProperty Name="ArticuloId" ColumnName="ArticuloId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2118,21 +1947,193 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="atencion">
-            <EntityTypeMapping TypeName="clinicaModel.atencion">
-              <MappingFragment StoreEntitySet="atencion">
-                <ScalarProperty Name="IndPago" ColumnName="IndPago" />
-                <ScalarProperty Name="UsuarioMId" ColumnName="UsuarioMId" />
-                <ScalarProperty Name="UsuarioCId" ColumnName="UsuarioCId" />
-                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
-                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
-                <ScalarProperty Name="EspecialidadId" ColumnName="EspecialidadId" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="PerMedicoId" ColumnName="PerMedicoId" />
-                <ScalarProperty Name="PerPacienteId" ColumnName="PerPacienteId" />
+          <EntitySetMapping Name="caja">
+            <EntityTypeMapping TypeName="clinicaModel.caja">
+              <MappingFragment StoreEntitySet="caja">
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IndBoveda" ColumnName="IndBoveda" />
+                <ScalarProperty Name="IndAbierto" ColumnName="IndAbierto" />
+                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
+                <ScalarProperty Name="CajaId" ColumnName="CajaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cajadiario">
+            <EntityTypeMapping TypeName="clinicaModel.cajadiario">
+              <MappingFragment StoreEntitySet="cajadiario">
+                <ScalarProperty Name="IndAbierto" ColumnName="IndAbierto" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="SaldoFinal" ColumnName="SaldoFinal" />
+                <ScalarProperty Name="Salidas" ColumnName="Salidas" />
+                <ScalarProperty Name="Entradas" ColumnName="Entradas" />
+                <ScalarProperty Name="SaldoInicial" ColumnName="SaldoInicial" />
+                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
+                <ScalarProperty Name="CajaId" ColumnName="CajaId" />
+                <ScalarProperty Name="CajaDiarioId" ColumnName="CajaDiarioId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cajamov">
+            <EntityTypeMapping TypeName="clinicaModel.cajamov">
+              <MappingFragment StoreEntitySet="cajamov">
+                <ScalarProperty Name="CajaDiarioTransId" ColumnName="CajaDiarioTransId" />
+                <ScalarProperty Name="FechaDespacho" ColumnName="FechaDespacho" />
+                <ScalarProperty Name="UsuarioDespachoId" ColumnName="UsuarioDespachoId" />
+                <ScalarProperty Name="FechaAnulacion" ColumnName="FechaAnulacion" />
+                <ScalarProperty Name="FechaCobro" ColumnName="FechaCobro" />
+                <ScalarProperty Name="FechaReg" ColumnName="FechaReg" />
+                <ScalarProperty Name="UsuarioRegId" ColumnName="UsuarioRegId" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IndEntrada" ColumnName="IndEntrada" />
+                <ScalarProperty Name="Glosa" ColumnName="Glosa" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Operacion" ColumnName="Operacion" />
+                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
+                <ScalarProperty Name="CajaDiarioId" ColumnName="CajaDiarioId" />
+                <ScalarProperty Name="CajaMovId" ColumnName="CajaMovId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cajamovdetalle">
+            <EntityTypeMapping TypeName="clinicaModel.cajamovdetalle">
+              <MappingFragment StoreEntitySet="cajamovdetalle">
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="PU" ColumnName="PU" />
+                <ScalarProperty Name="ConceptoPagoId" ColumnName="ConceptoPagoId" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="CajaMovId" ColumnName="CajaMovId" />
+                <ScalarProperty Name="CajaMovDetalleId" ColumnName="CajaMovDetalleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cargo">
+            <EntityTypeMapping TypeName="clinicaModel.cargo">
+              <MappingFragment StoreEntitySet="cargo">
+                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
+                <ScalarProperty Name="CargoId" ColumnName="CargoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cita">
+            <EntityTypeMapping TypeName="clinicaModel.cita">
+              <MappingFragment StoreEntitySet="cita">
+                <ScalarProperty Name="FechaAtencion" ColumnName="FechaAtencion" />
+                <ScalarProperty Name="HoraProbable" ColumnName="HoraProbable" />
+                <ScalarProperty Name="NumeroAtencion" ColumnName="NumeroAtencion" />
+                <ScalarProperty Name="IndPago" ColumnName="IndPago" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="ConceptoPagoId" ColumnName="ConceptoPagoId" />
+                <ScalarProperty Name="ProgramacionId" ColumnName="ProgramacionId" />
+                <ScalarProperty Name="PacienteId" ColumnName="PacienteId" />
                 <ScalarProperty Name="CitaId" ColumnName="CitaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="conceptopago">
+            <EntityTypeMapping TypeName="clinicaModel.conceptopago">
+              <MappingFragment StoreEntitySet="conceptopago">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="OficinaId" ColumnName="OficinaId" />
+                <ScalarProperty Name="Importe" ColumnName="Importe" />
+                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
+                <ScalarProperty Name="ConceptoPagoId" ColumnName="ConceptoPagoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="consultorio">
+            <EntityTypeMapping TypeName="clinicaModel.consultorio">
+              <MappingFragment StoreEntitySet="consultorio">
+                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
+                <ScalarProperty Name="ConsultorioId" ColumnName="ConsultorioId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="especialidad">
+            <EntityTypeMapping TypeName="clinicaModel.especialidad">
+              <MappingFragment StoreEntitySet="especialidad">
+                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
+                <ScalarProperty Name="EspecialidadId" ColumnName="EspecialidadId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="examen">
+            <EntityTypeMapping TypeName="clinicaModel.examen">
+              <MappingFragment StoreEntitySet="examen">
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="TablaId" ColumnName="TablaId" />
                 <ScalarProperty Name="AtencionId" ColumnName="AtencionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="marca">
+            <EntityTypeMapping TypeName="clinicaModel.marca">
+              <MappingFragment StoreEntitySet="marca">
+                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
+                <ScalarProperty Name="MarcaId" ColumnName="MarcaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="medico">
+            <EntityTypeMapping TypeName="clinicaModel.medico">
+              <MappingFragment StoreEntitySet="medico">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Universidad" ColumnName="Universidad" />
+                <ScalarProperty Name="TituloProfesional" ColumnName="TituloProfesional" />
+                <ScalarProperty Name="FechaColegiacion" ColumnName="FechaColegiacion" />
+                <ScalarProperty Name="NumeroColegio" ColumnName="NumeroColegio" />
+                <ScalarProperty Name="EspecialidadId" ColumnName="EspecialidadId" />
+                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
+                <ScalarProperty Name="MedicoId" ColumnName="MedicoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="menu">
+            <EntityTypeMapping TypeName="clinicaModel.menu">
+              <MappingFragment StoreEntitySet="menu">
+                <ScalarProperty Name="Referencia" ColumnName="Referencia" />
+                <ScalarProperty Name="IndPadre" ColumnName="IndPadre" />
+                <ScalarProperty Name="Icono" ColumnName="Icono" />
+                <ScalarProperty Name="Modulo" ColumnName="Modulo" />
+                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="modelo">
+            <EntityTypeMapping TypeName="clinicaModel.modelo">
+              <MappingFragment StoreEntitySet="modelo">
+                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
+                <ScalarProperty Name="MarcaId" ColumnName="MarcaId" />
+                <ScalarProperty Name="ModeloId" ColumnName="ModeloId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="oficina">
+            <EntityTypeMapping TypeName="clinicaModel.oficina">
+              <MappingFragment StoreEntitySet="oficina">
+                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
+                <ScalarProperty Name="OficinaId" ColumnName="OficinaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="persona">
+            <EntityTypeMapping TypeName="clinicaModel.persona">
+              <MappingFragment StoreEntitySet="persona">
+                <ScalarProperty Name="Referencia" ColumnName="Referencia" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="DNI" ColumnName="DNI" />
+                <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+                <ScalarProperty Name="Materno" ColumnName="Materno" />
+                <ScalarProperty Name="Paterno" ColumnName="Paterno" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2151,18 +2152,108 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="cita">
-            <EntityTypeMapping TypeName="clinicaModel.cita">
-              <MappingFragment StoreEntitySet="cita">
-                <ScalarProperty Name="FechaAtencion" ColumnName="FechaAtencion" />
-                <ScalarProperty Name="HoraProbable" ColumnName="HoraProbable" />
-                <ScalarProperty Name="NumeroAtencion" ColumnName="NumeroAtencion" />
-                <ScalarProperty Name="IndPago" ColumnName="IndPago" />
+          <EntitySetMapping Name="rol">
+            <EntityTypeMapping TypeName="clinicaModel.rol">
+              <MappingFragment StoreEntitySet="rol">
+                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
+                <ScalarProperty Name="RolId" ColumnName="RolId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rol_menu">
+            <EntityTypeMapping TypeName="clinicaModel.rol_menu">
+              <MappingFragment StoreEntitySet="rol_menu">
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="RolId" ColumnName="RolId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tipoarticulo">
+            <EntityTypeMapping TypeName="clinicaModel.tipoarticulo">
+              <MappingFragment StoreEntitySet="tipoarticulo">
+                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
+                <ScalarProperty Name="TipoArticuloId" ColumnName="TipoArticuloId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuario">
+            <EntityTypeMapping TypeName="clinicaModel.usuario">
+              <MappingFragment StoreEntitySet="usuario">
+                <ScalarProperty Name="OficinaId" ColumnName="OficinaId" />
+                <ScalarProperty Name="CargoId" ColumnName="CargoId" />
+                <ScalarProperty Name="IndCambio" ColumnName="IndCambio" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuario_rol">
+            <EntityTypeMapping TypeName="clinicaModel.usuario_rol">
+              <MappingFragment StoreEntitySet="usuario_rol">
+                <ScalarProperty Name="RolId" ColumnName="RolId" />
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ordenlab">
+            <EntityTypeMapping TypeName="clinicaModel.ordenlab">
+              <MappingFragment StoreEntitySet="ordenlab">
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="ConceptoPagoId" ColumnName="ConceptoPagoId" />
-                <ScalarProperty Name="ProgramacionId" ColumnName="ProgramacionId" />
-                <ScalarProperty Name="PacienteId" ColumnName="PacienteId" />
+                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
+                <ScalarProperty Name="TablaId" ColumnName="TablaId" />
+                <ScalarProperty Name="AtencionId" ColumnName="AtencionId" />
+                <ScalarProperty Name="OrdenLabId" ColumnName="OrdenLabId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tablaexamen">
+            <EntityTypeMapping TypeName="clinicaModel.tablaexamen">
+              <MappingFragment StoreEntitySet="tablaexamen">
+                <ScalarProperty Name="IndLab" ColumnName="IndLab" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Unidad" ColumnName="Unidad" />
+                <ScalarProperty Name="Denominacion" ColumnName="Denominacion" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="TablaId" ColumnName="TablaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="atencion">
+            <EntityTypeMapping TypeName="clinicaModel.atencion">
+              <MappingFragment StoreEntitySet="atencion">
+                <ScalarProperty Name="Tratamiento" ColumnName="Tratamiento" />
+                <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
+                <ScalarProperty Name="Motivo" ColumnName="Motivo" />
+                <ScalarProperty Name="IndPago" ColumnName="IndPago" />
+                <ScalarProperty Name="UsuarioMId" ColumnName="UsuarioMId" />
+                <ScalarProperty Name="UsuarioCId" ColumnName="UsuarioCId" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="EspecialidadId" ColumnName="EspecialidadId" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="PerMedicoId" ColumnName="PerMedicoId" />
+                <ScalarProperty Name="PerPacienteId" ColumnName="PerPacienteId" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="CitaId" ColumnName="CitaId" />
+                <ScalarProperty Name="AtencionId" ColumnName="AtencionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="paciente">
+            <EntityTypeMapping TypeName="clinicaModel.paciente">
+              <MappingFragment StoreEntitySet="paciente">
+                <ScalarProperty Name="AntecedenteFamiliar" ColumnName="AntecedenteFamiliar" />
+                <ScalarProperty Name="AntecedentePersonal" ColumnName="AntecedentePersonal" />
+                <ScalarProperty Name="Alergia" ColumnName="Alergia" />
+                <ScalarProperty Name="Sangre" ColumnName="Sangre" />
+                <ScalarProperty Name="NumeroHistoria" ColumnName="NumeroHistoria" />
+                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
+                <ScalarProperty Name="PacienteId" ColumnName="PacienteId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

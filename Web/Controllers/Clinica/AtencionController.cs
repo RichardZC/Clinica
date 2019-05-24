@@ -81,7 +81,7 @@ namespace Web.Controllers.Clinica
         {
             atencionespecialidad atencionEspecial = new atencionespecialidad();
             atencionEspecial.Item = 2;
-            ViewBag.cboExamenesAtencion = TablaConfiguracionBL.Listar();
+            ViewBag.cboExamenesAtencion = TablaExamenBL.Listar();
             return PartialView(atencionEspecial);
         }
         public PartialViewResult VistaRecetas(int id)
@@ -93,9 +93,9 @@ namespace Web.Controllers.Clinica
         public JsonResult ComboAtencion(string fechaCita)
         {
            
-            return Json(TablaConfiguracionBL.Listar(x => x.TablaId == 2)
+            return Json(TablaExamenBL.Listar(x => x.TablaId == 2)
                          .Select(x => 
-                         new { Id = x.Item, Valor = x.Denominacion }).ToList(), JsonRequestBehavior.AllowGet);
+                         new { Id = x.ItemId, Valor = x.Denominacion }).ToList(), JsonRequestBehavior.AllowGet);
 
             //return Json(ProgramacionBL.Listar(x => x.FechaInicio == fecha, includeProperties: "Medico")
             //              .Select(x => new { Id = EspecialidadBL.Obtener(x.medico.EspecialidadId).EspecialidadId, Valor = EspecialidadBL.Obtener(x.medico.EspecialidadId).Denominacion + "-" + x.HoraInicio + " " + x.HoraFin }).ToList(), JsonRequestBehavior.AllowGet);

@@ -8,7 +8,7 @@ namespace BL.Modelo
 {
     public class Tabla
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public string Denominacion { get; set; }
     }
 }

@@ -56,13 +56,13 @@ namespace Web.Controllers
 
             }
 
-            var m = new MantenerUsuario
-            {
-                Usuario = UsuarioBL.Obtener(x => x.UsuarioId == id, "persona"),
-                Roles = RolBL.ListarRoles(id),
-                Oficinas = OficinaBL.ListarOficinas(),
-                Cargos = CargoBL.Listar()
-            };
+            //var m = new MantenerUsuario
+            //{
+            //    Usuario = UsuarioBL.Obtener(x => x.UsuarioId == id, "persona"),
+            //    Roles = RolBL.ListarRoles(id),
+            //    Oficinas = OficinaBL.ListarOficinas(),
+            //    Cargos = CargoBL.Listar()
+            //};
 
             return View(new MantenerUsuario
             {

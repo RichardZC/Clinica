@@ -34,8 +34,8 @@
     <link href="~/js/plugins/sweetalert2/sweetalert2.min.css" type="text/css" rel="stylesheet" media="screen,projection">
     @*<link href="~/js/plugins/sweetalert/dist/facebook.css" rel="stylesheet" />*@
 
-    @*<link href="js/plugins/prism/prism.css" type="text/css" rel="stylesheet" media="screen,projection">
-    <link href="~/js/plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">*@
+    <link href="~/js/plugins/prism/prism.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="~/js/plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">
     <link href="~/css/fullcalendar.min.css" type="text/css" rel="stylesheet" media="screen,projection">
     <link href="~/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet" media="screen,projection">
 
@@ -54,10 +54,10 @@
                         <ul class="left">
                             <li><h1 class="logo-wrapper"><a href='@Url.Action("Index", "Home")' class="brand-logo darken-1"><img src="~/images/materialize-logo.png" alt="materialize logo"></a> <span class="logo-text">Materialize</span></h1></li>
                         </ul>
-                        <div class="header-search-wrapper hide-on-med-and-down">
+                        @*<div class="header-search-wrapper hide-on-med-and-down">
                             <i class="mdi-action-search"></i>
                             <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Buscar Ciudadano" />
-                        </div>
+                        </div>*@
                         <ul class="right hide-on-med-and-down">
                             <li>
                                 <a href="javascript:void(0);" class="waves-effect waves-block waves-light toggle-fullscreen"><i class="mdi-action-settings-overscan"></i></a>
@@ -132,23 +132,13 @@
     <script src="~/js/plugins/jquery-1.11.2.min.js"></script>
     <script src="~/js/jquery.form.min.js"></script>
     <script src="~/js/jquery.autocomplete.min.js"></script>
-    <script>
-        var baseUrl = "@Url.Content("~")";
-        $('#left-sidebar-nav').html(localStorage.getItem("mnu"));
-        var mnu = $("#" + localStorage.getItem("mnuclick"));
-        mnu.addClass("active");
-        mnu.data("ref");
-        $("#" + mnu.data("ref")).addClass("active");
-        $('li.mnu').click(function () { localStorage.setItem("mnuclick", $(this)[0].id) });
-    </script>
+    
     <!--materialize js-->
     <script src="~/js/materialize.min.js"></script>
     <script src="~/js/vue.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.1/vue-router.js"></script>
     
     <script type="text/javascript" src="~/js/axios.min.js"></script>
-    <script type="text/javascript" src="~/js/vue-select.js"></script>
-
+    
     <!-- Calendar Script -->
     <script type="text/javascript" src="~/js/jquery-ui.custom.min.js"></script>
     <script type="text/javascript" src="~/js/moment.min.js"></script>
@@ -162,8 +152,8 @@
     <!--sweetalert -->
     @*<script type="text/javascript" src="~/js/plugins/sweetalert/dist/sweetalert.min.js"></script>*@
     <script type="text/javascript" src="~/js/plugins/sweetalert2/sweetalert2.min.js"></script>
-    @*<script type="text/javascript" src="js/plugins/prism/prism.js"></script>
-    <script type="text/javascript" src="js/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>*@
+    <script type="text/javascript" src="~/js/plugins/prism/prism.js"></script>
+    <script type="text/javascript" src="~/js/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 
     <script type="text/javascript" src="~/js/plugins/formatter/jquery.formatter.min.js"></script>
     <!--plugins.js - Some Specific JS codes for Plugin Settings-->
@@ -176,7 +166,21 @@
     <script type="text/javascript" src="~/js/data-tables-script.js"></script>
     <!-- chartist -->
     <script type="text/javascript" src="~/js/chartist.min.js"></script>   
-
+    <script>
+        var baseUrl = "@Url.Content("~")";
+        $('#left-sidebar-nav').html(localStorage.getItem("mnu"));
+        var mnu = $("#" + localStorage.getItem("mnuclick"));
+        mnu.addClass("active");
+        mnu.data("ref");
+        $("#" + mnu.data("ref")).addClass("active");
+        $('li.mnu').click(function () { localStorage.setItem("mnuclick", $(this)[0].id) });
+        //scrollbar
+        var leftnav = $(".page-topbar").height();
+        var leftnavHeight = window.innerHeight - leftnav;
+        $('.leftside-navigation').height(leftnavHeight).perfectScrollbar({
+            suppressScrollX: true
+        });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 

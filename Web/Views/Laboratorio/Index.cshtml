@@ -1,0 +1,111 @@
+﻿
+<main>
+    <div class="container">
+        <div id="mail-app" class="section">
+           
+            <div class="row">
+                <div class="col s12">
+                    <nav class="blue darken-2">
+                        <div class="nav-wrapper">
+                            <div class="left col s3 m3 l3">
+                                <ul>
+                                    <li>
+                                        <a href="#!" class="email-menu"><i class="mdi-navigation-menu"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="#!" class="email-type">Laboratorios</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col s9 m9 l9 hide-on-med-and-down">
+                                <div class="row">
+                                    <div class="input-field">
+                                        <input id="btnb" v-model="txtBuscar" v-on:keyup.enter="Buscar()" type="text" placeholder="Buscar Paciente" autofocus>
+                                        <label for="btnb">
+                                            <i class="mdi-action-search"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div class="col s12" id="listaMedicos">
+                    <div id="email-list" class="col s12 m12 l12 card-panel z-depth-1">
+                        <ul class="collection">
+                            <li v-for="(item,index) in items" class="collection-item avatar  {<text>selected</text>}"
+                                v-on:dblclick="Editar( item.AtencionId,item.TablaId )"
+                                onclick="$(this).addClass('selected').siblings().removeClass('selected');">
+                                <span class="circle" v-bind:class="{'light-blue':!item.Pendiente, 'red': item.Pendiente}">{{item.Paciente.substring(0,1)}}</span>
+                                <span class="email-title"> {{item.Paciente}} ==> {{ item.Examen }} </span>
+                                <p class="truncate grey-text ultra-small">{{item.Fecha | formato}} </p>
+                                <a class="secondary-content email-time"><span class="blue-text ultra-small">Atencion {{item.AtencionId}} Examen: {{item.TablaId}}</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+               
+
+            </div>
+        </div>
+    </div>
+    <div id="modalEditar" class="modal">
+        <div class="modal-content">
+            <h5 class="center"> Detalle de Examen </h5>
+            <div v-for="examen in detalle">
+                <div class="input-field col s12">
+                    <label class="active">{{ examen.Denominacion }}:</label>
+                    <input type="text" required v-model="examen.Valor" placeholder="Ingresar">
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <a class="waves-effect waves-light blue  btn right" v-on:click="GuardarExamen()">
+                        <i class="mdi-action-done"></i>Guardar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<pre>{{$data}}</pre>*@
+</main>
+
+@section scripts{
+    <script>
+        var vapp = new Vue({
+            el: 'main',
+            data: {
+                detalle: [],
+                items: {},
+                txtBuscar: ""
+            },
+            created: function () {
+                this.Buscar();
+            },
+            methods: {
+                GuardarExamen: function () {
+                    
+                    axios.post('@Url.Action("GuardarExamen", "Laboratorio")', { detalleExamen: this.detalle })
+                        .then(() => {
+                            fn.mensaje("Se Guardó el Exámen con éxito");
+                            $('#modalEditar').closeModal();
+                        });
+                }, 
+                Editar: function (atencionId, tablaId) {
+                    axios.get('@Url.Action("ListarDetalleExamen", "Laboratorio")', { params: { pAtencionId: atencionId, pTablaId: tablaId } })
+                        .then(r => this.detalle = r.data);
+                   $('#modalEditar').openModal();
+                },
+                Buscar: function () {
+                    axios.get('@Url.Action("ListarExamenes", "Laboratorio")', { params: { nombre: this.txtBuscar } })
+                        .then(r => this.items = r.data);                    
+                },
+            },
+            filters: {
+                formato: function (date) {
+                    return moment(date).format('DD/MM/YYYY h:mm:ss a');
+                }
+            }
+        })
+    </script>
+}

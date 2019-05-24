@@ -19,25 +19,26 @@ namespace Web.Controllers.Clinica
 
         public ActionResult Mantener(int id)
         {
-            topico top = new topico();
-            top.AtencionId = id;
-            ViewBag.listaRevision = BL.TablaConfiguracionBL.Listar(x => x.TablaId == 1);
-            if (TopicoBL.Obtener(x => x.AtencionId == id) != null)
-            {
-                top.TopicoId = 1;
-                ViewBag.listaTopico = TopicoBL.Listar(x => x.AtencionId == id);
-            }
-            else { top.TopicoId = 0; }
-            return View(top);
+            //topico top = new topico();
+            //top.AtencionId = id;
+            //ViewBag.listaRevision = BL.TablaExamenBL.Listar(x => x.TablaId == 1);
+            //if (TopicoBL.Obtener(x => x.AtencionId == id) != null)
+            //{
+            //    top.TopicoId = 1;
+            //    ViewBag.listaTopico = TopicoBL.Listar(x => x.AtencionId == id);
+            //}
+            //else { top.TopicoId = 0; }
+            //return View(top);
+            return View();
         }
 
         [HttpPost]
-        public JsonResult Guardar(List<topico> lista)
+        public JsonResult Guardar(List<examen> lista)
         {
             var rm = new ResponseModel();
             try
             {
-                TopicoBL.Guardar(lista);
+                //TopicoBL.Guardar(lista);
                 rm.SetResponse(true);
                 rm.href = Url.Action("Index", "Topico");
             }

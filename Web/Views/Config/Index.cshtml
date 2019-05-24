@@ -9,4 +9,207 @@
         </div>
     </div>
 </div>
+<main>
+    <div class="row">
+        <div class="col s12 m6 l6">
+            <div class="collection ">
+                <h5 class="center">Grupos de Examen</h5>
 
+                <a href="#!" class="collection-item" v-for="(tabla,index) in tablas"
+                   v-on:click="tablaSelectId = tabla.TablaId;CargarListaExamen(tabla.TablaId);"
+                   v-on:dblclick="MantenerTablaExamen(index)"
+                   v-bind:class="{ active: tablaSelectId == tabla.TablaId}">
+                    {{ tabla.TablaId }}  {{ tabla.Denominacion }}
+                    <span class="secondary-content"><i class="mdi-content-send"></i></span>
+                    <div class="switch secondary-content">
+                        <label>
+                            <input type="checkbox" v-model="tabla.Estado">
+                            <span class="lever"></span>
+                        </label>
+                    </div>
+                </a>
+
+            </div>
+            <a class="waves-effect waves-light blue  btn" v-on:click="MantenerTablaExamen(-1)"><i class="mdi-av-playlist-add left"></i>Nuevo Grupo</a>
+
+        </div>
+        <div class="col s12 m6 l6">
+            <div class="collection">
+                <h5 class="center"> Detalle de Examen</h5>
+                <a href="#!" class="collection-item" v-for="(item,index) in items"
+                   v-on:click="active = item.ItemId"
+                   v-on:dblclick="MantenerExamen(index)"
+                   v-bind:class="{ active: active == item.ItemId}">
+                    {{ item.ItemId }}  {{ item.Denominacion }} ({{ item.Unidad}})
+                    <div class="switch secondary-content">
+                        <label>
+                            <input type="checkbox" v-model="item.Estado">
+                            <span class="lever"></span>
+                        </label>
+                    </div>
+                </a>
+            </div>
+            <a class="waves-effect waves-light blue  btn" v-on:click="MantenerExamen(-1)"><i class="mdi-av-playlist-add left"></i>Nuevo</a>
+        </div>
+    </div>
+    
+   
+</main>
+
+
+@section scripts{
+    <script>
+        var vapp = new Vue({
+            el: 'main',
+            data: {
+                tablas: [],
+                items: [],
+                tablaSelectId: 1,
+                active: 1
+            },
+            created: function () {
+                this.CargarTablaExamen();
+                this.CargarListaExamen(1);
+            },
+            methods: {
+                MantenerTablaExamen: function (index) {
+                    var self = this;
+                    var txtprompt = index >= 0 ? self.tablas[index].Denominacion : "";
+                    var chkLab = index >= 0 ? (self.tablas[index].IndLab ? "checked" : "") : "checked";
+                    var tablaid = index >= 0 ? self.tablaSelectId : 0;
+                    
+                    swal({
+                        title: 'Grupo Examen',
+                        html:
+                          '<input id="swal-input1" class="swal2-input" value="' + txtprompt + '" placeholder="Nombre Examen">' +
+                          '<input type="checkbox" class="filled-in" id="chkabc" ' + chkLab + ' /><label for="chkabc">Es Examen Laboratorio?</label>',
+                        focusConfirm: false,
+                        preConfirm: () => {
+                            return [
+                              document.getElementById('swal-input1').value,
+                              document.getElementById('chkabc').value
+                            ]
+                        }
+                    }).then(function (valor) {
+                       // console.log(valor);
+                        var examen = {
+                            TablaId: tablaid,
+                            ItemId: 0,
+                            Denominacion: valor.value[0],
+                            Estado: true,
+                            IndLab: valor.value[0]="on"?true:false
+                        };
+                        $.ajax({
+                            type: 'POST',
+                            dataType: 'json',
+                            url: baseUrl + "Config/GuardarTablaExamen",
+                            data: { pExamen: examen },
+                            success: function (res) {
+                                if (index < 0) {
+                                    self.tablas.push(res);
+                                    self.tablaSelectId = res.TablaId;
+                                    self.CargarListaExamen(res.TablaId);
+                                }
+                                else
+                                    self.tablas[index].Denominacion = res.Denominacion;
+                                fn.notificar();
+                            },
+                            error: function (req, status, err) {
+                                alert('Ocurrio un error: ' + err);
+                            }
+                        });
+                    });
+
+
+                    //fn.prompt("Grupo Examen ", 'text', txtprompt, function (valor) {
+                    //    var examen = {
+                    //        TablaId: tablaid,
+                    //        ItemId: 0,
+                    //        Denominacion: valor,
+                    //        Estado: true
+                    //    };
+                    //    $.ajax({
+                    //        type: 'POST',
+                    //        dataType: 'json',
+                    //        url: baseUrl + "Config/GuardarTablaExamen",
+                    //        data: { pExamen: examen },
+                    //        success: function (res) {
+                    //            if (index < 0) {
+                    //                self.tablas.push(res);
+                    //                self.tablaSelectId = res.TablaId;
+                    //                self.CargarListaExamen(res.TablaId);
+                    //            }
+                    //            else
+                    //                self.tablas[index].Denominacion = res.Denominacion;
+                    //            fn.notificar();
+                    //        },
+                    //        error: function (req, status, err) {
+                    //            alert('Ocurrio un error: ' + err);
+                    //        }
+                    //    });
+                    //});
+                },
+                MantenerExamen: function (index) {
+                    var itemid = index >= 0 ? this.items[index].ItemId : 0;
+                    var txtprompt = index >= 0 ? this.items[index].Denominacion : "";
+                    var txtUnidad = index >= 0 ? this.items[index].Unidad : "";
+                    //var chkLab = index >= 0 ? (this.items[index].IndLab ? "checked" : "") : "checked";
+                    var self = this;
+                    //' <input type="checkbox" class="filled-in" id="chkabc" ' + chkLab + ' /><label for="chkabc">Es Examen Laboratorio?</label>',
+                    
+                    swal({
+                        title: 'Examen',
+                        html:
+                          '<input id="swal-input1" class="swal2-input" value="' + txtprompt + '" placeholder="Nombre Examen">' +
+                          '<input id="swal-input2" class="swal2-input" value="' + txtUnidad + '"placeholder="Unidad de Medida">',
+                        focusConfirm: false,
+                        preConfirm: () => {
+                            return [
+                              document.getElementById('swal-input1').value,
+                              document.getElementById('swal-input2').value
+                            ]
+                        }
+                    }).then(function (valor) {
+                        var examen = {
+                            TablaId: self.tablaSelectId,
+                            ItemId: itemid,
+                            Denominacion: valor.value[0],
+                            Unidad: valor.value[1],
+                            Estado: true
+                        };
+                        $.ajax({
+                            type: 'POST',
+                            dataType: 'json',
+                            url: baseUrl + "Config/GuardarExamen",
+                            data: { pExamen: examen },
+                            success: function (res) {
+                                if (itemid == 0)
+                                    self.items.push(res);
+                                else { 
+                                    self.items[index].Denominacion = res.Denominacion;
+                                    self.items[index].Unidad = res.Unidad;
+                                }
+                                fn.notificar();
+                            },
+                            error: function (req, status, err) {
+                                alert('Ocurrio un error: ' + err);
+                            }
+                        });
+                    });                    
+                },
+                CargarTablaExamen: function () {
+                    var self = this;
+                    $.get('@Url.Action("ListarTablaExamen", "Config")', {}, function (d) {
+                        self.tablas = d;
+                    });
+                },
+                CargarListaExamen: function (tablaid) {
+                    var self = this;
+                    $.get('@Url.Action("ListarExamen", "Config")', { pTablaId: tablaid }, function (d) {
+                        self.items = d;
+                    });
+                }
+            }
+        })
+    </script>
+}

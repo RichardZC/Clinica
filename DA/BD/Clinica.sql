@@ -38,10 +38,11 @@ INSERT INTO `consultorio` (`ConsultorioId`, `denominacion`) VALUES ('0', 'Consul
 	CREATE TABLE paciente(
     `PacienteId` INT(11) NOT NULL AUTO_INCREMENT,
     `PersonaId` INT(11) NOT NULL,
-	`NumeroHistoria` VARCHAR(45) NOT NULL,
-    `Alergia` VARCHAR(255) NOT NULL,
-    `AntecedentePersonal` VARCHAR(255) NOT NULL,
-    `AntecedenteFamiliar` VARCHAR(255) NOT NULL,
+	`NumeroHistoria` VARCHAR(45) ,
+	`Sangre` VARCHAR(50) ,
+    `Alergia` VARCHAR(255) ,
+    `AntecedentePersonal` VARCHAR(255) ,
+    `AntecedenteFamiliar` VARCHAR(255) ,
     PRIMARY KEY(`PacienteId`),
     CONSTRAINT `PersonaId` FOREIGN KEY(`PersonaId`) REFERENCES `clinica`.`persona`(`PersonaId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
@@ -70,19 +71,38 @@ INSERT INTO `consultorio` (`ConsultorioId`, `denominacion`) VALUES ('0', 'Consul
   FOREIGN KEY(ProgramacionId) REFERENCES Programacion(ProgramacionId) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ConceptoPagoId int(11) NOT NULL,
   FOREIGN KEY(ConceptoPagoId) REFERENCES ConceptoPago(ConceptoPagoId) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  Estado bit(1) DEFAULT NULL,
+  Estado char(1) NOT NULL,
+  IndPago bit(1) NOT NULL,
   NumeroAtencion int(11) NOT NULL,
   HoraProbable time NOT NULL,
   FechaAtencion DATE NOT NULL
 );
 
- DROP TABLE IF EXISTS tablaconfiguracion;
-  CREATE TABLE tablaconfiguracion (
-  TablaconfiguracionId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	TablaId int(11) NOT NULL,
-	Item int(11) NOT NULL,
-	Denominacion VARCHAR(255) NOT NULL
+
+ DROP TABLE IF EXISTS TablaExamen;
+  CREATE TABLE TablaExamen (
+  TablaId int(11) ,
+  ItemId int(11) ,
+  Denominacion VARCHAR(255) NOT NULL,
+  Unidad VARCHAR(50),
+  Estado bit(1) NOT NULL default 1,
+  IndLab bit(1) NOT NULL default 0,
+  primary key(TablaId,ItemId)
 );
+
+INSERT INTO TablaExamen VALUES (1,0,'FUNCIONES BIOLOGICAS','',1,0);
+INSERT INTO TablaExamen VALUES (1,1,'Peso','Kg.',1,0);
+INSERT INTO TablaExamen VALUES (1,2,'Talla','cm.',1,0);
+INSERT INTO TablaExamen VALUES (2,0,'FUNCIONES VITALES','',1,0);
+INSERT INTO TablaExamen VALUES (2,1,'PRESION ARTERIAL','mmHg',1,0);
+INSERT INTO TablaExamen VALUES (2,2,'FRECUENCIA RESPIRATORIA','/min.',1,0);
+INSERT INTO TablaExamen VALUES (2,3,'FRECUENCIA CARDIACA','/min.',1,0);
+INSERT INTO TablaExamen VALUES (2,4,'TEMPERATURA','°C',1,0);
+
+INSERT INTO TablaExamen VALUES (3,0,'EXAMEN ORINA','',1,1);
+INSERT INTO TablaExamen VALUES (3,1,'valor 1','nn',1,1);
+INSERT INTO TablaExamen VALUES (3,2,'otro valor','nn',1,1);
+
 
  DROP TABLE IF EXISTS ATENCION;
   CREATE TABLE ATENCION (
@@ -101,20 +121,34 @@ INSERT INTO `consultorio` (`ConsultorioId`, `denominacion`) VALUES ('0', 'Consul
   FechaModificacion Datetime,
   UsuarioCId int(11) not null,
   FOREIGN KEY(UsuarioCId) REFERENCES Usuario(UsuarioId) ON DELETE NO ACTION ON UPDATE NO ACTION,
-   UsuarioMId int(11) not null,
+   UsuarioMId int(11) ,
   FOREIGN KEY(UsuarioMId) REFERENCES Usuario(UsuarioId) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  IndPago bit(1) not null
+  IndPago bit(1) not null,
+  Motivo text,
+  Diagnostico text,
+  Tratamiento text
 );
 
 
- DROP TABLE IF EXISTS topico;
-  CREATE TABLE topico (
-  TopicoId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	AtencionId int(11) NOT NULL,
+ DROP TABLE IF EXISTS Examen;
+  CREATE TABLE Examen (
+  AtencionId int(11) NOT NULL,
+  TablaId int(11) NOT NULL,
+  ItemId int(11) NOT NULL,
   FOREIGN KEY(AtencionId) REFERENCES Atencion(AtencionId) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	Item int(11) NOT NULL,
 	Denominacion VARCHAR(255) NOT NULL,
-	Valor VARCHAR(255) NOT NULL
+	Valor VARCHAR(255) NOT NULL,
+	primary key(AtencionId,TablaId,ItemId)
+);
+
+DROP TABLE IF EXISTS OrdenLab;
+  CREATE TABLE OrdenLab (
+  OrdenLabId int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,  
+  AtencionId int(11) NOT NULL,
+  FOREIGN KEY(AtencionId) REFERENCES Atencion(AtencionId) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  TablaId int(11) NOT NULL,
+  Denominacion VARCHAR(255) NOT NULL,
+  Estado CHAR(3) NOT NULL
 );
 
 DROP TABLE IF EXISTS ATENCIONESPECIALIDAD;
@@ -127,22 +161,8 @@ DROP TABLE IF EXISTS ATENCIONESPECIALIDAD;
 	Valor VARCHAR(255) NOT NULL
 );
 
-INSERT INTO atencion VALUES (1, NULL, 1, 1,1,'2018-05-02',2,'2018-05-02','2018-05-02',5,5,'p');
-INSERT INTO atencion VALUES (2, NULL, 1, 1,1,'2018-05-02',2,'2018-05-02','2018-05-02',5,5,'p');
-INSERT INTO atencion VALUES (3, NULL, 1, 1,1,'2018-05-02',2,'2018-05-02','2018-05-02',5,5,'p');
+INSERT INTO atencion(AtencionId, Estado, PerPacienteId, PerMedicoId, Fecha, EspecialidadId, FechaCreacion, UsuarioCId,IndPago) 
+VALUES (1, 'P', 1,1,'2018-05-02',2,'2018-05-02',1,1);
 
 
-INSERT INTO tablaconfiguracion VALUES (1, 1,1,'P.A.');
-INSERT INTO tablaconfiguracion VALUES (2, 1,2,'Temperatura');
-INSERT INTO tablaconfiguracion VALUES (3, 1,3,'Pulso');
-INSERT INTO tablaconfiguracion VALUES (4, 1,4,'Peso');
-INSERT INTO tablaconfiguracion VALUES (5, 1,5,'Respiración');
-
-INSERT INTO tablaconfiguracion VALUES (6, 2,1,'Menarquia');
-INSERT INTO tablaconfiguracion VALUES (7, 2,2,'Inicio Relacion Sexuales');
-INSERT INTO tablaconfiguracion VALUES (8, 2,3,'FUM');
-INSERT INTO tablaconfiguracion VALUES (9, 2,4,'Gestante');
-INSERT INTO tablaconfiguracion VALUES (10, 2,5,'FUP');
-INSERT INTO tablaconfiguracion VALUES (11, 2,6,'G');
-INSERT INTO tablaconfiguracion VALUES (12, 2,7,'P');
 

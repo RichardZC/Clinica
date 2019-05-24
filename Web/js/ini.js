@@ -66,18 +66,22 @@ var tabla = {
         if (id > 0) txt = $("#" + t + id).text();
 
         fn.prompt("CREAR " + t, 'text', txt, function (valor) {
+            // console.log(valor);
+            var texto = valor.value.toUpperCase();
+            var param = { tabla: t, data: { Id: id, Denominacion: texto } };
+            //console.log(param);
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
                 url: baseUrl + "Comun/GuardarTabla",
-                data: { tabla: t, data: { Id: id, Denominacion: valor } },
+                data: param,
                 success: function (res) {
                     if (id > 0) {
-                        $("#" + t + res).text(valor.toUpperCase());
+                        $("#" + t + res).text(texto);
                     }
                     else {
                         $("#" + t).append("<li class='collection-item'>" +
-                      "<div><span id='" + t + res + "'>" + valor.toUpperCase() + "</span><a href='#!' onclick='tabla.guardar(\"" + t + "\"," + res + ");' class='secondary-content'><i class='mdi-content-send'></i></a></div>" +
+                      "<div><span id='" + t + res + "'>" + texto + "</span><a href='#!' onclick='tabla.guardar(\"" + t + "\"," + res + ");' class='secondary-content'><i class='mdi-content-send'></i></a></div>" +
                     "</li>");
                     }
                     fn.notificar();
@@ -86,6 +90,7 @@ var tabla = {
                     alert('Ocurrio un error: ' + err);
                 }
             });
+
         });
     }
 };
@@ -211,10 +216,9 @@ $(document).ready(function () {
                         if (r.response) css = "green";
                         else css = "red";
 
-                        var message = '<div id="card-alert" class="card ' + css + ' "><div class="card-content white-text"><p><i class="mdi-alert-error"></i>' + r.message + '</p></div><button type="button" class="close white-text" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button></div>';
+                        var message = '<div id="card-alert99" class="card ' + css + ' "><div class="card-content white-text"><p><i class="mdi-alert-error"></i>' + r.message + '</p></div></div>';
                         form.prepend(message);
-                        setTimeout('$("#card-alert .close").click(function () { $(this).closest("#card-alert").fadeOut("slow") });', 0);
-                        $("#card-alert").delay(4000).fadeOut("fast")
+                        $("#card-alert99").delay(3000).fadeOut("fast")
                     }
                 }
 

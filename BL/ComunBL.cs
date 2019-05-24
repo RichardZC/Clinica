@@ -95,15 +95,16 @@ namespace BL
 
         }
 
-        public static medico GetMedico()
+        public static medico GetMedicoObj()
         {
-            var usuarioid = Comun.SessionHelper.GetUser();
+            var personaid = GetPersonaIdSesion();
             using (var bd = new clinicaEntities())
             {
-                var med = bd.medico.Include(t => t.persona).FirstOrDefault(x => x.PersonaId == usuarioid);
+                var med = bd.medico.Include(t => t.persona).FirstOrDefault(x => x.PersonaId == personaid);
                 return med;
             }
         }
+        
         //public static List<ItemCombo> BuscarPersonaAutoComplete(string pClave)
         //{
         //    using (var db = new clinicaEntities())
